@@ -1,10 +1,8 @@
-// Zen service worker — offline support + asset caching
-const VERSION = 'zen-v3';
+// Zen service worker — network-first (always fresh online) + offline fallback
+const VERSION = 'zen-v4';
 const CORE = [
   'index.html',
-  'products.html',
-  'dashboard.html',
-  'disputes.html',
+  'offline.html',
   'styles.css',
   'app.css',
   'zen.css',
@@ -12,25 +10,24 @@ const CORE = [
   'shared.js',
   'app-shell.js',
   'icon.svg',
-  'offline.html',
   'manifest.json',
 ];
 
 self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(VERSION)
-      .then(c => c.addAll(CORE.map(u => new Request(u, { cache: 'reload' }))))
-      .catch(() => {})
-      .then(() => self.skipWaiting())
-  );
+  e.waitUntil((async () => {
+    const cache = await caches.open(VERSION);
+    // Cache files individually so one failure doesn't abort the whole precache
+    await Promise.allSettled(CORE.map(u => cache.add(new Request(u, { cache: 'reload' }))));
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k))))
-      .then(() => self.clients.claim())
-  );
+  e.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k)));
+    await self.clients.claim();
+  })());
 });
 
 self.addEventListener('fetch', e => {
@@ -39,33 +36,25 @@ self.addEventListener('fetch', e => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
-  // Navigation: network-first, fall back to cache, then offline page
-  if (req.mode === 'navigate') {
-    e.respondWith(
-      fetch(req)
-        .then(res => {
-          const copy = res.clone();
-          caches.open(VERSION).then(c => c.put(req, copy)).catch(() => {});
-          return res;
-        })
-        .catch(() => caches.match(req).then(r => r || caches.match('offline.html')))
-    );
-    return;
-  }
-
-  // Static assets: stale-while-revalidate
-  e.respondWith(
-    caches.match(req).then(cached => {
-      const network = fetch(req)
-        .then(res => {
-          if (res && res.status === 200) {
-            const copy = res.clone();
-            caches.open(VERSION).then(c => c.put(req, copy)).catch(() => {});
-          }
-          return res;
-        })
-        .catch(() => cached);
-      return cached || network;
-    })
-  );
+  // Network-first with revalidation. Online → always latest from server.
+  // Offline → fall back to cache, and to offline.html for navigations.
+  e.respondWith((async () => {
+    try {
+      // {cache:'no-cache'} forces revalidation with the server (conditional request),
+      // so we never serve a stale file from the browser HTTP cache while online.
+      const fresh = await fetch(req, { cache: 'no-cache' });
+      if (fresh && fresh.status === 200 && fresh.type === 'basic') {
+        const copy = fresh.clone();
+        caches.open(VERSION).then(c => c.put(req, copy)).catch(() => {});
+      }
+      return fresh;
+    } catch (err) {
+      const cached = await caches.match(req);
+      if (cached) return cached;
+      if (req.mode === 'navigate') {
+        return (await caches.match('offline.html')) || Response.error();
+      }
+      return Response.error();
+    }
+  })());
 });
