@@ -1,5 +1,5 @@
 // Zen service worker — offline support + asset caching
-const VERSION = 'zen-v2';
+const VERSION = 'zen-v3';
 const CORE = [
   'index.html',
   'products.html',
