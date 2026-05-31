@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Migrace ke Zenu — průvodce</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero">
+  <div class="container"><div class="page-hero-inner">
+    <div class="eyebrow">Migrační průvodce</div>
+    <h1>Přejděte na Zen bez bolesti</h1>
+    <p>Kompletní plán migrace z vaší stávající platební brány. Zákazníky převezmeme, karty zachováme, tarify srovnáme.</p>
+  </div></div>
+</section>
+
+<section class="section">
+  <div class="container" style="max-width:900px;">
+    <h2 style="text-align:center;margin-bottom:10px;">Odkud migrujete?</h2>
+    <p style="color:var(--text-muted);text-align:center;margin-bottom:30px;">Vyberte současného poskytovatele a vygenerujeme personalizovaný plán.</p>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:40px;">
+      <button class="m-card" data-p="stripe">🟪<br>Stripe</button>
+      <button class="m-card" data-p="gopay">🟧<br>GoPay</button>
+      <button class="m-card" data-p="comgate">🟦<br>ComGate</button>
+      <button class="m-card" data-p="payu">🟩<br>PayU</button>
+      <button class="m-card" data-p="other">❓<br>Jiný</button>
+    </div>
+
+    <div id="migPlan" style="display:none;">
+      <div class="panel">
+        <div class="panel-head"><h3>Váš migrační plán</h3><span id="planProvider" style="font-size:13px;color:var(--primary);"></span></div>
+        <div id="planBody"></div>
+      </div>
+
+      <div class="grid-2" style="margin-top:20px;">
+        <div class="panel">
+          <div class="panel-head"><h3>Co ušetříte</h3></div>
+          <div style="text-align:center;padding:20px 0;">
+            <div style="font-family:'Sora';font-size:52px;font-weight:800;color:#00a884;" id="savings">–</div>
+            <div style="color:var(--text-muted);font-size:13px;">ročně na poplatcích (odhad)</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;" id="savingsDetail"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Časový odhad</h3></div>
+          <div id="timeline" style="display:flex;flex-direction:column;gap:10px;"></div>
+        </div>
+      </div>
+
+      <div style="background:linear-gradient(135deg,#635bff,#a78bfa);color:white;padding:30px;border-radius:16px;margin-top:20px;text-align:center;">
+        <h3 style="font-family:'Sora';margin-bottom:10px;">🎁 Migrační bonus</h3>
+        <p style="margin-bottom:16px;">Prvních 6 měsíců bez fixních poplatků + bezplatná asistence technického týmu.</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <a href="signup.html" class="btn-primary-light">Začít migraci →</a>
+          <a href="contact.html" class="btn-secondary-light">Promluvit si s týmem</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Migrační nástroje</div><h2>Zen Import Engine</h2></div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#635bff,#a78bfa);">💾</div><h3>Import zákazníků</h3><p>CSV nebo přímo přes API. Deduplikace podle e-mailu, zachování všech metadat a historie.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#00d4aa,#00a884);">💳</div><h3>Migrace tokenů karet</h3><p>PCI-compliant přenos tokenů u všech hlavních acquirerů. Zákazníci nemusí zadávat karty znovu.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">🔄</div><h3>Obnovení předplatného</h3><p>Synchronizace subscriptions s zachováním billing cyklů a proration logiky.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#f093fb,#f5576c);">🌐</div><h3>Webhook bridge</h3><p>Automatický převod webhook formátu ze Stripe/GoPay do Zen struktury — nulové změny kódu.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">🧮</div><h3>SDK adapter</h3><p>Drop-in replacement pro Stripe SDK — stačí změnit import statement.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ee5a6f,#ff6b6b);">📊</div><h3>Paralelní provoz</h3><p>Pošlete stejnou transakci do obou systémů a srovnejte výsledky. Bez rizika přepnutí.</p></div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+<style>
+.m-card { padding: 24px 12px; background: white; border: 2px solid var(--border); border-radius: 12px; font-size: 28px; line-height: 1.4; font-family: inherit; cursor: pointer; transition: all 0.2s; text-align: center; color: var(--text); }
+.m-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+.m-card.selected { border-color: var(--primary); background: rgba(99,91,255,0.05); box-shadow: 0 0 0 3px rgba(99,91,255,0.15); }
+.m-card br + * { font-size: 14px; font-weight: 600; display: block; margin-top: 8px; }
+:root[data-theme="dark"] .m-card { background: #121c30; border-color: #1e2a42; color: #e8ecf3; }
+.tl-step { display: flex; gap: 12px; align-items: flex-start; }
+.tl-bubble { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg,#635bff,#a78bfa); color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+</style>
+<script>
+const plans = {
+  stripe: {
+    name: 'Stripe',
+    plan: [
+      '<strong>Den 1–2:</strong> Vytvoření Zen účtu + import zákazníků ze Stripe Dashboard export',
+      '<strong>Den 3–5:</strong> SDK migrace — změna <code>stripe</code> → <code>zen</code> importu, automatická konverze volání',
+      '<strong>Den 6–10:</strong> Migrace subscription + saved cards přes Zen Import Engine (PCI-compliant token transfer)',
+      '<strong>Den 11–14:</strong> Paralelní běh — obě brány zpracovávají 50/50 traffic pro validaci',
+      '<strong>Den 15:</strong> Plný přepnutí a deaktivace Stripe účtu',
+    ],
+    savings: { amount: 68000, rate: 'nižší o 0,25 %', fx: 'FX bez spreadu vs. 2 %', chargeback: '250 Kč vs. 15 €' },
+    timeline: ['1 den: Analýza', '2 dny: Import dat', '3 dny: SDK migrace', '5 dní: Paralelní běh', '1 den: Přepnutí']
+  },
+  gopay: {
+    name: 'GoPay',
+    plan: [
+      '<strong>Den 1–2:</strong> Setup Zen účtu + export zákazníků a historie z GoPay Admin',
+      '<strong>Den 3–4:</strong> Integrace nového API — GoPay \"instrument\" mapujeme na Zen PaymentIntent',
+      '<strong>Den 5–7:</strong> Migrace recurring plateb (GoPay recurrent → Zen Subscriptions)',
+      '<strong>Den 8–9:</strong> Testovací transakce a smoke testy',
+      '<strong>Den 10:</strong> Go-live a deaktivace GoPay',
+    ],
+    savings: { amount: 54000, rate: 'nižší o 0,5 %', fx: 'T+2 vs. T+5 výplata', chargeback: '250 Kč vs. 500 Kč' },
+    timeline: ['1 den: Analýza', '2 dny: API integrace', '3 dny: Recurring migrace', '3 dny: Test', '1 den: Přepnutí']
+  },
+  comgate: {
+    name: 'ComGate',
+    plan: [
+      '<strong>Den 1:</strong> Kick-off + export historie transakcí z ComGate Admin',
+      '<strong>Den 2–3:</strong> Zen API integrace (náhrada XML API za moderní REST)',
+      '<strong>Den 4–5:</strong> Úprava e-shop pluginu — u většiny platforem stačí aktivace Zen pluginu',
+      '<strong>Den 6:</strong> End-to-end testy a smoke testy',
+      '<strong>Den 7:</strong> Go-live',
+    ],
+    savings: { amount: 42000, rate: 'žádný měsíční paušál (−490 Kč/měs)', fx: 'T+2 vs. T+3', chargeback: '250 Kč vs. 400 Kč' },
+    timeline: ['1 den: Kick-off', '2 dny: API integrace', '2 dny: Plugin', '1 den: Test', '1 den: Přepnutí']
+  },
+  payu: {
+    name: 'PayU',
+    plan: [
+      '<strong>Den 1–2:</strong> Setup Zen + analýza současných PayU integrací',
+      '<strong>Den 3–5:</strong> Přechod z PayU REST API na Zen API (velmi podobný návrh)',
+      '<strong>Den 6–8:</strong> Migrace tokenizovaných karet + webhook update',
+      '<strong>Den 9–10:</strong> Testovací období s dual-write',
+      '<strong>Den 11:</strong> Přepnutí a deaktivace PayU',
+    ],
+    savings: { amount: 48000, rate: 'nižší o 0,4 %', fx: 'T+2 vs. T+5', chargeback: '250 Kč vs. 500 Kč' },
+    timeline: ['2 dny: Setup', '3 dny: API migrace', '3 dny: Karty a webhooks', '2 dny: Test', '1 den: Go-live']
+  },
+  other: {
+    name: 'Jiný poskytovatel',
+    plan: [
+      '<strong>Konzultace:</strong> Dedikovaný migration engineer zmapuje vaše současné API',
+      '<strong>Custom adapter:</strong> Napíšeme adapter pro váš specifický případ (zdarma)',
+      '<strong>Data import:</strong> Podporujeme všechny běžné formáty exportu (CSV, JSON, SQL dump)',
+      '<strong>SDK replacement:</strong> Přepis klíčových endpoint volání za Zen ekvivalenty',
+      '<strong>Go-live:</strong> S asistencí technika po celou dobu přechodu',
+    ],
+    savings: { amount: 40000, rate: 'obvykle 0,2–0,6 % úspora', fx: 'Individuální analýza', chargeback: 'Zjistíme v konzultaci' },
+    timeline: ['1 týden: Analýza', '2 týdny: Vývoj adapteru', '1 týden: Test', '2 dny: Přepnutí']
+  }
+};
+
+document.querySelectorAll('.m-card').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.m-card').forEach(x => x.classList.remove('selected'));
+  b.classList.add('selected');
+  const p = plans[b.dataset.p];
+  document.getElementById('migPlan').style.display = 'block';
+  document.getElementById('planProvider').textContent = 'Zdroj: ' + p.name;
+  document.getElementById('planBody').innerHTML = '<ol style="padding-left:20px;line-height:1.8;font-size:14px;">' + p.plan.map(s => `<li style="margin-bottom:10px;">${s}</li>`).join('') + '</ol>';
+  document.getElementById('savings').textContent = (p.savings.amount).toLocaleString('cs') + ' Kč';
+  document.getElementById('savingsDetail').innerHTML = `
+    <div style="padding:10px;background:var(--bg-light);border-radius:8px;">💰 Sazba: ${p.savings.rate}</div>
+    <div style="padding:10px;background:var(--bg-light);border-radius:8px;">⏰ Výplata: ${p.savings.fx}</div>
+    <div style="padding:10px;background:var(--bg-light);border-radius:8px;">🛡️ Chargeback: ${p.savings.chargeback}</div>
+  `;
+  document.getElementById('timeline').innerHTML = p.timeline.map((t,i) => `
+    <div class="tl-step"><div class="tl-bubble">${i+1}</div><div style="flex:1;padding-top:4px;">${t}</div></div>
+  `).join('');
+  document.getElementById('migPlan').scrollIntoView({behavior:'smooth', block:'nearest'});
+});
+</script>
+</body>
+</html>

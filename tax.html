@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DPH kalkulačka & daně — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero dark" style="background:linear-gradient(135deg,#0a2540,#134e4a);">
+  <div class="container"><div class="page-hero-inner">
+    <div class="eyebrow" style="color:#5eead4;">🧾 Zen Tax</div>
+    <h1>Daně vyřešené<br>za vás — automaticky</h1>
+    <p style="color:#cbd5e1;">DPH, OSS, MOSS, US sales tax, reverse charge, GST. Zen spočítá správnou sazbu v reálném čase a vygeneruje podklady pro přiznání.</p>
+  </div></div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Kalkulačka</div>
+      <h2>Spočítejte si DPH za 10 sekund</h2>
+      <p class="section-desc">Zadejte částku, vyberte režim a stát — uvidíte přesný výpočet s odkazy na relevantní zákony.</p>
+    </div>
+
+    <div class="tax-calc">
+      <div class="tax-form">
+        <div class="form-group">
+          <label>Částka</label>
+          <div style="display:flex;gap:8px;">
+            <input type="number" id="taxAmount" value="10000" step="100" style="flex:1;">
+            <select id="taxCurrency" style="width:110px;">
+              <option>CZK</option><option>EUR</option><option>USD</option><option>GBP</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Částka je</label>
+          <div class="seg-control">
+            <button class="seg active" data-mode="without" onclick="setMode('without')">Bez DPH</button>
+            <button class="seg" data-mode="with" onclick="setMode('with')">S DPH</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Země příjemce (B2C)</label>
+          <select id="taxCountry">
+            <option value="CZ" data-rate="21" data-red="15" data-sred="10">🇨🇿 Česká republika (21 %)</option>
+            <option value="SK" data-rate="23" data-red="19" data-sred="5">🇸🇰 Slovensko (23 %)</option>
+            <option value="DE" data-rate="19" data-red="7">🇩🇪 Německo (19 %)</option>
+            <option value="AT" data-rate="20" data-red="10">🇦🇹 Rakousko (20 %)</option>
+            <option value="PL" data-rate="23" data-red="8">🇵🇱 Polsko (23 %)</option>
+            <option value="HU" data-rate="27" data-red="18">🇭🇺 Maďarsko (27 %)</option>
+            <option value="FR" data-rate="20" data-red="10" data-sred="5.5">🇫🇷 Francie (20 %)</option>
+            <option value="IT" data-rate="22" data-red="10" data-sred="4">🇮🇹 Itálie (22 %)</option>
+            <option value="ES" data-rate="21" data-red="10" data-sred="4">🇪🇸 Španělsko (21 %)</option>
+            <option value="NL" data-rate="21" data-red="9">🇳🇱 Nizozemsko (21 %)</option>
+            <option value="BE" data-rate="21" data-red="12" data-sred="6">🇧🇪 Belgie (21 %)</option>
+            <option value="SE" data-rate="25" data-red="12" data-sred="6">🇸🇪 Švédsko (25 %)</option>
+            <option value="DK" data-rate="25">🇩🇰 Dánsko (25 %)</option>
+            <option value="FI" data-rate="25.5" data-red="14" data-sred="10">🇫🇮 Finsko (25,5 %)</option>
+            <option value="IE" data-rate="23" data-red="13.5" data-sred="9">🇮🇪 Irsko (23 %)</option>
+            <option value="PT" data-rate="23" data-red="13" data-sred="6">🇵🇹 Portugalsko (23 %)</option>
+            <option value="GB" data-rate="20" data-red="5">🇬🇧 UK (20 %)</option>
+            <option value="US" data-rate="0">🇺🇸 USA (sales tax variabilní)</option>
+            <option value="CH" data-rate="8.1" data-red="2.6">🇨🇭 Švýcarsko (8,1 %)</option>
+            <option value="NO" data-rate="25" data-red="15">🇳🇴 Norsko (25 %)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Kategorie zboží / služby</label>
+          <select id="taxCategory">
+            <option value="standard">📦 Standardní sazba</option>
+            <option value="reduced">🥗 Snížená (potraviny, knihy)</option>
+            <option value="super">💊 Super-snížená (léky, dětská výživa)</option>
+            <option value="zero">✅ Osvobozeno (0 %)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Typ transakce</label>
+          <div class="seg-control">
+            <button class="seg active" data-tx="b2c" onclick="setTx('b2c')">B2C</button>
+            <button class="seg" data-tx="b2b" onclick="setTx('b2b')">B2B (EU)</button>
+            <button class="seg" data-tx="export" onclick="setTx('export')">Export mimo EU</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tax-result">
+        <div class="tax-badge" id="taxBadge">📊 Výpočet</div>
+        <div class="tax-rate" id="taxRate">21 %</div>
+        <div class="tax-desc" id="taxDesc">Česká republika · Standardní</div>
+
+        <div class="tax-rows">
+          <div class="tax-row"><span>Základ</span><strong id="rBase">10 000 Kč</strong></div>
+          <div class="tax-row"><span>DPH</span><strong id="rVat">2 100 Kč</strong></div>
+          <div class="tax-row big"><span>Celkem</span><strong id="rTotal">12 100 Kč</strong></div>
+        </div>
+
+        <div class="tax-notes" id="taxNotes"></div>
+
+        <button class="btn-primary" style="width:100%;margin-top:14px;" onclick="zenToast('📋 Zkopírováno do schránky')">📋 Zkopírovat výpočet</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Automatika</div><h2>Zen vyřeší daně v celém checkoutu</h2></div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#635bff,#a78bfa);">📍</div>
+        <h3>Geolokace nákupu</h3>
+        <p>Z IP, dodací adresy a karty odvodíme správnou jurisdikci. Podporujeme 40+ zemí, 600+ sales tax jurisdikcí v USA.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#00d4aa,#00a884);">🇪🇺</div>
+        <h3>EU OSS / IOSS</h3>
+        <p>One-Stop Shop pro B2C do EU. Čtvrtletní výkaz vygenerujeme ready-to-submit ve správném formátu.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#f093fb,#f5576c);">🔄</div>
+        <h3>Reverse charge</h3>
+        <p>VAT ID validujeme přes VIES v reálném čase. B2B faktura automaticky bez DPH s poznámkou „reverse charge“.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">🏛️</div>
+        <h3>US Sales Tax Nexus</h3>
+        <p>Hlídáme ekonomický nexus v každém státě (200 transakcí / 100 000 USD). Když překročíte, automaticky upozorníme.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">📊</div>
+        <h3>Přiznání DPH</h3>
+        <p>Export do XML, EDI nebo rovnou do MojeDane.cz, ELSTER (DE), VIES. Roční souhrnný výkaz zdarma.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#ee5a6f,#ff6b6b);">🧾</div>
+        <h3>Daňové doklady</h3>
+        <p>Automatické faktury s VAT, zjednodušené doklady do 10 000 Kč, storna a opravné doklady v PDF a ISDOC.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Sazby v EU</div><h2>Přehled DPH v celé Evropě</h2></div>
+    <div class="tax-table-wrap">
+      <table class="tax-table">
+        <thead>
+          <tr><th>Země</th><th>Standardní</th><th>Snížená</th><th>Super-sn.</th><th>Práh registrace</th></tr>
+        </thead>
+        <tbody id="taxTableBody"></tbody>
+      </table>
+    </div>
+    <p style="text-align:center;color:var(--text-muted);font-size:13px;margin-top:14px;">Platné k 1. 1. 2026. Zen aktualizuje sazby v reálném čase — změny na legislativní úrovni se projeví automaticky.</p>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Jak to funguje</div><h2>4 kroky k automatizaci daní</h2></div>
+    <div class="tax-steps">
+      <div class="tax-step"><div class="ts-num">1</div><h4>Zapněte Zen Tax</h4><p>Jeden přepínač v Dashboardu. Zadejte země, kde podnikáte, a VAT IDs. Máme presets pro CZ, SK, DE.</p></div>
+      <div class="tax-step"><div class="ts-num">2</div><h4>Definujte kategorie</h4><p>Přiřaďte produktům daňové kategorie. Pro standardní e-shopy stačí default „physical goods".</p></div>
+      <div class="tax-step"><div class="ts-num">3</div><h4>Checkout ukazuje DPH</h4><p>Zen automaticky zobrazí správnou sazbu dle země zákazníka. Faktura se vytvoří s plným daňovým rozpisem.</p></div>
+      <div class="tax-step"><div class="ts-num">4</div><h4>Export pro účetní</h4><p>Měsíční / čtvrtletní reporty v XML, XLSX nebo přímé napojení do Pohody, Moneys, Abry, XERO.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container"><div class="cta-box">
+    <h2>Daně vyřešené, ať spíte klidně</h2>
+    <p>Zen Tax je součástí tarifu Pro a vyšších. Beta verze pro 12 zemí EU + USA je dostupná ihned.</p>
+    <div class="cta-buttons">
+      <a href="signup.html" class="btn-primary-light">Aktivovat Zen Tax →</a>
+      <a href="contact.html" class="btn-secondary-light">Poradit s účetní</a>
+    </div>
+  </div></div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+
+<script>
+let mode = 'without';
+let tx = 'b2c';
+function setMode(m){ mode = m; document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===m)); calc(); }
+function setTx(t){ tx = t; document.querySelectorAll('[data-tx]').forEach(b=>b.classList.toggle('active',b.dataset.tx===t)); calc(); }
+
+const fmt = (n, cur) => {
+  const curSymbols = { CZK: 'Kč', EUR: '€', USD: '$', GBP: '£' };
+  const s = curSymbols[cur] || cur;
+  const v = Math.round(n).toLocaleString('cs-CZ');
+  return cur === 'CZK' ? `${v} ${s}` : `${s}${v}`;
+};
+
+function calc(){
+  const amt = parseFloat(document.getElementById('taxAmount').value) || 0;
+  const cur = document.getElementById('taxCurrency').value;
+  const sel = document.getElementById('taxCountry').options[document.getElementById('taxCountry').selectedIndex];
+  const country = sel.value;
+  const cat = document.getElementById('taxCategory').value;
+  let rate = parseFloat(sel.dataset.rate);
+
+  if (cat === 'reduced' && sel.dataset.red) rate = parseFloat(sel.dataset.red);
+  if (cat === 'super' && sel.dataset.sred) rate = parseFloat(sel.dataset.sred);
+  if (cat === 'zero') rate = 0;
+
+  let notes = [];
+  let badge = '📊 Výpočet';
+
+  if (tx === 'b2b' && country !== 'CZ') {
+    rate = 0;
+    badge = '🇪🇺 Reverse charge';
+    notes.push('✓ B2B transakce v rámci EU — aplikuje se reverse charge. Povinná poznámka na faktuře: „Daň odvede zákazník (reverse charge)."');
+    notes.push('✓ Zen automaticky validuje VAT ID zákazníka přes VIES.');
+  } else if (tx === 'export') {
+    rate = 0;
+    badge = '🌍 Export';
+    notes.push('✓ Vývoz mimo EU — osvobozeno s nárokem na odpočet.');
+    notes.push('✓ Zen uchová celní dokumentaci jako důkaz vývozu.');
+  } else if (cat === 'zero') {
+    badge = '✅ Osvobozeno';
+    notes.push('Zvolená kategorie je osvobozena od DPH.');
+  }
+
+  const base = mode === 'without' ? amt : amt / (1 + rate/100);
+  const vat = base * rate/100;
+  const total = base + vat;
+
+  document.getElementById('taxRate').textContent = rate.toString().replace('.', ',') + ' %';
+  document.getElementById('taxDesc').textContent = sel.text.replace(/\s*\([^)]*\)/, '') + ' · ' + ({standard:'Standardní',reduced:'Snížená',super:'Super-snížená',zero:'Osvobozeno'})[cat];
+  document.getElementById('taxBadge').textContent = badge;
+  document.getElementById('rBase').textContent = fmt(base, cur);
+  document.getElementById('rVat').textContent = fmt(vat, cur);
+  document.getElementById('rTotal').textContent = fmt(total, cur);
+  document.getElementById('taxNotes').innerHTML = notes.map(n=>`<div class="tn">${n}</div>`).join('');
+}
+document.getElementById('taxAmount').oninput = calc;
+document.getElementById('taxCurrency').onchange = calc;
+document.getElementById('taxCountry').onchange = calc;
+document.getElementById('taxCategory').onchange = calc;
+calc();
+
+// Table
+const rates = [
+  ['🇨🇿 Česko','21 %','15 % / 10 %','—','2 mil. Kč'],
+  ['🇸🇰 Slovensko','23 %','19 % / 5 %','—','49 790 €'],
+  ['🇩🇪 Německo','19 %','7 %','—','22 000 €'],
+  ['🇦🇹 Rakousko','20 %','10 % / 13 %','—','35 000 €'],
+  ['🇵🇱 Polsko','23 %','8 % / 5 %','—','200 000 PLN'],
+  ['🇭🇺 Maďarsko','27 %','18 % / 5 %','—','12 mil. HUF'],
+  ['🇫🇷 Francie','20 %','10 %','5,5 % / 2,1 %','85 800 €'],
+  ['🇮🇹 Itálie','22 %','10 %','5 % / 4 %','85 000 €'],
+  ['🇪🇸 Španělsko','21 %','10 %','4 %','—'],
+  ['🇳🇱 Nizozemsko','21 %','9 %','—','20 000 €'],
+  ['🇧🇪 Belgie','21 %','12 %','6 %','25 000 €'],
+  ['🇸🇪 Švédsko','25 %','12 %','6 %','80 000 SEK'],
+  ['🇩🇰 Dánsko','25 %','—','—','50 000 DKK'],
+  ['🇫🇮 Finsko','25,5 %','14 %','10 %','15 000 €'],
+  ['🇮🇪 Irsko','23 %','13,5 %','9 % / 4,8 %','75 000 €'],
+  ['🇵🇹 Portugalsko','23 %','13 %','6 %','14 500 €'],
+  ['🇬🇧 UK','20 %','5 %','—','£90 000'],
+  ['🇨🇭 Švýcarsko','8,1 %','3,8 %','2,6 %','100 000 CHF'],
+  ['🇳🇴 Norsko','25 %','15 %','12 %','50 000 NOK'],
+];
+document.getElementById('taxTableBody').innerHTML = rates.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');
+</script>
+
+<style>
+.tax-calc { display:grid; grid-template-columns: 1.3fr 1fr; gap:28px; max-width:1000px; margin:0 auto; }
+.tax-form { background:white; border:1px solid var(--border); border-radius:18px; padding:28px; }
+.tax-result { background:linear-gradient(135deg,#0a2540,#134e4a); color:white; border-radius:18px; padding:28px; position:sticky; top:100px; height:fit-content; }
+.tax-badge { display:inline-block; background:rgba(94,234,212,.18); color:#5eead4; font-size:12px; font-weight:700; padding:6px 12px; border-radius:999px; margin-bottom:14px; }
+.tax-rate { font-family:'Sora'; font-size:56px; font-weight:800; line-height:1; margin-bottom:6px; background:linear-gradient(135deg,#5eead4,#a78bfa); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.tax-desc { font-size:13px; color:#cbd5e1; margin-bottom:20px; }
+.tax-rows { display:flex; flex-direction:column; gap:10px; padding:16px 0; border-top:1px solid rgba(255,255,255,.12); border-bottom:1px solid rgba(255,255,255,.12); }
+.tax-row { display:flex; justify-content:space-between; font-size:14px; color:#cbd5e1; }
+.tax-row strong { color:white; font-weight:700; }
+.tax-row.big { font-size:20px; font-family:'Sora'; padding-top:8px; border-top:1px solid rgba(255,255,255,.08); }
+.tax-row.big strong { font-size:24px; }
+.tax-notes { margin-top:14px; }
+.tn { font-size:12px; color:#86efac; padding:8px 12px; background:rgba(94,234,212,.08); border-radius:8px; margin-bottom:6px; line-height:1.5; }
+
+.seg-control { display:inline-flex; background:var(--bg-light); border-radius:10px; padding:4px; gap:4px; }
+.seg { background:transparent; border:none; padding:8px 14px; font-size:13px; font-weight:600; color:var(--text-light); border-radius:7px; cursor:pointer; transition:all .2s; font-family:inherit; }
+.seg.active { background:white; color:var(--primary); box-shadow:0 1px 3px rgba(50,50,93,.1); }
+:root[data-theme="dark"] .seg.active { background:#1e2a42; color:#a78bfa; }
+
+.tax-table-wrap { max-width:900px; margin:0 auto; background:white; border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+.tax-table { width:100%; border-collapse:collapse; font-size:14px; }
+.tax-table th { background:var(--bg-light); padding:14px 18px; text-align:left; font-family:'Sora'; font-size:13px; border-bottom:1px solid var(--border); }
+.tax-table td { padding:12px 18px; border-bottom:1px solid var(--border); }
+.tax-table tr:last-child td { border-bottom:none; }
+.tax-table tr:hover { background:var(--bg-light); }
+
+.tax-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; max-width:1100px; margin:0 auto; }
+.tax-step { background:white; border:1px solid var(--border); border-radius:14px; padding:24px; position:relative; }
+.ts-num { width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,#635bff,#a78bfa); color:white; font-family:'Sora'; font-weight:700; display:flex; align-items:center; justify-content:center; margin-bottom:12px; }
+.tax-step h4 { font-family:'Sora'; margin-bottom:6px; font-size:15px; }
+.tax-step p { font-size:13px; color:var(--text-light); margin:0; line-height:1.55; }
+
+:root[data-theme="dark"] .tax-form, :root[data-theme="dark"] .tax-table-wrap, :root[data-theme="dark"] .tax-step { background:#121c30; border-color:#1e2a42; }
+:root[data-theme="dark"] .tax-table th { background:#0b1220; }
+:root[data-theme="dark"] .seg-control { background:#0b1220; }
+
+@media (max-width: 960px) {
+  .tax-calc { grid-template-columns:1fr; }
+  .tax-result { position:static; }
+  .tax-steps { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width: 600px) {
+  .tax-steps { grid-template-columns:1fr; }
+  .tax-table { font-size:12px; }
+  .tax-table th, .tax-table td { padding:8px 10px; }
+}
+</style>
+</body>
+</html>

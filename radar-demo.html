@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radar simulator — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero">
+  <div class="container"><div class="page-hero-inner">
+    <div class="eyebrow">Radar 2.0 — interaktivní demo</div>
+    <h1>Simulátor detekce podvodů</h1>
+    <p>Zkuste zadat transakci a sledujte, jak náš ML model v reálném čase vyhodnotí 40+ signálů a přidělí Radar score.</p>
+  </div></div>
+</section>
+
+<section class="section" style="background:var(--bg-light);">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:30px;max-width:1100px;margin:0 auto;">
+
+      <!-- Left: transaction form -->
+      <div class="panel">
+        <div class="panel-head"><h3>Simulovaná transakce</h3></div>
+
+        <div class="form-group"><label>Částka (CZK)</label>
+          <input type="range" min="50" max="500000" value="2490" id="amount" oninput="updateScore()" style="width:100%;accent-color:var(--primary);">
+          <div style="display:flex;justify-content:space-between;font-size:12px;"><span>50 Kč</span><span id="amountVal" style="font-weight:700;font-size:18px;color:var(--primary);">2 490 Kč</span><span>500 tis.</span></div>
+        </div>
+
+        <div class="form-group"><label>Země karty</label>
+          <select id="country" onchange="updateScore()">
+            <option value="CZ">🇨🇿 Česká republika (nízké riziko)</option>
+            <option value="SK">🇸🇰 Slovensko</option>
+            <option value="DE">🇩🇪 Německo</option>
+            <option value="US">🇺🇸 USA</option>
+            <option value="RU">🇷🇺 Rusko (vysoké riziko)</option>
+            <option value="NG">🇳🇬 Nigérie (velmi vysoké riziko)</option>
+          </select>
+        </div>
+
+        <div class="form-group"><label>Země IP adresy</label>
+          <select id="ip" onchange="updateScore()">
+            <option value="CZ">🇨🇿 Česká republika</option>
+            <option value="SK">🇸🇰 Slovensko</option>
+            <option value="DE">🇩🇪 Německo</option>
+            <option value="US">🇺🇸 USA</option>
+            <option value="VPN">🕵️ VPN / Proxy (podezřelé)</option>
+            <option value="TOR">👻 TOR (vysoce podezřelé)</option>
+          </select>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group"><label>E-mail věk</label>
+            <select id="emailAge" onchange="updateScore()">
+              <option value="old">> 2 roky (známý)</option>
+              <option value="mid">6 měs. – 2 roky</option>
+              <option value="new">< 6 měsíců</option>
+              <option value="fresh">< 24 hodin (nová)</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Doba na stránce</label>
+            <select id="dwell" onchange="updateScore()">
+              <option value="long">> 5 minut</option>
+              <option value="med">1–5 minut</option>
+              <option value="short">< 1 minuta</option>
+              <option value="bot">< 3 sekundy (bot)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group"><label>Počet pokusů</label>
+            <select id="attempts" onchange="updateScore()">
+              <option value="1">1 (první pokus)</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="5">5+ (podezřelé)</option>
+            </select>
+          </div>
+          <div class="form-group"><label>3D Secure</label>
+            <select id="ds" onchange="updateScore()">
+              <option value="ok">Ověřeno (frictionless)</option>
+              <option value="challenge">Challenge prošlo</option>
+              <option value="failed">Selhalo</option>
+              <option value="none">Neprovedeno</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+          <label style="display:flex;gap:6px;font-size:12px;align-items:center;cursor:pointer;"><input type="checkbox" id="anon" onchange="updateScore()"> Anonymní e-mail</label>
+          <label style="display:flex;gap:6px;font-size:12px;align-items:center;cursor:pointer;"><input type="checkbox" id="bin" onchange="updateScore()"> Prepaid BIN</label>
+          <label style="display:flex;gap:6px;font-size:12px;align-items:center;cursor:pointer;"><input type="checkbox" id="night" onchange="updateScore()"> Noc 2:00–5:00</label>
+          <label style="display:flex;gap:6px;font-size:12px;align-items:center;cursor:pointer;"><input type="checkbox" id="mismatch" onchange="updateScore()"> Billing ≠ Ship</label>
+        </div>
+
+        <div style="margin-top:20px;display:flex;gap:10px;">
+          <button class="btn-app" onclick="preset('legit')">✓ Normální zákazník</button>
+          <button class="btn-app" onclick="preset('suspicious')">⚠️ Podezřelé</button>
+          <button class="btn-app" onclick="preset('fraud')">🚨 Očividný fraud</button>
+        </div>
+      </div>
+
+      <!-- Right: Radar score -->
+      <div class="panel">
+        <div class="panel-head"><h3>Radar Score</h3></div>
+
+        <div style="text-align:center;padding:20px 0;">
+          <div style="position:relative;width:200px;height:200px;margin:0 auto;">
+            <svg viewBox="0 0 200 200" style="transform:rotate(-90deg);width:100%;height:100%;">
+              <circle cx="100" cy="100" r="85" fill="none" stroke="var(--bg-light)" stroke-width="18"/>
+              <circle id="scoreCircle" cx="100" cy="100" r="85" fill="none" stroke="#00d4aa" stroke-width="18" stroke-linecap="round" stroke-dasharray="534" stroke-dashoffset="267" style="transition: stroke-dashoffset 0.6s cubic-bezier(.2,.9,.3,1.2), stroke 0.3s;"/>
+            </svg>
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+              <div id="scoreNum" style="font-family:'Sora';font-size:56px;font-weight:800;color:var(--text);">42</div>
+              <div style="font-size:11px;color:var(--text-muted);">/ 100</div>
+            </div>
+          </div>
+
+          <div id="verdict" style="margin-top:20px;padding:14px 20px;border-radius:12px;font-weight:600;font-size:16px;background:rgba(0,212,170,0.1);color:#00a884;">
+            ✓ Povolit platbu (nízké riziko)
+          </div>
+        </div>
+
+        <h4 style="font-size:13px;margin:20px 0 10px;font-weight:600;">Aktivní signály</h4>
+        <div id="signals" style="display:flex;flex-direction:column;gap:6px;"></div>
+
+        <div style="margin-top:20px;padding:14px;background:var(--bg-light);border-radius:10px;font-size:12px;color:var(--text-muted);line-height:1.6;">
+          💡 Radar 2.0 vyhodnocuje <strong>40+ signálů</strong> v reálném čase — historie karty, geolokaci, velocity patterns, device fingerprint, network analysis. Model je natrénován na miliardách transakcí a průběžně se adaptuje.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Jak to funguje</div>
+      <h2>Od signálu po rozhodnutí za 12 ms</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#635bff,#a78bfa);">1</div><h3>Sběr signálů</h3><p>Device fingerprint, IP geo, BIN lookup, e-mail reputation, velocity counters — vše sebráno před autorizací.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#00d4aa,#00a884);">2</div><h3>ML scoring</h3><p>Gradient boosted tree model s 340 featurami, trénovaný na 2,3 mld. historických transakcích.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#f093fb,#f5576c);">3</div><h3>Rozhodnutí</h3><p>Povolit, vyzvat 3D Secure, zaslat k manuálnímu přezkoumání, nebo zablokovat — vše v rámci 12 ms p95.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">4</div><h3>Vlastní pravidla</h3><p>Doplňte ML model svými pravidly — např. „blokuj > 50 000 Kč z nové karty" nebo whitelist VIP zákazníků.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">5</div><h3>Chargeback ochrana</h3><p>Pro vybrané obchodníky pokrýváme finanční ztráty z falešně pozitivních rozhodnutí.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ee5a6f,#ff6b6b);">6</div><h3>Transparentnost</h3><p>Každé rozhodnutí obsahuje seznam signálů a jejich váhu. Žádná black box AI.</p></div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+<script>
+function getState() {
+  return {
+    amount: +document.getElementById('amount').value,
+    country: document.getElementById('country').value,
+    ip: document.getElementById('ip').value,
+    emailAge: document.getElementById('emailAge').value,
+    dwell: document.getElementById('dwell').value,
+    attempts: +document.getElementById('attempts').value,
+    ds: document.getElementById('ds').value,
+    anon: document.getElementById('anon').checked,
+    bin: document.getElementById('bin').checked,
+    night: document.getElementById('night').checked,
+    mismatch: document.getElementById('mismatch').checked,
+  };
+}
+
+function calcScore(s) {
+  let score = 10;
+  const signals = [];
+
+  if (s.amount > 100000) { score += 18; signals.push({ text: 'Vysoká částka (> 100 000 Kč)', weight: 18, neg: true }); }
+  else if (s.amount > 30000) { score += 8; signals.push({ text: 'Střední částka (> 30 000 Kč)', weight: 8, neg: true }); }
+  else if (s.amount < 500) { score += 2; signals.push({ text: 'Velmi nízká částka (card testing)', weight: 2, neg: true }); }
+
+  const countryRisk = { CZ: 0, SK: 2, DE: 3, US: 5, RU: 28, NG: 40 };
+  if (countryRisk[s.country]) { score += countryRisk[s.country]; signals.push({ text: `Země karty: ${s.country}`, weight: countryRisk[s.country], neg: true }); }
+  else { signals.push({ text: 'Země karty: nízké riziko', weight: -2, neg: false }); }
+
+  if (s.country !== s.ip && s.ip !== 'VPN' && s.ip !== 'TOR') { score += 12; signals.push({ text: 'Billing vs. IP země se liší', weight: 12, neg: true }); }
+  if (s.ip === 'VPN') { score += 20; signals.push({ text: 'VPN / Proxy detekován', weight: 20, neg: true }); }
+  if (s.ip === 'TOR') { score += 35; signals.push({ text: 'TOR network', weight: 35, neg: true }); }
+
+  const emailScore = { old: -5, mid: 0, new: 6, fresh: 18 };
+  if (emailScore[s.emailAge] !== 0) { score += emailScore[s.emailAge]; signals.push({ text: `E-mail věk: ${s.emailAge}`, weight: emailScore[s.emailAge], neg: emailScore[s.emailAge] > 0 }); }
+
+  const dwellScore = { long: -5, med: 0, short: 6, bot: 22 };
+  if (dwellScore[s.dwell] !== 0) { score += dwellScore[s.dwell]; signals.push({ text: `Dwell time: ${s.dwell}`, weight: dwellScore[s.dwell], neg: dwellScore[s.dwell] > 0 }); }
+
+  if (s.attempts > 1) { score += (s.attempts-1)*8; signals.push({ text: `${s.attempts} pokusů o platbu`, weight: (s.attempts-1)*8, neg: true }); }
+
+  const dsScore = { ok: -8, challenge: -3, failed: 25, none: 5 };
+  if (dsScore[s.ds] !== 0) { score += dsScore[s.ds]; signals.push({ text: `3D Secure: ${s.ds}`, weight: dsScore[s.ds], neg: dsScore[s.ds] > 0 }); }
+
+  if (s.anon) { score += 8; signals.push({ text: 'Anonymní e-mail doména', weight: 8, neg: true }); }
+  if (s.bin) { score += 6; signals.push({ text: 'Prepaid BIN', weight: 6, neg: true }); }
+  if (s.night) { score += 4; signals.push({ text: 'Noční transakce', weight: 4, neg: true }); }
+  if (s.mismatch) { score += 10; signals.push({ text: 'Billing ≠ Shipping adresa', weight: 10, neg: true }); }
+
+  return { score: Math.max(0, Math.min(100, score)), signals };
+}
+
+function updateScore() {
+  const s = getState();
+  document.getElementById('amountVal').textContent = s.amount.toLocaleString('cs') + ' Kč';
+  const { score, signals } = calcScore(s);
+  document.getElementById('scoreNum').textContent = score;
+  const off = 534 - (534 * score / 100);
+  const circle = document.getElementById('scoreCircle');
+  circle.style.strokeDashoffset = off;
+
+  let color, verdict, verdictBg, verdictColor;
+  if (score < 30) { color = '#00d4aa'; verdict = '✓ Povolit platbu (nízké riziko)'; verdictBg = 'rgba(0,212,170,0.1)'; verdictColor = '#00a884'; }
+  else if (score < 55) { color = '#ffa500'; verdict = '⚠️ Vyzvat 3D Secure'; verdictBg = 'rgba(255,165,0,0.12)'; verdictColor = '#d97706'; }
+  else if (score < 75) { color = '#f5576c'; verdict = '🔍 Manuální přezkoumání'; verdictBg = 'rgba(245,87,108,0.1)'; verdictColor = '#dc2626'; }
+  else { color = '#ef4444'; verdict = '🚨 Zablokovat (vysoké riziko)'; verdictBg = 'rgba(239,68,68,0.15)'; verdictColor = '#991b1b'; }
+  circle.setAttribute('stroke', color);
+  document.getElementById('scoreNum').style.color = color;
+  const v = document.getElementById('verdict');
+  v.textContent = verdict;
+  v.style.background = verdictBg;
+  v.style.color = verdictColor;
+
+  document.getElementById('signals').innerHTML = signals.length ? signals.map(sg => `
+    <div style="display:flex;justify-content:space-between;padding:8px 12px;background:${sg.neg ? 'rgba(239,68,68,0.06)' : 'rgba(0,212,170,0.08)'};border-radius:6px;font-size:12px;">
+      <span>${sg.neg ? '⚠️' : '✓'} ${sg.text}</span>
+      <span style="font-weight:700;color:${sg.neg ? '#ef4444' : '#00a884'};">${sg.weight > 0 ? '+' : ''}${sg.weight}</span>
+    </div>
+  `).join('') : '<div style="padding:10px;color:var(--text-muted);font-size:12px;">Všechny signály v pořádku.</div>';
+}
+
+function preset(type) {
+  const $ = id => document.getElementById(id);
+  if (type === 'legit') {
+    $('amount').value = 2490; $('country').value = 'CZ'; $('ip').value = 'CZ';
+    $('emailAge').value = 'old'; $('dwell').value = 'long'; $('attempts').value = '1';
+    $('ds').value = 'ok'; $('anon').checked = false; $('bin').checked = false;
+    $('night').checked = false; $('mismatch').checked = false;
+  } else if (type === 'suspicious') {
+    $('amount').value = 15000; $('country').value = 'DE'; $('ip').value = 'US';
+    $('emailAge').value = 'new'; $('dwell').value = 'short'; $('attempts').value = '2';
+    $('ds').value = 'none'; $('anon').checked = true; $('bin').checked = false;
+    $('night').checked = true; $('mismatch').checked = false;
+  } else {
+    $('amount').value = 120000; $('country').value = 'NG'; $('ip').value = 'TOR';
+    $('emailAge').value = 'fresh'; $('dwell').value = 'bot'; $('attempts').value = '5';
+    $('ds').value = 'failed'; $('anon').checked = true; $('bin').checked = true;
+    $('night').checked = true; $('mismatch').checked = true;
+  }
+  updateScore();
+}
+updateScore();
+</script>
+</body>
+</html>

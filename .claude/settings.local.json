@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:totosoft.cz)",
+      "WebFetch(domain:totosoft-trade.cz)",
+      "Read(//Users/levin/Downloads/new toto/**)",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}

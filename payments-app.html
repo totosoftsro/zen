@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Platby — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="app-layout" id="appRoot">
+  <div class="app-page-head">
+    <div><h1>Platby</h1><p>Seznam všech transakcí na vašem účtu</p></div>
+    <div class="app-page-actions">
+      <button class="btn-app" onclick="appToast('Export CSV...')">📤 Export</button>
+      <button class="btn-app primary" onclick="location.href='new-payment.html'">+ Nová platba</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <select class="btn-app" onchange="filterStatus(this.value)" id="statusSel">
+          <option value="">Všechny stavy</option>
+          <option value="success">Úspěšná</option>
+          <option value="pending">Čeká</option>
+          <option value="failed">Zamítnuta</option>
+          <option value="refund">Vráceno</option>
+        </select>
+        <input class="btn-app" placeholder="Hledat ID, zákazníka..." style="min-width:240px;" oninput="searchTx(this.value)">
+        <span class="muted" style="font-size:13px;" id="count"></span>
+      </div>
+      <div class="topbar-mode-toggle"><button class="active">Dnes</button><button onclick="appToast('Filtr: 7 dní')">7d</button><button onclick="appToast('Filtr: 30 dní')">30d</button></div>
+    </div>
+    <table class="data-table">
+      <thead><tr><th>Částka</th><th>Stav</th><th>Zákazník</th><th>Metoda</th><th>ID</th><th>Datum</th></tr></thead>
+      <tbody id="tb"></tbody>
+    </table>
+  </div>
+</div>
+
+<script src="app-shell.js"></script>
+<script>
+mountApp('payments');
+const all = [];
+const customers = ['Jana Nováková','Petr Svoboda','Eva Černá','Martin Dvořák','Tereza Horáková','Lukáš Procházka','Alza Technologies','Rohlík Shop','Startup s.r.o.','Zuzana Králová','Filip Kučera'];
+const st = [['success','Úspěšná',0.7],['pending','Čeká',0.1],['failed','Zamítnuta',0.1],['refund','Vráceno',0.1]];
+const mths = ['VISA ••4242','MC ••8821','Apple Pay','VISA ••1117','Google Pay','MC ••5500','SEPA převod'];
+function pickSt(){ const r = Math.random(); let s=0; for (const x of st){ s+=x[2]; if(r<s) return x; } return st[0]; }
+for (let i=0;i<45;i++){
+  const s = pickSt();
+  all.push({amt: Math.floor(Math.random()*30000)+99, st: s, cust: customers[Math.floor(Math.random()*customers.length)],
+    m: mths[Math.floor(Math.random()*mths.length)],
+    id: 'pi_' + Math.random().toString(36).substring(2, 14).toUpperCase(),
+    d: new Date(Date.now() - i*3600000*Math.random()*8)});
+}
+let view = all.slice();
+function render(){
+  document.getElementById('tb').innerHTML = view.map(t => `
+    <tr onclick="location.href='payment-detail.html?id=${t.id}'">
+      <td class="amt">${t.amt.toLocaleString('cs-CZ')} Kč</td>
+      <td><span class="pill ${t.st[0]}">${t.st[1]}</span></td>
+      <td>${t.cust}</td>
+      <td class="muted">${t.m}</td>
+      <td class="muted" style="font-family:monospace; font-size:12px;">${t.id}</td>
+      <td class="muted">${t.d.toLocaleString('cs-CZ', {day:'numeric',month:'numeric', hour:'2-digit', minute:'2-digit'})}</td>
+    </tr>`).join('');
+  document.getElementById('count').textContent = view.length + ' výsledků';
+}
+function filterStatus(s){ view = s ? all.filter(t => t.st[0]===s) : all.slice(); render(); }
+function searchTx(q){ q=q.toLowerCase(); view = all.filter(t => t.cust.toLowerCase().includes(q) || t.id.toLowerCase().includes(q)); render(); }
+render();
+</script>
+</body></html>

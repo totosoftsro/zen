@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Tým — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div class="app-layout" id="appRoot">
+  <div class="app-page-head"><div><h1>Členové týmu</h1><p>Pozvěte kolegy a spravujte jejich oprávnění</p></div>
+    <div class="app-page-actions"><button class="btn-app primary" onclick="invite()">+ Pozvat člena</button></div></div>
+
+  <div class="panel">
+    <table class="data-table"><thead><tr><th>Jméno</th><th>E-mail</th><th>Role</th><th>Stav</th><th>Přidán</th></tr></thead><tbody id="tb"></tbody></table>
+  </div>
+</div>
+<script src="app-shell.js"></script>
+<script>
+mountApp('team');
+const team = [
+ ['Jan Novák', 'jan@firma.cz', 'Owner', 'Aktivní', '12. 1. 2026'],
+ ['Klára Veselá', 'klara@firma.cz', 'Admin', 'Aktivní', '15. 1. 2026'],
+ ['Petr Horák', 'petr@firma.cz', 'Developer', 'Aktivní', '28. 2. 2026'],
+ ['Eva Černá', 'eva@firma.cz', 'Analyst', 'Aktivní', '12. 3. 2026'],
+ ['Lukáš Procházka', 'lukas@firma.cz', 'Support', 'Pozvánka', '14. 4. 2026'],
+];
+function render(){
+  document.getElementById('tb').innerHTML = team.map(t => `
+  <tr><td><div style="display:flex;align-items:center;gap:10px;"><div class="user-avatar-sm">${t[0].split(' ').map(x=>x[0]).join('')}</div><strong>${t[0]}</strong></div></td>
+  <td class="muted">${t[1]}</td>
+  <td><span class="job-chip">${t[2]}</span></td>
+  <td><span class="pill ${t[3]==='Aktivní'?'success':'pending'}">${t[3]}</span></td>
+  <td class="muted">${t[4]}</td></tr>`).join('');
+}
+function invite(){ const e = prompt('E-mail kolegy:'); if(!e) return;
+  team.push([e.split('@')[0], e, 'Developer', 'Pozvánka', new Date().toLocaleDateString('cs-CZ')]); render(); appToast('Pozvánka odeslána'); }
+render();
+</script></body></html>

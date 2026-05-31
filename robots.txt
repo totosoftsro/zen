@@ -1,0 +1,23 @@
+# robots.txt — Zen Payments, a.s.
+User-agent: *
+Allow: /
+
+# Neindexovat přihlášenou aplikaci (dashboard)
+Disallow: /dashboard.html
+Disallow: /payments-app.html
+Disallow: /customers-app.html
+Disallow: /products-app.html
+Disallow: /invoices-app.html
+Disallow: /balance.html
+Disallow: /new-payment.html
+Disallow: /payment-detail.html
+Disallow: /api-keys.html
+Disallow: /webhooks.html
+Disallow: /logs.html
+Disallow: /settings.html
+Disallow: /team.html
+Disallow: /analytics.html
+Disallow: /notifications.html
+Disallow: /disputes.html
+
+Sitemap: https://totosoftsro.github.io/zen/sitemap.xml

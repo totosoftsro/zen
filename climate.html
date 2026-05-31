@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Climate — odstraňování CO₂ | Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="nav-placeholder" data-active="products"></div>
+
+<section class="page-hero dark" style="background:linear-gradient(135deg,#064e3b,#047857);">
+  <div class="container"><div class="page-hero-inner">
+    <div class="breadcrumb" style="color:rgba(255,255,255,0.7);"><a href="index.html" style="color:white;">Domů</a> <span>›</span> Produkty <span>›</span> Climate</div>
+    <h1>Pomáhejte planetě<br>s každou platbou</h1>
+    <p style="color:#d1fae5;">Věnujte zlomek obratu na odstraňování oxidu uhličitého. Zen pošle peníze prověřeným projektům permanentního zachytávání CO₂ — vy jen nastavíte procento.</p>
+    <div class="hero-cta" style="justify-content:center; margin-top:28px;">
+      <a href="#kalkulacka" class="btn-primary-light">Spočítat dopad →</a>
+      <a href="#projekty" class="btn-secondary-light">Naše projekty</a>
+    </div>
+  </div></div>
+</section>
+
+<section class="section" id="kalkulacka">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Kalkulačka dopadu</div><h2>Jaký rozdíl můžete udělat?</h2></div>
+    <div class="cl-calc">
+      <div class="cl-inputs">
+        <div class="cl-field">
+          <label>Roční obrat <strong id="clRevLbl">10 000 000 Kč</strong></label>
+          <input type="range" id="clRev" min="500000" max="100000000" step="500000" value="10000000">
+        </div>
+        <div class="cl-field">
+          <label>Příspěvek z obratu <strong id="clPctLbl">1,0 %</strong></label>
+          <input type="range" id="clPct" min="0.1" max="2" step="0.1" value="1">
+          <div class="cl-range-ends"><span>0,1 %</span><span>2 %</span></div>
+        </div>
+        <p class="cl-note">💡 Doporučujeme 1 % — Zen přidává 0 % poplatek, 100 % jde projektům.</p>
+      </div>
+      <div class="cl-result">
+        <div class="cl-leaf">🌱</div>
+        <div class="cl-amt" id="clAmt">100 000 Kč</div>
+        <div class="cl-amt-sub">ročně na odstranění CO₂</div>
+        <div class="cl-impact">
+          <div class="ci"><div class="ci-big" id="clTons">~ 11 t</div><div class="ci-lbl">CO₂ odstraněno / rok</div></div>
+          <div class="ci"><div class="ci-big" id="clTrees">≈ 510</div><div class="ci-lbl">ekvivalent stromů</div></div>
+          <div class="ci"><div class="ci-big" id="clCars">≈ 8</div><div class="ci-lbl">aut staženo ze silnic</div></div>
+        </div>
+        <button class="btn-primary" style="width:100%;margin-top:6px;" onclick="zenToast('🌍 Díky! Aktivujte Climate v Dashboardu.')">Zapojit se →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="projekty" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Portfolio projektů</div><h2>Kam vaše peníze jdou</h2><p class="section-desc">Financujeme výhradně permanentní odstranění uhlíku (1000+ let), prověřené nezávislými vědci.</p></div>
+    <div class="cl-projects">
+      <div class="cl-proj"><div class="cp-img" style="background:linear-gradient(135deg,#0891b2,#06b6d4);">🌊</div><div class="cp-body"><h4>Mineralizace v oceánu</h4><p>Urychlené zvětrávání hornin váže CO₂ do stabilních minerálů na dně oceánu.</p><div class="cp-meta"><span>Permanence: 10 000+ let</span></div></div></div>
+      <div class="cl-proj"><div class="cp-img" style="background:linear-gradient(135deg,#65a30d,#84cc16);">🌾</div><div class="cp-body"><h4>Biochar</h4><p>Pyrolýza biomasy vytváří stabilní uhlík, který se zapraví do půdy a zlepší úrodnost.</p><div class="cp-meta"><span>Permanence: 1 000+ let</span></div></div></div>
+      <div class="cl-proj"><div class="cp-img" style="background:linear-gradient(135deg,#0ea5e9,#38bdf8);">🏭</div><div class="cp-body"><h4>Direct Air Capture</h4><p>Velké jednotky vysávají CO₂ přímo ze vzduchu a ukládají ho hluboko pod zem.</p><div class="cp-meta"><span>Permanence: 10 000+ let</span></div></div></div>
+      <div class="cl-proj"><div class="cp-img" style="background:linear-gradient(135deg,#16a34a,#22c55e);">🪨</div><div class="cp-body"><h4>Enhanced weathering</h4><p>Rozdrcený čedič na polích reaguje s CO₂ a trvale ho odstraňuje z atmosféry.</p><div class="cp-meta"><span>Permanence: 1 000+ let</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section stats-section" style="background:linear-gradient(135deg,#064e3b,#047857);">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-big" style="color:white;">42 000 t</div><div class="stat-desc" style="color:#d1fae5;">CO₂ nakontraktováno k odstranění</div></div>
+      <div class="stat-item"><div class="stat-big" style="color:white;">3 800+</div><div class="stat-desc" style="color:#d1fae5;">Zapojených obchodníků</div></div>
+      <div class="stat-item"><div class="stat-big" style="color:white;">100 %</div><div class="stat-desc" style="color:#d1fae5;">Příspěvků jde projektům</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Pro váš brand</div><h2>Ukažte zákazníkům, že vám záleží</h2></div>
+    <div class="cl-perks">
+      <div class="cl-perk"><div class="clp-ico">🏅</div><h4>Badge do checkoutu</h4><p>„Část vašeho nákupu pomáhá odstranit CO₂" zvyšuje konverzi i loajalitu.</p></div>
+      <div class="cl-perk"><div class="clp-ico">📜</div><h4>Veřejný certifikát</h4><p>Stránka s vaším dopadem, kterou můžete sdílet zákazníkům a investorům.</p></div>
+      <div class="cl-perk"><div class="clp-ico">📊</div><h4>ESG reporting</h4><p>Data o odstraněném uhlíku připravená do výroční a udržitelnostní zprávy.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container"><div class="cta-box">
+    <h2>Přidejte se k hnutí</h2>
+    <p>Zapnutí trvá 30 vteřin. Příspěvek upravíte nebo zrušíte kdykoli. 100 % jde ověřeným projektům.</p>
+    <div class="cta-buttons">
+      <a href="signup.html" class="btn-primary-light">Aktivovat Climate →</a>
+      <a href="about.html" class="btn-secondary-light">O naší misi</a>
+    </div>
+  </div></div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+
+<script>
+const czk = n => Math.round(n).toLocaleString('cs-CZ') + ' Kč';
+function clCalc(){
+  const rev = +document.getElementById('clRev').value;
+  const pct = +document.getElementById('clPct').value;
+  const amt = rev * pct/100;
+  // ~9000 CZK per tonne removed (premium permanent removal)
+  const tons = amt / 9000;
+  document.getElementById('clRevLbl').textContent = czk(rev);
+  document.getElementById('clPctLbl').textContent = pct.toFixed(1).replace('.',',') + ' %';
+  document.getElementById('clAmt').textContent = czk(amt);
+  document.getElementById('clTons').textContent = '~ ' + tons.toFixed(tons<10?1:0).replace('.',',') + ' t';
+  document.getElementById('clTrees').textContent = '≈ ' + Math.round(tons*46).toLocaleString('cs-CZ');
+  document.getElementById('clCars').textContent = '≈ ' + Math.max(1, Math.round(tons*0.75));
+}
+document.getElementById('clRev').oninput = clCalc;
+document.getElementById('clPct').oninput = clCalc;
+clCalc();
+</script>
+
+<style>
+.cl-calc { display:grid; grid-template-columns:1fr 1fr; gap:28px; max-width:980px; margin:0 auto; }
+.cl-inputs { background:white; border:1px solid var(--border); border-radius:18px; padding:30px; align-self:center; }
+.cl-field { margin-bottom:26px; }
+.cl-field label { display:flex; justify-content:space-between; font-size:14px; font-weight:500; margin-bottom:12px; }
+.cl-field label strong { font-family:'Sora'; color:#047857; }
+.cl-field input[type=range] { width:100%; accent-color:#047857; }
+.cl-range-ends { display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted); margin-top:4px; }
+.cl-note { font-size:12px; color:var(--text-light); background:var(--bg-light); padding:12px 14px; border-radius:10px; margin:0; line-height:1.5; }
+.cl-result { background:linear-gradient(135deg,#064e3b,#047857); color:white; border-radius:18px; padding:30px; text-align:center; }
+.cl-leaf { font-size:44px; }
+.cl-amt { font-family:'Sora'; font-size:42px; font-weight:800; line-height:1; margin-top:8px; }
+.cl-amt-sub { color:#a7f3d0; font-size:13px; margin-bottom:20px; }
+.cl-impact { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; border-top:1px solid rgba(255,255,255,.15); padding-top:18px; margin-bottom:18px; }
+.ci-big { font-family:'Sora'; font-size:20px; font-weight:700; }
+.ci-lbl { font-size:10px; color:#a7f3d0; margin-top:4px; line-height:1.3; }
+
+.cl-projects { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; max-width:920px; margin:0 auto; }
+.cl-proj { background:white; border:1px solid var(--border); border-radius:14px; overflow:hidden; display:flex; }
+.cp-img { width:90px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:36px; }
+.cp-body { padding:18px 20px; }
+.cp-body h4 { font-family:'Sora'; margin-bottom:5px; }
+.cp-body p { font-size:13px; color:var(--text-light); margin:0 0 8px; line-height:1.5; }
+.cp-meta span { font-size:11px; font-weight:600; color:#047857; background:rgba(4,120,87,.1); padding:3px 9px; border-radius:999px; }
+
+.cl-perks { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; max-width:980px; margin:0 auto; }
+.cl-perk { background:white; border:1px solid var(--border); border-radius:14px; padding:26px; text-align:center; }
+.clp-ico { font-size:34px; margin-bottom:10px; }
+.cl-perk h4 { font-family:'Sora'; margin-bottom:6px; }
+.cl-perk p { font-size:13px; color:var(--text-light); margin:0; line-height:1.55; }
+
+:root[data-theme="dark"] .cl-inputs, :root[data-theme="dark"] .cl-proj, :root[data-theme="dark"] .cl-perk { background:#121c30; border-color:#1e2a42; }
+
+@media (max-width:960px){ .cl-calc{grid-template-columns:1fr;} .cl-projects{grid-template-columns:1fr;} .cl-perks{grid-template-columns:1fr;} }
+</style>
+</body>
+</html>

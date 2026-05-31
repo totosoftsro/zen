@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Zákazníci — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div class="app-layout" id="appRoot">
+  <div class="app-page-head"><div><h1>Zákazníci</h1><p>Seznam zákazníků s platební historií</p></div>
+    <div class="app-page-actions">
+      <button class="btn-app" onclick="appToast('Import kontaktů...')">📥 Import</button>
+      <button class="btn-app primary" onclick="newCust()">+ Nový zákazník</button>
+    </div></div>
+
+  <div class="card-grid" style="grid-template-columns:repeat(3,1fr);">
+    <div class="kpi-card"><div class="kpi-label">Celkem zákazníků</div><div class="kpi-value">2 849</div><div class="kpi-delta up">▲ 184 tento měsíc</div></div>
+    <div class="kpi-card"><div class="kpi-label">Aktivní</div><div class="kpi-value">1 742</div><div class="kpi-delta up">▲ 12,5 %</div></div>
+    <div class="kpi-card"><div class="kpi-label">Průměrná hodnota</div><div class="kpi-value">8 240 Kč</div><div class="kpi-delta up">▲ 4,1 %</div></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <input class="btn-app" placeholder="Hledat podle jména, emailu..." style="min-width:360px;" oninput="searchC(this.value)">
+    </div>
+    <table class="data-table"><thead><tr><th>Jméno</th><th>E-mail</th><th>Plateb</th><th>Celkový obrat</th><th>Vytvořeno</th></tr></thead>
+    <tbody id="cb"></tbody></table>
+  </div>
+</div>
+<script src="app-shell.js"></script>
+<script>
+mountApp('customers');
+const names = ['Jana Nováková','Petr Svoboda','Eva Černá','Martin Dvořák','Tereza Horáková','Lukáš Procházka','Zuzana Králová','Filip Kučera','Kateřina Bartošová','Tomáš Vlk','Marie Pospíšilová','David Beneš','Anna Marková','Jiří Štěpán','Lucie Hájková'];
+const all = names.map((n, i) => ({
+  name: n, email: n.toLowerCase().replace(/ /g,'.').replace('á','a').replace('é','e').replace('í','i').replace('ů','u').replace('ž','z').replace('š','s').replace('č','c').replace('ř','r').replace('ý','y') + '@example.cz',
+  payments: Math.floor(Math.random()*40)+1,
+  total: Math.floor(Math.random()*200000)+5000,
+  created: new Date(Date.now() - (i*86400000*15 + Math.random()*1000000)).toLocaleDateString('cs-CZ')
+}));
+let view = all.slice();
+function render(){ document.getElementById('cb').innerHTML = view.map(c => `
+  <tr onclick="appToast('Detail: '+\`${c.name}\`)">
+    <td><div style="display:flex; align-items:center; gap:10px;"><div class="user-avatar-sm">${c.name.split(' ').map(x=>x[0]).join('').substring(0,2)}</div><strong>${c.name}</strong></div></td>
+    <td class="muted">${c.email}</td><td>${c.payments}</td>
+    <td class="amt">${c.total.toLocaleString('cs-CZ')} Kč</td>
+    <td class="muted">${c.created}</td>
+  </tr>`).join(''); }
+function searchC(q){ q=q.toLowerCase(); view = all.filter(c => c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q)); render(); }
+function newCust(){ const n = prompt('Jméno nového zákazníka:'); if(n){ all.unshift({name:n, email:n.toLowerCase().replace(/ /g,'.')+'@new.cz', payments:0, total:0, created:new Date().toLocaleDateString('cs-CZ')}); view=all.slice(); render(); appToast('Zákazník přidán'); } }
+render();
+</script></body></html>

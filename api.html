@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>API Reference — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div id="nav-placeholder" data-active="developers"></div>
+
+<div class="api-layout">
+  <aside class="docs-sidebar">
+    <h4>Jádro</h4>
+    <a href="#auth" class="active">Autentizace</a>
+    <a href="#errors-handling">Error handling</a>
+    <a href="#pagination">Paginace</a>
+    <a href="#versioning">Verze API</a>
+
+    <h4>Platby</h4>
+    <a href="#pi">Payment Intents</a>
+    <a href="#charges">Charges</a>
+    <a href="#refunds">Refunds</a>
+    <a href="#methods-api">Payment Methods</a>
+
+    <h4>Zákazníci</h4>
+    <a href="#customers-api">Customers</a>
+    <a href="#cards">Cards</a>
+    <a href="#setup">Setup Intents</a>
+
+    <h4>Fakturace</h4>
+    <a href="#invoices-api">Invoices</a>
+    <a href="#subs-api">Subscriptions</a>
+    <a href="#products-api">Products</a>
+    <a href="#prices">Prices</a>
+
+    <h4>Platforma</h4>
+    <a href="#accounts">Connected Accounts</a>
+    <a href="#transfers">Transfers</a>
+    <a href="#payouts">Payouts</a>
+  </aside>
+
+  <div class="api-content">
+    <h1 style="font-family:Sora; font-size:32px; margin-bottom:16px;">API Reference</h1>
+    <p class="muted">REST API Zen funguje na bázi HTTPS a používá JSON. Base URL: <code style="background:#f1f5f9; padding:2px 6px; border-radius:4px; color:#be185d;">https://api.zen.cz</code></p>
+
+    <h2 id="auth">Autentizace</h2>
+    <p class="muted">Použijte Basic Auth s vaším API klíčem jako uživatelské jméno a prázdným heslem.</p>
+    <pre style="background:#1e2938; color:#e2e8f0; padding:16px; border-radius:8px; font-family:monospace; font-size:13px; margin-top:12px;"><code>curl https://api.zen.cz/v1/customers \
+  -u sk_live_51NxYz8...:</code></pre>
+
+    <h2 id="pi">Payment Intents</h2>
+    <p class="muted">Payment Intent představuje záměr přijmout platbu od zákazníka. Sleduje stavy a zajišťuje správné ověření.</p>
+    <p><strong>Vlastnosti objektu:</strong></p>
+    <table class="docs-content" style="width:100%; border-collapse:collapse; margin-top:12px;">
+      <thead><tr><th style="text-align:left; padding:8px 12px; border-bottom:1px solid #e6ebf1;">Název</th><th style="text-align:left; padding:8px 12px; border-bottom:1px solid #e6ebf1;">Typ</th><th style="text-align:left; padding:8px 12px; border-bottom:1px solid #e6ebf1;">Popis</th></tr></thead>
+      <tbody>
+        <tr><td style="padding:8px 12px; border-bottom:1px solid #e6ebf1;"><code>id</code></td><td style="padding:8px 12px; border-bottom:1px solid #e6ebf1;">string</td><td style="padding:8px 12px; border-bottom:1px solid #e6ebf1;">Unikátní ID (pi_...)</td></tr>
+        <tr><td style="padding:8px 12px; border-bottom:1px solid #e6ebf1;"><code>amount</code></td><td style="padding:8px 12px; border-bottom:1px solid #e6ebf1;">integer</td><td style="padding:8px 12px; border-bottom:1px solid #e6ebf1;">Částka v haléřích</td></tr>
+        <tr><td style="padding:8px 12px; border-bottom:1px solid #e6ebf1;"><code>currency</code></td><td style="padding:8px 12px; border-bottom:1px solid #e6ebf1;">string</td><td style="padding:8px 12px; border-bottom:1px solid #e6ebf1;">ISO kód měny (czk, eur, usd)</td></tr>
+        <tr><td style="padding:8px 12px; border-bottom:1px solid #e6ebf1;"><code>status</code></td><td style="padding:8px 12px; border-bottom:1px solid #e6ebf1;">enum</td><td style="padding:8px 12px; border-bottom:1px solid #e6ebf1;">requires_payment_method, requires_action, succeeded, ...</td></tr>
+        <tr><td style="padding:8px 12px;"><code>client_secret</code></td><td style="padding:8px 12px;">string</td><td style="padding:8px 12px;">Token pro client-side potvrzení</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="customers-api">Customers</h2>
+    <p class="muted">Customer objekt reprezentuje zákazníka. Můžete k němu připojit platební metody a faktury.</p>
+
+    <h2 id="subs-api">Subscriptions</h2>
+    <p class="muted">Předplatné automaticky fakturuje zákazníka v pravidelných intervalech.</p>
+
+    <h2 id="pagination">Paginace</h2>
+    <p class="muted">Seznamové endpointy podporují cursor-based paginaci pomocí parametrů <code>limit</code>, <code>starting_after</code> a <code>ending_before</code>.</p>
+
+    <h2 id="errors-handling">Error handling</h2>
+    <p class="muted">Zen používá konvenční HTTP status kódy. 2xx = úspěch, 4xx = chyba klienta, 5xx = chyba serveru.</p>
+  </div>
+
+  <div class="api-content">
+    <div class="api-endpoint">
+      <div style="color:#94a3b8; margin-bottom:8px; font-size:11px; text-transform:uppercase;">Vytvoření platby</div>
+      <span class="http-method post">POST</span> /v1/payment_intents<br><br>
+      <pre style="background:transparent; color:#e2e8f0; margin:0; padding:0; font-size:12px;">{
+  <span style="color:#86efac;">"amount"</span>: <span style="color:#fbbf24;">249900</span>,
+  <span style="color:#86efac;">"currency"</span>: <span style="color:#86efac;">"czk"</span>,
+  <span style="color:#86efac;">"description"</span>: <span style="color:#86efac;">"Objednávka #1052"</span>,
+  <span style="color:#86efac;">"payment_method_types"</span>: [<span style="color:#86efac;">"card"</span>]
+}</pre>
+    </div>
+
+    <div class="api-endpoint" style="margin-top:60px;">
+      <div style="color:#94a3b8; margin-bottom:8px; font-size:11px; text-transform:uppercase;">Vytvoření zákazníka</div>
+      <span class="http-method post">POST</span> /v1/customers<br><br>
+      <pre style="background:transparent; color:#e2e8f0; margin:0; padding:0; font-size:12px;">{
+  <span style="color:#86efac;">"email"</span>: <span style="color:#86efac;">"jana@example.cz"</span>,
+  <span style="color:#86efac;">"name"</span>: <span style="color:#86efac;">"Jana Nováková"</span>,
+  <span style="color:#86efac;">"phone"</span>: <span style="color:#86efac;">"+420777123456"</span>
+}</pre>
+    </div>
+
+    <div class="api-endpoint" style="margin-top:60px;">
+      <div style="color:#94a3b8; margin-bottom:8px; font-size:11px; text-transform:uppercase;">Získání zákazníka</div>
+      <span class="http-method get">GET</span> /v1/customers/:id
+    </div>
+
+    <div class="api-endpoint" style="margin-top:60px;">
+      <div style="color:#94a3b8; margin-bottom:8px; font-size:11px; text-transform:uppercase;">Aktualizace předplatného</div>
+      <span class="http-method put">POST</span> /v1/subscriptions/:id<br><br>
+      <pre style="background:transparent; color:#e2e8f0; margin:0; padding:0; font-size:12px;">{
+  <span style="color:#86efac;">"items"</span>: [{
+    <span style="color:#86efac;">"price"</span>: <span style="color:#86efac;">"price_pro"</span>,
+    <span style="color:#86efac;">"quantity"</span>: <span style="color:#fbbf24;">5</span>
+  }]
+}</pre>
+    </div>
+
+    <div class="api-endpoint" style="margin-top:60px;">
+      <div style="color:#94a3b8; margin-bottom:8px; font-size:11px; text-transform:uppercase;">Smazání webhooku</div>
+      <span class="http-method delete">DEL</span> /v1/webhook_endpoints/:id
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script></body></html>

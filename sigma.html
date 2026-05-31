@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sigma — SQL analytika nad platbami | Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="nav-placeholder" data-active="products"></div>
+
+<section class="page-hero dark" style="background:linear-gradient(135deg,#0a2540,#0f766e);">
+  <div class="container"><div class="page-hero-inner">
+    <div class="breadcrumb" style="color:rgba(255,255,255,0.7);"><a href="index.html" style="color:white;">Domů</a> <span>›</span> Produkty <span>›</span> Sigma</div>
+    <h1>Vaše data.<br>Váš SQL.</h1>
+    <p style="color:#cbd5e1;">Ptejte se svých plateb přímo v SQL. Žádné ETL, žádný datový tým — celá vaše Zen databáze připravená k dotazování.</p>
+    <div class="hero-cta" style="justify-content:center; margin-top:28px;">
+      <a href="#editor" class="btn-primary-light">Vyzkoušet editor →</a>
+      <a href="docs.html" class="btn-secondary-light">Schéma dat</a>
+    </div>
+  </div></div>
+</section>
+
+<section class="section" id="editor">
+  <div class="container" style="max-width:1000px;">
+    <div class="section-header"><div class="eyebrow">Živý SQL editor</div><h2>Napište dotaz a spusťte</h2></div>
+    <div class="sg-shell">
+      <div class="sg-tabs">
+        <button class="sg-tab active" onclick="loadQ(0,this)">💰 Obrat po měsících</button>
+        <button class="sg-tab" onclick="loadQ(1,this)">🏆 Top zákazníci</button>
+        <button class="sg-tab" onclick="loadQ(2,this)">💳 Karty dle značky</button>
+        <button class="sg-tab" onclick="loadQ(3,this)">↩️ Refundy</button>
+      </div>
+      <div class="sg-editor">
+        <textarea id="sgSQL" spellcheck="false"></textarea>
+      </div>
+      <div class="sg-actions">
+        <button class="btn-primary" onclick="runQuery()">▶ Spustit dotaz <kbd>⌘↵</kbd></button>
+        <span class="sg-hint" id="sgHint">Připraveno</span>
+      </div>
+      <div class="sg-results" id="sgResults"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#0f766e,#14b8a6);">🗄️</div><h3>Kompletní schéma</h3><p>Tabulky charges, customers, subscriptions, disputes, payouts, balance_transactions — vše dotazovatelné.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#635bff,#a78bfa);">⏰</div><h3>Naplánované dotazy</h3><p>Spouštějte dotazy podle plánu a posílejte výsledky e-mailem nebo do Slacku. Ranní report bez práce.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#00d4aa,#00a884);">📤</div><h3>Export & API</h3><p>Stáhněte CSV, napojte BI nástroj (Metabase, Tableau, Looker) nebo si výsledky vytáhněte přes API.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">🔄</div><h3>Vždy aktuální</h3><p>Data se synchronizují průběžně. Žádný ETL pipeline, žádné zpoždění přes noc.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">📚</div><h3>Knihovna šablon</h3><p>Desítky hotových dotazů: MRR, churn, cohort analýza, reconciliation. Stačí přizpůsobit.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ee5a6f,#ff6b6b);">🔐</div><h3>Bezpečný přístup</h3><p>Read-only přístup s granulárními oprávněními pro členy týmu. Auditní log každého dotazu.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-big">0 ETL</div><div class="stat-desc">Žádné datové pipeline</div></div>
+      <div class="stat-item"><div class="stat-big">40+</div><div class="stat-desc">Tabulek a šablon dotazů</div></div>
+      <div class="stat-item"><div class="stat-big">&lt; 3 s</div><div class="stat-desc">Medián doby dotazu</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container"><div class="cta-box">
+    <h2>Přestaňte tahat CSV ručně</h2>
+    <p>Sigma je dostupná v tarifu Pro a výš. Aktivujte ji jedním klikem v Dashboardu.</p>
+    <div class="cta-buttons">
+      <a href="signup.html" class="btn-primary-light">Začít zdarma →</a>
+      <a href="pricing.html" class="btn-secondary-light">Ceník</a>
+    </div>
+  </div></div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+
+<script>
+const queries = [
+  { sql:`SELECT DATE_TRUNC('month', created) AS mesic,\n       COUNT(*) AS pocet,\n       SUM(amount)/100 AS obrat_czk\nFROM charges\nWHERE status = 'succeeded'\nGROUP BY 1\nORDER BY 1 DESC\nLIMIT 6;`,
+    cols:['mesic','pocet','obrat_czk'],
+    rows:[['2026-05','1 284','3 412 900'],['2026-04','1 198','3 104 200'],['2026-03','1 056','2 887 450'],['2026-02','981','2 540 100'],['2026-01','1 122','2 998 700'],['2025-12','1 401','4 102 300']] },
+  { sql:`SELECT c.email,\n       COUNT(ch.id) AS plateb,\n       SUM(ch.amount)/100 AS celkem_czk\nFROM charges ch\nJOIN customers c ON c.id = ch.customer\nWHERE ch.status = 'succeeded'\nGROUP BY c.email\nORDER BY celkem_czk DESC\nLIMIT 5;`,
+    cols:['email','plateb','celkem_czk'],
+    rows:[['firma@alza.cz','312','842 100'],['nakup@rohlik.cz','198','521 340'],['ucto@notino.cz','156','398 700'],['jan.novak@me.com','89','187 200'],['eshop@datart.cz','67','142 980']] },
+  { sql:`SELECT card_brand,\n       COUNT(*) AS pocet,\n       ROUND(100.0*COUNT(*)/SUM(COUNT(*)) OVER (),1) AS podil_pct\nFROM charges\nWHERE status = 'succeeded'\nGROUP BY card_brand\nORDER BY pocet DESC;`,
+    cols:['card_brand','pocet','podil_pct'],
+    rows:[['visa','7 412','58,4'],['mastercard','4 901','38,6'],['amex','241','1,9'],['diners','138','1,1']] },
+  { sql:`SELECT DATE_TRUNC('week', created) AS tyden,\n       COUNT(*) AS refundy,\n       SUM(amount)/100 AS castka_czk\nFROM refunds\nGROUP BY 1\nORDER BY 1 DESC\nLIMIT 5;`,
+    cols:['tyden','refundy','castka_czk'],
+    rows:[['2026-05-25','14','28 400'],['2026-05-18','9','19 100'],['2026-05-11','11','22 750'],['2026-05-04','7','13 200'],['2026-04-27','12','25 600']] },
+];
+function loadQ(i, btn){
+  document.querySelectorAll('.sg-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sgSQL').value = queries[i].sql;
+  document.getElementById('sgSQL').dataset.idx = i;
+  document.getElementById('sgResults').innerHTML = '';
+  document.getElementById('sgHint').textContent = 'Připraveno — stiskněte Spustit';
+}
+function runQuery(){
+  const i = +document.getElementById('sgSQL').dataset.idx || 0;
+  const q = queries[i];
+  const hint = document.getElementById('sgHint');
+  hint.textContent = '⏳ Spouštím…';
+  document.getElementById('sgResults').innerHTML = '';
+  setTimeout(()=>{
+    const t0 = (Math.random()*1.8+0.6).toFixed(2);
+    hint.textContent = `✓ ${q.rows.length} řádků · ${t0}s`;
+    let html = '<table class="sg-table"><thead><tr>'+q.cols.map(c=>`<th>${c}</th>`).join('')+'</tr></thead><tbody>';
+    q.rows.forEach((r,ri)=>{ html += `<tr style="animation-delay:${ri*40}ms">`+r.map((c,ci)=>`<td class="${ci>0?'num':''}">${c}</td>`).join('')+'</tr>'; });
+    html += '</tbody></table><div class="sg-exp"><button onclick="zenToast(\'📥 Export do CSV\')">📥 Export CSV</button><button onclick="zenToast(\'⏰ Naplánováno: každý den v 8:00\')">⏰ Naplánovat</button></div>';
+    document.getElementById('sgResults').innerHTML = html;
+  }, 650);
+}
+document.getElementById('sgSQL').addEventListener('keydown', e=>{ if((e.metaKey||e.ctrlKey)&&e.key==='Enter') runQuery(); });
+loadQ(0, document.querySelector('.sg-tab'));
+</script>
+
+<style>
+.sg-shell { background:#0d1424; border:1px solid #1e2a42; border-radius:16px; overflow:hidden; }
+.sg-tabs { display:flex; gap:4px; padding:10px 10px 0; background:#0a1020; overflow-x:auto; }
+.sg-tab { background:transparent; border:none; color:#94a3b8; font-size:13px; font-weight:600; padding:9px 14px; border-radius:8px 8px 0 0; cursor:pointer; white-space:nowrap; font-family:inherit; }
+.sg-tab.active { background:#0d1424; color:#5eead4; }
+.sg-editor { padding:0; }
+#sgSQL { width:100%; min-height:160px; background:#0d1424; color:#e2e8f0; border:none; padding:18px 20px; font-family:'JetBrains Mono','Courier New',monospace; font-size:13px; line-height:1.6; resize:vertical; outline:none; }
+.sg-actions { display:flex; align-items:center; gap:14px; padding:12px 20px; border-top:1px solid #1e2a42; background:#0a1020; }
+.sg-actions .btn-primary { background:#14b8a6; border:none; display:inline-flex; align-items:center; gap:8px; }
+.sg-actions .btn-primary kbd { background:rgba(0,0,0,.25); padding:2px 6px; border-radius:4px; font-size:11px; }
+.sg-hint { font-size:12px; color:#64748b; font-family:'JetBrains Mono',monospace; }
+.sg-results { background:#0a1020; min-height:20px; }
+.sg-table { width:100%; border-collapse:collapse; font-family:'JetBrains Mono',monospace; font-size:13px; }
+.sg-table th { text-align:left; color:#5eead4; padding:12px 20px; border-bottom:1px solid #1e2a42; background:#0d1424; font-weight:600; }
+.sg-table td { padding:10px 20px; border-bottom:1px solid #15203a; color:#cbd5e1; animation:fadeRow .3s ease backwards; }
+.sg-table td.num { text-align:right; color:#fcd34d; }
+@keyframes fadeRow { from{opacity:0;transform:translateY(4px);} to{opacity:1;transform:none;} }
+.sg-exp { display:flex; gap:10px; padding:14px 20px; }
+.sg-exp button { background:#15203a; border:1px solid #1e2a42; color:#cbd5e1; font-size:12px; padding:7px 12px; border-radius:7px; cursor:pointer; font-family:inherit; }
+.sg-exp button:hover { background:#1e2a42; }
+</style>
+</body>
+</html>

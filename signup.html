@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registrace — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="auth-page">
+  <div class="auth-side">
+    <div class="auth-side-content">
+      <a href="index.html" class="logo logo-dark">
+        <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#635bff"/><path d="M10 16 L14 20 L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <span>Zen</span>
+      </a>
+      <h2>Začněte během 2 minut.</h2>
+      <p>Vytvořte si Zen účet zdarma — žádné smlouvy, žádné skryté poplatky. Přijměte první platbu ještě dnes.</p>
+      <ul style="list-style:none; margin-top:28px; display:flex; flex-direction:column; gap:12px; font-size:15px; color:rgba(255,255,255,0.85);">
+        <li>✓ Bez poplatku za zřízení</li>
+        <li>✓ Plný přístup k Zen API</li>
+        <li>✓ 1,4 % + 3 Kč za transakci</li>
+        <li>✓ Podpora 250+ platebních metod</li>
+        <li>✓ 24/7 technická podpora</li>
+      </ul>
+    </div>
+    <div class="auth-testimonials">
+      <div class="auth-testimonial">"Integrace Zenu nám zkrátila time-to-market o 3 měsíce."</div>
+      <div class="auth-testimonial-author">— Klára Veselá, CTO Notino</div>
+    </div>
+  </div>
+  <div class="auth-main">
+    <h1>Vytvoření účtu</h1>
+    <p>Vyplňte údaje a začněte přijímat platby</p>
+    <form onsubmit="signupSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Jméno</label>
+          <input type="text" required placeholder="Jan">
+        </div>
+        <div class="form-group">
+          <label>Příjmení</label>
+          <input type="text" required placeholder="Novák">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Firemní e-mail</label>
+        <input type="email" id="sem" required placeholder="jan@firma.cz">
+      </div>
+      <div class="form-group">
+        <label>Název firmy</label>
+        <input type="text" required placeholder="Firma s.r.o.">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Země</label>
+          <select>
+            <option>Česká republika</option>
+            <option>Slovensko</option>
+            <option>Německo</option>
+            <option>Rakousko</option>
+            <option>Polsko</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Odvětví</label>
+          <select>
+            <option>E-commerce</option>
+            <option>SaaS</option>
+            <option>Marketplace</option>
+            <option>Fintech</option>
+            <option>Služby</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Heslo</label>
+        <input type="password" required placeholder="Alespoň 8 znaků">
+      </div>
+      <div class="form-group">
+        <label class="form-check">
+          <input type="checkbox" required>
+          Souhlasím s <a href="legal.html?t=terms" style="color:var(--primary);">Podmínkami</a> a <a href="legal.html?t=privacy" style="color:var(--primary);">Ochranou soukromí</a>
+        </label>
+      </div>
+      <button type="submit" class="form-submit">Vytvořit účet zdarma</button>
+    </form>
+    <div class="form-footer">Už máte účet? <a href="login.html">Přihlásit se →</a></div>
+  </div>
+</div>
+<script>
+function signupSubmit(e) {
+  e.preventDefault();
+  const em = document.getElementById('sem').value;
+  localStorage.setItem('zen_user', JSON.stringify({email: em, name: em.split('@')[0]}));
+  const t = document.createElement('div');
+  t.className = 'toast'; t.textContent = 'Účet vytvořen! Přesměrovávám…';
+  document.body.appendChild(t);
+  setTimeout(() => location.href='dashboard.html', 900);
+}
+</script>
+</body>
+</html>

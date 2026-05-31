@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Faktury — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div class="app-layout" id="appRoot">
+  <div class="app-page-head"><div><h1>Faktury</h1><p>Vystavujte a spravujte faktury pro zákazníky</p></div>
+    <div class="app-page-actions">
+      <button class="btn-app" onclick="appToast('Šablona uložena')">📋 Šablony</button>
+      <button class="btn-app primary" onclick="newInv()">+ Nová faktura</button>
+    </div></div>
+
+  <div class="card-grid" style="grid-template-columns:repeat(4,1fr);">
+    <div class="kpi-card"><div class="kpi-label">Zaplaceno</div><div class="kpi-value">1 842 500 Kč</div><div class="kpi-delta up">124 faktur</div></div>
+    <div class="kpi-card"><div class="kpi-label">Nezaplacené</div><div class="kpi-value">328 120 Kč</div><div class="kpi-delta muted">18 faktur</div></div>
+    <div class="kpi-card"><div class="kpi-label">Po splatnosti</div><div class="kpi-value">58 200 Kč</div><div class="kpi-delta down">3 faktury</div></div>
+    <div class="kpi-card"><div class="kpi-label">Koncept</div><div class="kpi-value">12</div><div class="kpi-delta muted">Připraveno k odeslání</div></div>
+  </div>
+
+  <div class="panel"><div class="panel-head"><h3>Všechny faktury</h3></div>
+  <table class="data-table"><thead><tr><th>Číslo</th><th>Zákazník</th><th>Částka</th><th>Stav</th><th>Splatnost</th></tr></thead><tbody id="ib"></tbody></table></div>
+</div>
+<script src="app-shell.js"></script>
+<script>
+mountApp('invoices');
+const rows = [];
+const customers = ['Alza Technologies','Rohlík Shop','Notino s.r.o.','Startup s.r.o.','Jana Nováková','ACME Corp','Green Energy','Digital Agency'];
+const states = [['success','Zaplaceno'],['pending','Odesláno'],['failed','Po splatnosti'],['refund','Koncept']];
+for (let i=1050; i>1020; i--){
+  const s = states[Math.floor(Math.random()*states.length)];
+  rows.push([`INV-${i}`, customers[Math.floor(Math.random()*customers.length)],
+    (Math.floor(Math.random()*100000)+1000).toLocaleString('cs-CZ')+' Kč', s,
+    new Date(Date.now() + (Math.random()-0.3)*30*86400000).toLocaleDateString('cs-CZ')]);
+}
+document.getElementById('ib').innerHTML = rows.map(r => `
+<tr onclick="appToast('Detail faktury '+'${r[0]}')">
+  <td><strong style="font-family:monospace;">${r[0]}</strong></td>
+  <td>${r[1]}</td><td class="amt">${r[2]}</td>
+  <td><span class="pill ${r[3][0]}">${r[3][1]}</span></td>
+  <td class="muted">${r[4]}</td></tr>`).join('');
+function newInv(){ appToast('Otevírám editor faktury...'); }
+</script></body></html>

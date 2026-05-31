@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Identity — ověření totožnosti | Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="nav-placeholder" data-active="products"></div>
+
+<section class="page-hero dark" style="background:linear-gradient(135deg,#0a2540,#0e7490);">
+  <div class="container"><div class="page-hero-inner">
+    <div class="breadcrumb" style="color:rgba(255,255,255,0.7);"><a href="index.html" style="color:white;">Domů</a> <span>›</span> Produkty <span>›</span> Identity</div>
+    <h1>Ověřte zákazníky.<br>Beze tření.</h1>
+    <p style="color:#cbd5e1;">Ověření dokladů a biometrie selfie během minuty. Splňte KYC a AML požadavky, zastavte podvody a urychlete onboarding.</p>
+    <div class="hero-cta" style="justify-content:center; margin-top:28px;">
+      <a href="#demo" class="btn-primary-light">Vyzkoušet demo →</a>
+      <a href="docs.html" class="btn-secondary-light">Dokumentace</a>
+    </div>
+  </div></div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#0e7490,#06b6d4);">🪪</div><h3>Ověření dokladu</h3><p>OP, pas, řidičák z 33 zemí. Kontrola hologramů, MRZ, fontů a známek úprav v reálném čase.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#635bff,#a78bfa);">🤳</div><h3>Biometrie selfie</h3><p>Liveness detection ověří, že jde o živou osobu, a porovná obličej s dokladem.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#00d4aa,#00a884);">⚡</div><h3>Výsledek za minutu</h3><p>Většina ověření hotová do 60 vteřin. Žádné čekání na manuální kontrolu.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">📋</div><h3>KYC / AML compliance</h3><p>Splňte regulatorní požadavky ČNB, AMLD a PSD2. Auditní stopa ke každému ověření.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">🌍</div><h3>Globální pokrytí</h3><p>Doklady ze 120+ zemí, lokalizovaný onboarding flow v 35 jazycích.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ee5a6f,#ff6b6b);">🔒</div><h3>Šifrovaná data</h3><p>Osobní údaje šifrovány a uloženy v EU. GDPR-first, s automatickým mazáním po expiraci.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="demo" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Interaktivní demo</div><h2>Projděte si ověřovací flow</h2></div>
+    <div class="id-demo">
+      <div class="id-phone">
+        <div class="id-screen" id="idScreen"></div>
+      </div>
+      <div class="id-side">
+        <h3 id="idStepTitle">Krok 1 ze 4</h3>
+        <p id="idStepDesc">Zákazník zahájí ověření. Zobrazí se mu instrukce a vyžádá souhlas se zpracováním údajů.</p>
+        <div class="id-progress"><div class="id-bar" id="idBar" style="width:25%;"></div></div>
+        <div style="display:flex;gap:10px;margin-top:18px;">
+          <button class="btn-secondary" onclick="idStep(-1)">← Zpět</button>
+          <button class="btn-primary" id="idNext" onclick="idStep(1)">Další krok →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-big">60 s</div><div class="stat-desc">Průměrná doba ověření</div></div>
+      <div class="stat-item"><div class="stat-big">95 %</div><div class="stat-desc">Pass rate u legitimních uživatelů</div></div>
+      <div class="stat-item"><div class="stat-big">120+</div><div class="stat-desc">Zemí a typů dokladů</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container"><div class="cta-box">
+    <h2>Ověřujte chytře, ne pomalu</h2>
+    <p>Integrace přes hostovaný flow nebo vlastní SDK. Platíte jen za úspěšná ověření.</p>
+    <div class="cta-buttons">
+      <a href="signup.html" class="btn-primary-light">Začít zdarma →</a>
+      <a href="pricing.html" class="btn-secondary-light">Zobrazit ceny</a>
+    </div>
+  </div></div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+
+<script>
+const steps = [
+  { t:'Krok 1 ze 4 — Souhlas', d:'Zákazník zahájí ověření. Zobrazí se mu instrukce a vyžádá souhlas se zpracováním údajů dle GDPR.',
+    screen:`<div class="ids-pad"><div class="ids-ico">🛡️</div><h4>Ověření totožnosti</h4><p>Připravte si doklad totožnosti. Zabere to méně než minutu.</p><div class="ids-check">✓ Šifrované a bezpečné</div><div class="ids-check">✓ Data uložena v EU</div><div class="ids-btn">Souhlasím a pokračuji</div></div>` },
+  { t:'Krok 2 ze 4 — Doklad', d:'Zákazník vyfotí přední a zadní stranu dokladu. Aplikace automaticky detekuje hrany a ostrost.',
+    screen:`<div class="ids-pad"><div class="ids-doc"><div class="ids-doc-frame">🪪<span class="ids-scan"></span></div></div><h4>Naskenujte doklad</h4><p>Umístěte občanský průkaz do rámečku.</p><div class="ids-btn">Vyfotit</div></div>` },
+  { t:'Krok 3 ze 4 — Selfie', d:'Liveness detection ověří, že před kamerou je živá osoba (mrkněte, otočte hlavu) a porovná obličej s fotkou v dokladu.',
+    screen:`<div class="ids-pad"><div class="ids-face"><div class="ids-face-ring"></div>🙂</div><h4>Pořiďte selfie</h4><p>Podívejte se do kamery a pomalu otočte hlavou.</p><div class="ids-btn">Skenuji obličej…</div></div>` },
+  { t:'Krok 4 ze 4 — Hotovo', d:'Doklad i biometrie ověřeny. Výsledek dorazí přes webhook a do Dashboardu. Celé to trvalo 47 sekund.',
+    screen:`<div class="ids-pad ids-done"><div class="ids-ok">✓</div><h4>Ověřeno!</h4><p>Jan Novák, nar. 1990 — totožnost potvrzena.</p><div class="ids-result"><span>Doklad</span><b style="color:#10b981;">Platný</b></div><div class="ids-result"><span>Obličej</span><b style="color:#10b981;">Shoda 99,2 %</b></div><div class="ids-result"><span>Liveness</span><b style="color:#10b981;">Živá osoba</b></div></div>` },
+];
+let cur = 0;
+function idStep(dir){
+  cur = Math.max(0, Math.min(steps.length-1, cur+dir));
+  render();
+}
+function render(){
+  const s = steps[cur];
+  document.getElementById('idScreen').innerHTML = s.screen;
+  document.getElementById('idStepTitle').textContent = s.t;
+  document.getElementById('idStepDesc').textContent = s.d;
+  document.getElementById('idBar').style.width = ((cur+1)/steps.length*100)+'%';
+  document.getElementById('idNext').textContent = cur === steps.length-1 ? '↻ Znovu' : 'Další krok →';
+  document.getElementById('idNext').onclick = () => { if(cur===steps.length-1){cur=0;render();} else idStep(1); };
+}
+render();
+</script>
+
+<style>
+.id-demo { display:grid; grid-template-columns:300px 1fr; gap:40px; max-width:900px; margin:0 auto; align-items:center; }
+.id-phone { width:280px; height:560px; background:#0a0a0a; border-radius:40px; padding:12px; box-shadow:0 30px 60px rgba(0,0,0,.3); margin:0 auto; }
+.id-screen { width:100%; height:100%; background:linear-gradient(160deg,#0e7490,#0a2540); border-radius:30px; overflow:hidden; position:relative; }
+.ids-pad { padding:40px 26px; color:white; text-align:center; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.ids-ico { font-size:54px; margin-bottom:16px; }
+.ids-pad h4 { font-family:'Sora'; font-size:20px; margin-bottom:8px; }
+.ids-pad p { font-size:13px; color:rgba(255,255,255,.8); margin-bottom:18px; line-height:1.5; }
+.ids-check { font-size:12px; color:#a5f3fc; margin-bottom:6px; }
+.ids-btn { background:white; color:#0e7490; font-weight:700; padding:12px 20px; border-radius:10px; margin-top:18px; font-size:14px; width:100%; }
+.ids-doc-frame { width:160px; height:104px; border:3px dashed rgba(255,255,255,.6); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:48px; position:relative; overflow:hidden; margin-bottom:18px; }
+.ids-scan { position:absolute; left:0; right:0; height:3px; background:#22d3ee; box-shadow:0 0 12px #22d3ee; animation:scan 1.8s ease-in-out infinite; }
+@keyframes scan { 0%,100%{top:6px;} 50%{top:94px;} }
+.ids-face { font-size:64px; position:relative; margin-bottom:18px; }
+.ids-face-ring { position:absolute; inset:-18px; border:3px solid #22d3ee; border-radius:50%; border-top-color:transparent; animation:spin 1.2s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg);} }
+.ids-ok { width:80px; height:80px; border-radius:50%; background:#10b981; color:white; font-size:44px; display:flex; align-items:center; justify-content:center; margin-bottom:16px; animation:pop .4s ease; }
+@keyframes pop { 0%{transform:scale(0);} 70%{transform:scale(1.15);} 100%{transform:scale(1);} }
+.ids-result { display:flex; justify-content:space-between; width:100%; font-size:13px; padding:8px 0; border-top:1px solid rgba(255,255,255,.15); }
+
+.id-side h3 { font-family:'Sora'; font-size:22px; margin-bottom:10px; }
+.id-side p { color:var(--text-light); line-height:1.6; margin-bottom:18px; min-height:72px; }
+.id-progress { height:8px; background:var(--border); border-radius:999px; overflow:hidden; }
+.id-bar { height:100%; background:linear-gradient(90deg,#0e7490,#22d3ee); border-radius:999px; transition:width .4s; }
+
+@media (max-width:960px){ .id-demo{grid-template-columns:1fr;} }
+</style>
+</body>
+</html>

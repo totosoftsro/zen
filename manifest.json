@@ -1,0 +1,24 @@
+{
+  "name": "Zen — Platební platforma",
+  "short_name": "Zen",
+  "description": "Finanční infrastruktura pro internet. Přijímejte platby, vydávejte karty, financujte růst — vše jedním API.",
+  "lang": "cs",
+  "dir": "ltr",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a2540",
+  "theme_color": "#635bff",
+  "categories": ["finance", "business", "productivity"],
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Dashboard", "url": "dashboard.html", "description": "Přehled účtu" },
+    { "name": "Platby", "url": "payments-app.html", "description": "Seznam plateb" },
+    { "name": "Nová platba", "url": "new-payment.html", "description": "Vytvořit platební odkaz" },
+    { "name": "Produkty", "url": "products.html", "description": "Přehled platformy" }
+  ]
+}

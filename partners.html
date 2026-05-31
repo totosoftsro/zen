@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partneři — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero">
+  <div class="container"><div class="page-hero-inner">
+    <div class="eyebrow">Partnerský ekosystém</div>
+    <h1>140+ integrací, 1 API</h1>
+    <p>Propojte Zen s nástroji, které už používáte — e-shop platformy, účetnictví, CRM, analytika a další.</p>
+  </div></div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px;justify-content:center;">
+      <button class="p-filter active" data-f="all">Vše (60)</button>
+      <button class="p-filter" data-f="ecom">E-shop platformy (18)</button>
+      <button class="p-filter" data-f="acc">Účetnictví (12)</button>
+      <button class="p-filter" data-f="crm">CRM (8)</button>
+      <button class="p-filter" data-f="analytics">Analytika (10)</button>
+      <button class="p-filter" data-f="tools">Nástroje (12)</button>
+    </div>
+    <div id="partnerGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;"></div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Implementační partneři</div><h2>Experti, kteří vám pomohou</h2></div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#635bff,#a78bfa);">🥇</div><h3>Acme Digital</h3><p><strong>Zen Platinum Partner</strong> • 42 implementací • Praha, Brno</p><div style="margin-top:10px;font-size:12px;color:var(--text-muted);">E-commerce, SaaS, marketplaces</div></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#00d4aa,#00a884);">🥇</div><h3>Fintech Solutions s.r.o.</h3><p><strong>Zen Platinum Partner</strong> • 38 implementací • Praha</p><div style="margin-top:10px;font-size:12px;color:var(--text-muted);">Banking, fintech, compliance</div></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">🥈</div><h3>WebDev Studio</h3><p><strong>Zen Gold Partner</strong> • 24 implementací • Brno</p><div style="margin-top:10px;font-size:12px;color:var(--text-muted);">Shopify, WooCommerce, custom</div></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#f093fb,#f5576c);">🥈</div><h3>Bright Agency</h3><p><strong>Zen Gold Partner</strong> • 22 implementací • Ostrava</p><div style="margin-top:10px;font-size:12px;color:var(--text-muted);">B2B SaaS, enterprise</div></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">🥉</div><h3>CodeCraft</h3><p><strong>Zen Silver Partner</strong> • 15 implementací • Plzeň</p><div style="margin-top:10px;font-size:12px;color:var(--text-muted);">Mobile, iOS, Android</div></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ee5a6f,#ff6b6b);">🥉</div><h3>Pragmatic Tech</h3><p><strong>Zen Silver Partner</strong> • 12 implementací • Bratislava</p><div style="margin-top:10px;font-size:12px;color:var(--text-muted);">SK market, marketplaces</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div style="background:linear-gradient(135deg,#0a2540,#2d1b69);color:white;border-radius:20px;padding:60px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
+      <div>
+        <div style="color:#a78bfa;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;">Partnerský program</div>
+        <h2 style="font-family:'Sora';font-size:40px;margin-bottom:20px;line-height:1.1;">Staňte se Zen partnerem</h2>
+        <p style="color:rgba(255,255,255,0.85);margin-bottom:26px;font-size:16px;line-height:1.6;">
+          Získejte revenue share, přístup ke školením, marketing support a dedikovaný technický tým.
+          Vhodné pro agentury, konzultanty i software vendory.
+        </p>
+        <div style="display:flex;gap:30px;margin-bottom:30px;flex-wrap:wrap;">
+          <div><div style="font-family:'Sora';font-size:28px;font-weight:700;">18 %</div><div style="color:rgba(255,255,255,0.7);font-size:13px;">Revenue share</div></div>
+          <div><div style="font-family:'Sora';font-size:28px;font-weight:700;">24/7</div><div style="color:rgba(255,255,255,0.7);font-size:13px;">Support</div></div>
+          <div><div style="font-family:'Sora';font-size:28px;font-weight:700;">0 Kč</div><div style="color:rgba(255,255,255,0.7);font-size:13px;">Vstupní poplatek</div></div>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <a href="contact.html" class="btn-primary-light">Požádat o partnerství →</a>
+          <a href="#" class="btn-secondary-light">Program detaily (PDF)</a>
+        </div>
+      </div>
+      <div style="position:relative;">
+        <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;">
+          <h3 style="color:white;margin-bottom:20px;">Partner tiers</h3>
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:14px;background:rgba(99,91,255,0.15);border-radius:10px;">
+              <div><div style="font-weight:600;">🥇 Platinum</div><div style="font-size:12px;color:rgba(255,255,255,0.7);">20+ klientů/rok</div></div>
+              <div style="font-family:'Sora';font-size:18px;">22 % share</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:14px;background:rgba(255,255,255,0.05);border-radius:10px;">
+              <div><div style="font-weight:600;">🥈 Gold</div><div style="font-size:12px;color:rgba(255,255,255,0.7);">10+ klientů/rok</div></div>
+              <div style="font-family:'Sora';font-size:18px;">18 % share</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:14px;background:rgba(255,255,255,0.05);border-radius:10px;">
+              <div><div style="font-weight:600;">🥉 Silver</div><div style="font-size:12px;color:rgba(255,255,255,0.7);">3+ klienti/rok</div></div>
+              <div style="font-family:'Sora';font-size:18px;">14 % share</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:14px;background:rgba(255,255,255,0.05);border-radius:10px;">
+              <div><div style="font-weight:600;">🎖️ Starter</div><div style="font-size:12px;color:rgba(255,255,255,0.7);">Bez minima</div></div>
+              <div style="font-family:'Sora';font-size:18px;">10 % share</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+<style>
+.p-filter { padding: 8px 16px; background: white; border: 1px solid var(--border); border-radius: 20px; font-size: 13px; font-family: inherit; color: var(--text); cursor: pointer; transition: all 0.15s; }
+.p-filter:hover { border-color: var(--primary); }
+.p-filter.active { background: var(--primary); color: white; border-color: var(--primary); }
+:root[data-theme="dark"] .p-filter { background: #121c30; color: #e8ecf3; border-color: #1e2a42; }
+.p-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 10px; transition: all 0.2s; cursor: pointer; }
+.p-card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(50,50,93,0.08); border-color: var(--primary); }
+.p-card-logo { width: 48px; height: 48px; border-radius: 10px; background: var(--bg-light); display: flex; align-items: center; justify-content: center; font-size: 24px; }
+.p-card h4 { font-family: 'Sora'; font-size: 15px; margin: 0; }
+.p-card p { font-size: 12px; color: var(--text-muted); margin: 0; line-height: 1.5; }
+.p-card-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-top: auto; padding-top: 8px; border-top: 1px solid var(--border); }
+:root[data-theme="dark"] .p-card { background: #121c30; border-color: #1e2a42; }
+:root[data-theme="dark"] .p-card-logo { background: #0b1220; }
+</style>
+<script>
+const partners = [
+  { cat:'ecom', icon:'🛒', name:'Shopify', desc:'Oficiální payment gateway plugin', tag:'Popular' },
+  { cat:'ecom', icon:'🛍️', name:'WooCommerce', desc:'Plugin pro WordPress e-shopy', tag:'Popular' },
+  { cat:'ecom', icon:'🏪', name:'Shoptet', desc:'Největší česká e-commerce platforma', tag:'CZ' },
+  { cat:'ecom', icon:'🎨', name:'Upgates', desc:'Český e-shop systém', tag:'CZ' },
+  { cat:'ecom', icon:'📦', name:'Magento', desc:'Adobe Commerce (Magento 2)', tag:'Enterprise' },
+  { cat:'ecom', icon:'🟢', name:'PrestaShop', desc:'Open-source e-commerce', tag:'' },
+  { cat:'ecom', icon:'🛒', name:'BigCommerce', desc:'SaaS e-commerce platform', tag:'' },
+  { cat:'ecom', icon:'🧱', name:'OpenCart', desc:'Open-source PHP cart', tag:'' },
+  { cat:'ecom', icon:'🎯', name:'Wix', desc:'Website builder s e-shopem', tag:'' },
+  { cat:'ecom', icon:'🌐', name:'Webflow', desc:'Pro designéry a agentury', tag:'New' },
+  { cat:'ecom', icon:'🔷', name:'Salesforce Commerce', desc:'Enterprise B2C', tag:'Enterprise' },
+  { cat:'ecom', icon:'⚡', name:'Squarespace', desc:'All-in-one website platform', tag:'' },
+  { cat:'ecom', icon:'📱', name:'BookStack Pro', desc:'Event ticketing', tag:'' },
+  { cat:'ecom', icon:'🖼️', name:'Medusa', desc:'Headless commerce', tag:'New' },
+  { cat:'ecom', icon:'🎓', name:'Thinkific', desc:'Online kurzy', tag:'' },
+  { cat:'ecom', icon:'🎟️', name:'Eventbrite', desc:'Event tickets', tag:'' },
+  { cat:'ecom', icon:'🍕', name:'Toast POS', desc:'Restaurace POS systém', tag:'' },
+  { cat:'ecom', icon:'🏨', name:'Previo', desc:'Hotel management systém', tag:'CZ' },
+
+  { cat:'acc', icon:'📊', name:'Pohoda', desc:'Nejpoužívanější české účetnictví', tag:'CZ' },
+  { cat:'acc', icon:'📚', name:'Money S3', desc:'České ERP a účetnictví', tag:'CZ' },
+  { cat:'acc', icon:'📘', name:'iDoklad', desc:'Online fakturace a účetnictví', tag:'CZ' },
+  { cat:'acc', icon:'🧾', name:'FlexiBee', desc:'Cloudové ABRA účetnictví', tag:'CZ' },
+  { cat:'acc', icon:'📗', name:'QuickBooks', desc:'Intuit SMB accounting', tag:'' },
+  { cat:'acc', icon:'📕', name:'Xero', desc:'Global cloud accounting', tag:'' },
+  { cat:'acc', icon:'🧮', name:'SAP', desc:'Enterprise ERP', tag:'Enterprise' },
+  { cat:'acc', icon:'🟠', name:'NetSuite', desc:'Oracle cloud ERP', tag:'Enterprise' },
+  { cat:'acc', icon:'💼', name:'Datev', desc:'DACH accounting standard', tag:'EU' },
+  { cat:'acc', icon:'🧿', name:'Helios', desc:'ERP Asseco Solutions', tag:'CZ' },
+  { cat:'acc', icon:'📑', name:'Fakturoid', desc:'Online fakturace', tag:'CZ' },
+  { cat:'acc', icon:'🗂️', name:'Vyfakturuj.cz', desc:'Fakturační nástroj', tag:'CZ' },
+
+  { cat:'crm', icon:'🟦', name:'Salesforce', desc:'Leader v CRM', tag:'Enterprise' },
+  { cat:'crm', icon:'🟧', name:'HubSpot', desc:'Marketing + sales + service', tag:'' },
+  { cat:'crm', icon:'📇', name:'Pipedrive', desc:'Sales CRM pro SMB', tag:'' },
+  { cat:'crm', icon:'📞', name:'Intercom', desc:'Customer messaging', tag:'' },
+  { cat:'crm', icon:'✉️', name:'Mailchimp', desc:'Email marketing', tag:'' },
+  { cat:'crm', icon:'🔔', name:'Zendesk', desc:'Customer support', tag:'' },
+  { cat:'crm', icon:'🎯', name:'Segment', desc:'Customer data platform', tag:'' },
+  { cat:'crm', icon:'💬', name:'Smartsupp', desc:'Live chat', tag:'CZ' },
+
+  { cat:'analytics', icon:'📈', name:'Google Analytics 4', desc:'Web a app analytika', tag:'' },
+  { cat:'analytics', icon:'🦊', name:'Mixpanel', desc:'Product analytics', tag:'' },
+  { cat:'analytics', icon:'🐙', name:'Amplitude', desc:'Behavioral analytics', tag:'' },
+  { cat:'analytics', icon:'🎨', name:'Heap', desc:'Autocapture analytics', tag:'' },
+  { cat:'analytics', icon:'💡', name:'PostHog', desc:'Open-source product analytics', tag:'' },
+  { cat:'analytics', icon:'🔍', name:'Hotjar', desc:'Session recording + heatmaps', tag:'' },
+  { cat:'analytics', icon:'📊', name:'Looker', desc:'Google BI platform', tag:'Enterprise' },
+  { cat:'analytics', icon:'📉', name:'Tableau', desc:'Data visualization', tag:'Enterprise' },
+  { cat:'analytics', icon:'📑', name:'Metabase', desc:'Open-source BI', tag:'' },
+  { cat:'analytics', icon:'🎪', name:'ChartMogul', desc:'SaaS metrics', tag:'' },
+
+  { cat:'tools', icon:'💬', name:'Slack', desc:'Notifikace do kanálů', tag:'' },
+  { cat:'tools', icon:'📝', name:'Notion', desc:'Docs a databáze', tag:'' },
+  { cat:'tools', icon:'🔴', name:'Linear', desc:'Issue tracking', tag:'' },
+  { cat:'tools', icon:'🐙', name:'GitHub', desc:'Code repo + CI/CD', tag:'' },
+  { cat:'tools', icon:'🦊', name:'GitLab', desc:'DevOps platforma', tag:'' },
+  { cat:'tools', icon:'⚡', name:'Zapier', desc:'5000+ app integrací', tag:'' },
+  { cat:'tools', icon:'🔗', name:'Make (Integromat)', desc:'No-code automations', tag:'CZ' },
+  { cat:'tools', icon:'🌩️', name:'AWS', desc:'S3, Lambda, SQS', tag:'' },
+  { cat:'tools', icon:'☁️', name:'Google Cloud', desc:'BigQuery, Pub/Sub', tag:'' },
+  { cat:'tools', icon:'🌨️', name:'Azure', desc:'Microsoft cloud', tag:'' },
+  { cat:'tools', icon:'🔐', name:'Auth0', desc:'Identity provider', tag:'' },
+  { cat:'tools', icon:'🎭', name:'Okta', desc:'SSO a identity', tag:'Enterprise' },
+];
+
+function renderPartners(filter) {
+  const list = filter === 'all' ? partners : partners.filter(p => p.cat === filter);
+  document.getElementById('partnerGrid').innerHTML = list.map(p => `
+    <div class="p-card" onclick="zenToast('Integrace ${p.name} — více info v dokumentaci')">
+      <div class="p-card-logo">${p.icon}</div>
+      <h4>${p.name}</h4>
+      <p>${p.desc}</p>
+      <div class="p-card-meta">
+        <span>${p.tag || '✓ Ověřená'}</span>
+        <span style="color:var(--primary);">Detail →</span>
+      </div>
+    </div>
+  `).join('');
+}
+renderPartners('all');
+document.querySelectorAll('.p-filter').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.p-filter').forEach(x => x.classList.remove('active'));
+  b.classList.add('active');
+  renderPartners(b.dataset.f);
+});
+</script>
+</body>
+</html>

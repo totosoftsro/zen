@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capital — financování pro obchodníky | Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="nav-placeholder" data-active="products"></div>
+
+<section class="page-hero dark" style="background:linear-gradient(135deg,#0a2540,#1d4ed8);">
+  <div class="container"><div class="page-hero-inner">
+    <div class="breadcrumb" style="color:rgba(255,255,255,0.7);"><a href="index.html" style="color:white;">Domů</a> <span>›</span> Produkty <span>›</span> Capital</div>
+    <h1>Kapitál na růst.<br>Bez papírování.</h1>
+    <p style="color:#cbd5e1;">Financování přímo z Dashboardu. Žádná žádost, žádné ručení, žádné fixní splátky. Splácíte automaticky malým procentem z denního obratu.</p>
+    <div class="hero-cta" style="justify-content:center; margin-top:28px;">
+      <a href="#kalkulacka" class="btn-primary-light">Spočítat nabídku →</a>
+      <a href="#jak" class="btn-secondary-light">Jak to funguje</a>
+    </div>
+  </div></div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6);">⚡</div><h3>Peníze do druhého dne</h3><p>Předschválená nabídka na základě vaší historie. Přijměte ji jedním klikem — prostředky máte následující pracovní den.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#635bff,#a78bfa);">📉</div><h3>Jeden fixní poplatek</h3><p>Žádný úrok, žádné složené úročení. Předem víte přesnou částku, kterou celkem splatíte.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#00d4aa,#00a884);">🔄</div><h3>Splátky podle obratu</h3><p>Strhneme dohodnuté % z každé platby. Slabší měsíc? Splácíte méně. Žádný stres z fixních splátek.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">🤝</div><h3>Bez ručení</h3><p>Nepožadujeme osobní ručení ani zástavu majetku. Rozhodujeme z dat, ne z papírů.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">📊</div><h3>Transparentní v Dashboardu</h3><p>Vždy vidíte, kolik zbývá splatit a kdy budete mít nárok na další financování.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ee5a6f,#ff6b6b);">🔁</div><h3>Opakované nabídky</h3><p>Po splacení ~60 % se obvykle objeví nová, často vyšší nabídka. Roste s vámi.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="kalkulacka" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Kalkulačka</div>
+      <h2>Jaká by byla vaše nabídka?</h2>
+      <p class="section-desc">Posuňte měsíční obrat a podívejte se na orientační nabídku financování. Skutečná nabídka závisí na historii účtu.</p>
+    </div>
+
+    <div class="cap-calc">
+      <div class="cap-inputs">
+        <div class="cap-field">
+          <label>Měsíční obrat přes Zen <strong id="capRevLbl">800 000 Kč</strong></label>
+          <input type="range" id="capRev" min="50000" max="5000000" step="50000" value="800000">
+          <div class="cap-range-ends"><span>50 tis.</span><span>5 mil.</span></div>
+        </div>
+        <div class="cap-field">
+          <label>Kolik chcete čerpat <strong id="capAmtLbl">400 000 Kč</strong></label>
+          <input type="range" id="capAmt" min="20000" max="3000000" step="20000" value="400000">
+          <div class="cap-range-ends"><span>20 tis.</span><span id="capAmtMax">3 mil.</span></div>
+        </div>
+        <div class="cap-field">
+          <label>Podíl ze splátky (rychlost)</label>
+          <div class="seg-control">
+            <button class="seg" data-pct="8" onclick="setPct(8)">8 %<br><small>pomalu</small></button>
+            <button class="seg active" data-pct="12" onclick="setPct(12)">12 %<br><small>standard</small></button>
+            <button class="seg" data-pct="18" onclick="setPct(18)">18 %<br><small>rychle</small></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cap-offer">
+        <div class="cap-offer-tag">💎 Orientační nabídka</div>
+        <div class="cap-offer-amt" id="offAmt">400 000 Kč</div>
+        <div class="cap-offer-sub">k čerpání ihned</div>
+        <div class="cap-offer-rows">
+          <div class="cor"><span>Jednorázový poplatek</span><strong id="offFee">10 %</strong></div>
+          <div class="cor"><span>Celkem splatíte</span><strong id="offTotal">440 000 Kč</strong></div>
+          <div class="cor"><span>Strháváme z plateb</span><strong id="offPct">12 %</strong></div>
+          <div class="cor big"><span>Odhad doby splacení</span><strong id="offTime">~5 měsíců</strong></div>
+        </div>
+        <button class="btn-primary" style="width:100%;margin-top:8px;" onclick="zenToast('🎉 Předschváleno! Dokončete v Dashboardu.')">Přijmout nabídku →</button>
+        <p class="cap-disclaimer">Reprezentativní příklad. Nejedná se o závaznou nabídku úvěru. APR se neuplatňuje — jde o fixní poplatek.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="jak">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Jak to funguje</div><h2>Od nabídky k penězům za 3 kroky</h2></div>
+    <div class="cap-steps">
+      <div class="cap-step"><div class="cs-num">1</div><h4>Objeví se nabídka</h4><p>Algoritmus průběžně vyhodnocuje váš obrat. Jakmile splníte podmínky, uvidíte předschválenou částku v Dashboardu.</p></div>
+      <div class="cap-step"><div class="cs-num">2</div><h4>Vyberete a potvrdíte</h4><p>Zvolte částku a rychlost splácení. Vše transparentně — jeden poplatek, žádné skryté náklady.</p></div>
+      <div class="cap-step"><div class="cs-num">3</div><h4>Splácíte automaticky</h4><p>Strháváme dohodnuté % z plateb. Nemusíte na nic myslet, žádné inkaso ani připomínky.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-big">1 den</div><div class="stat-desc">Od přijetí k penězům na účtu</div></div>
+      <div class="stat-item"><div class="stat-big">3,8 mld Kč</div><div class="stat-desc">Vyplaceno českým obchodníkům</div></div>
+      <div class="stat-item"><div class="stat-big">0 %</div><div class="stat-desc">Úrok — pouze fixní poplatek</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Časté dotazy</div><h2>Vše, co potřebujete vědět</h2></div>
+    <div class="cap-faq">
+      <details class="faq-item"><summary>Kdo má na financování nárok?</summary><p>Obchodníci s aktivním účtem Zen alespoň 3 měsíce a stabilním obratem. Nabídku nevytváříte vy — objeví se automaticky, jakmile splníte podmínky.</p></details>
+      <details class="faq-item"><summary>Ovlivní to můj kreditní rating?</summary><p>Ne. Zen Capital nevyžaduje prověření v registrech (BRKI/NRKI) a nezakládá tradiční úvěr. Rozhodujeme výhradně z dat o vašich transakcích.</p></details>
+      <details class="faq-item"><summary>Co když mám špatný měsíc?</summary><p>Splátka je vždy % z obratu. Když prodáte méně, zaplatíte méně. Není stanovena žádná fixní měsíční splátka, kterou byste museli dodržet.</p></details>
+      <details class="faq-item"><summary>Mohu splatit dříve?</summary><p>Ano, kdykoli. Poplatek je fixní, takže předčasné splacení nepřináší slevu, ale ani penále. Uvolní vám to cestu k další nabídce.</p></details>
+      <details class="faq-item"><summary>Jaký je rozdíl oproti bankovnímu úvěru?</summary><p>Žádné papírování, žádné ručení, žádný úrok ani složené úročení a peníze do druhého dne. Splácíte flexibilně z obratu místo fixních měsíčních splátek.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container"><div class="cta-box">
+    <h2>Posuňte svůj byznys výš</h2>
+    <p>Aktivujte Zen a nechte nabídku financování přijít sama. Žádná žádost, žádné čekání ve frontě.</p>
+    <div class="cta-buttons">
+      <a href="signup.html" class="btn-primary-light">Začít zdarma →</a>
+      <a href="contact.html" class="btn-secondary-light">Mluvit s týmem Capital</a>
+    </div>
+  </div></div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+
+<script>
+let pct = 12;
+function setPct(p){ pct = p; document.querySelectorAll('[data-pct]').forEach(b=>b.classList.toggle('active', +b.dataset.pct===p)); calc(); }
+const czk = n => Math.round(n).toLocaleString('cs-CZ') + ' Kč';
+
+function calc(){
+  const rev = +document.getElementById('capRev').value;
+  // max offer ~ 75% of monthly revenue, capped at 3M
+  const maxOffer = Math.min(Math.round(rev * 0.75 / 20000) * 20000, 3000000);
+  const amtEl = document.getElementById('capAmt');
+  amtEl.max = maxOffer;
+  if (+amtEl.value > maxOffer) amtEl.value = maxOffer;
+  const amt = +amtEl.value;
+
+  // fee depends on amount/revenue ratio: 8%-14%
+  const ratio = amt / rev;
+  let fee = 0.08 + Math.min(ratio, 1.2) * 0.05;
+  fee = Math.round(fee * 100) / 100;
+  const total = amt * (1 + fee);
+
+  // payback time: total / (monthly rev * pct)
+  const monthlyRepay = rev * (pct/100);
+  const months = total / monthlyRepay;
+
+  document.getElementById('capRevLbl').textContent = czk(rev);
+  document.getElementById('capAmtLbl').textContent = czk(amt);
+  document.getElementById('capAmtMax').textContent = (maxOffer/1000000).toFixed(1).replace('.',',') + ' mil.';
+  document.getElementById('offAmt').textContent = czk(amt);
+  document.getElementById('offFee').textContent = Math.round(fee*100) + ' %';
+  document.getElementById('offTotal').textContent = czk(total);
+  document.getElementById('offPct').textContent = pct + ' %';
+  document.getElementById('offTime').textContent = '~' + Math.max(1, Math.round(months)) + ' měsíců';
+}
+document.getElementById('capRev').oninput = calc;
+document.getElementById('capAmt').oninput = calc;
+calc();
+</script>
+
+<style>
+.cap-calc { display:grid; grid-template-columns:1.2fr 1fr; gap:28px; max-width:1000px; margin:0 auto; }
+.cap-inputs { background:white; border:1px solid var(--border); border-radius:18px; padding:30px; }
+.cap-field { margin-bottom:26px; }
+.cap-field:last-child { margin-bottom:0; }
+.cap-field label { display:flex; justify-content:space-between; font-size:14px; font-weight:500; margin-bottom:12px; }
+.cap-field label strong { font-family:'Sora'; color:var(--primary); }
+.cap-field input[type=range] { width:100%; accent-color:var(--primary); }
+.cap-range-ends { display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted); margin-top:4px; }
+.seg-control { display:flex; gap:8px; }
+.seg-control .seg { flex:1; background:var(--bg-light); border:1px solid var(--border); padding:10px; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; color:var(--text); transition:all .2s; line-height:1.3; }
+.seg-control .seg small { font-weight:400; color:var(--text-muted); font-size:11px; }
+.seg-control .seg.active { background:var(--primary); color:white; border-color:var(--primary); }
+.seg-control .seg.active small { color:rgba(255,255,255,.8); }
+
+.cap-offer { background:linear-gradient(135deg,#0a2540,#1d4ed8); color:white; border-radius:18px; padding:30px; }
+.cap-offer-tag { display:inline-block; background:rgba(255,255,255,.15); font-size:12px; font-weight:700; padding:6px 12px; border-radius:999px; margin-bottom:16px; }
+.cap-offer-amt { font-family:'Sora'; font-size:46px; font-weight:800; line-height:1; }
+.cap-offer-sub { color:#bfdbfe; font-size:13px; margin-bottom:20px; }
+.cap-offer-rows { border-top:1px solid rgba(255,255,255,.15); padding-top:14px; margin-bottom:16px; }
+.cor { display:flex; justify-content:space-between; font-size:14px; color:#cbd5e1; padding:7px 0; }
+.cor strong { color:white; }
+.cor.big { font-size:16px; font-family:'Sora'; border-top:1px solid rgba(255,255,255,.12); margin-top:6px; padding-top:12px; }
+.cap-offer .btn-primary { background:white; color:#1d4ed8; }
+.cap-disclaimer { font-size:11px; color:#93c5fd; margin-top:14px; line-height:1.5; }
+
+.cap-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:1000px; margin:0 auto; }
+.cap-step { background:white; border:1px solid var(--border); border-radius:14px; padding:26px; }
+.cs-num { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,#1d4ed8,#3b82f6); color:white; font-family:'Sora'; font-weight:700; display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
+.cap-step h4 { font-family:'Sora'; margin-bottom:6px; }
+.cap-step p { font-size:14px; color:var(--text-light); margin:0; line-height:1.55; }
+
+.cap-faq { max-width:780px; margin:0 auto; }
+.faq-item { background:white; border:1px solid var(--border); border-radius:12px; padding:18px 22px; margin-bottom:10px; }
+.faq-item summary { font-family:'Sora'; font-weight:600; cursor:pointer; font-size:15px; list-style:none; display:flex; justify-content:space-between; align-items:center; }
+.faq-item summary::after { content:'+'; font-size:22px; color:var(--primary); font-weight:300; }
+.faq-item[open] summary::after { content:'−'; }
+.faq-item p { font-size:14px; color:var(--text-light); margin:12px 0 0; line-height:1.6; }
+
+:root[data-theme="dark"] .cap-inputs, :root[data-theme="dark"] .cap-step, :root[data-theme="dark"] .faq-item { background:#121c30; border-color:#1e2a42; }
+:root[data-theme="dark"] .seg-control .seg { background:#0b1220; border-color:#1e2a42; }
+
+@media (max-width:960px){ .cap-calc{grid-template-columns:1fr;} .cap-steps{grid-template-columns:1fr;} }
+</style>
+</body>
+</html>

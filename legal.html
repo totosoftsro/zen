@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Právní — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div id="nav-placeholder"></div>
+
+<div class="docs-layout">
+  <aside class="docs-sidebar">
+    <h4>Právní dokumenty</h4>
+    <a href="?t=terms" id="l-terms">Všeobecné podmínky</a>
+    <a href="?t=privacy" id="l-privacy">Ochrana soukromí</a>
+    <a href="?t=cookies" id="l-cookies">Cookies</a>
+    <a href="?t=licenses" id="l-licenses">Licence</a>
+    <a href="?t=dpa" id="l-dpa">DPA (GDPR)</a>
+    <a href="?t=aml" id="l-aml">AML policy</a>
+  </aside>
+
+  <main class="docs-content" id="content"></main>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+<script>
+const docs = {
+  terms: { title: 'Všeobecné obchodní podmínky', last: '1. 4. 2026', body: `
+    <p>Společnost <strong>Zen Payments, a.s.</strong>, IČO 12345678, se sídlem Václavské náměstí 832/19, Praha 1, zapsaná v obchodním rejstříku vedeném Městským soudem v Praze, sp. zn. B 12345, vydává tyto Všeobecné obchodní podmínky (dále jen "Podmínky").</p>
+    <h2>1. Předmět</h2><p>Zen poskytuje technologická a platební řešení umožňující obchodníkům přijímat platby od koncových zákazníků prostřednictvím karet, peněženek a dalších platebních metod.</p>
+    <h2>2. Uzavření smlouvy</h2><p>Smlouva vzniká registrací účtu na zen.cz a odsouhlasením těchto podmínek.</p>
+    <h2>3. Poplatky</h2><p>Standardní sazba je 1,4 % + 3 Kč za úspěšnou evropskou kartu. Další sazby jsou uvedeny v ceníku.</p>
+    <h2>4. Výplaty</h2><p>Zen vyplácí prostředky na bankovní účet obchodníka v režimu T+2 pracovní dny.</p>
+    <h2>5. Odpovědnost</h2><p>Zen odpovídá za škody způsobené úmyslně nebo hrubou nedbalostí, maximálně do výše poplatků zaplacených za poslední 3 měsíce.</p>` },
+  privacy: { title: 'Ochrana osobních údajů', last: '15. 3. 2026', body: `
+    <p>Tyto zásady popisují, jak Zen Payments, a.s. zpracovává osobní údaje v souladu s nařízením GDPR (EU) 2016/679.</p>
+    <h2>Správce údajů</h2><p>Správcem osobních údajů je Zen Payments, a.s. (kontakt: privacy@zen.cz).</p>
+    <h2>Kategorie údajů</h2><ul><li>Identifikační (jméno, IČO)</li><li>Kontaktní (e-mail, telefon, adresa)</li><li>Transakční (platební data)</li><li>Technické (IP, cookies, device)</li></ul>
+    <h2>Doba uchování</h2><p>Transakční data uchováváme 10 let (zákonná povinnost). Marketing 3 roky nebo do odvolání souhlasu.</p>
+    <h2>Vaše práva</h2><p>Máte právo na přístup, opravu, výmaz, omezení zpracování, přenositelnost a námitku. Kontaktujte dpo@zen.cz.</p>` },
+  cookies: { title: 'Cookies policy', last: '20. 2. 2026', body: `
+    <p>Tento web používá cookies pro zajištění funkčnosti, analytiku a personalizaci.</p>
+    <h2>Typy cookies</h2>
+    <ul><li><strong>Nezbytné</strong> — session, CSRF, preference</li>
+    <li><strong>Analytické</strong> — PostHog, anonymizovaný Google Analytics</li>
+    <li><strong>Marketingové</strong> — pouze se souhlasem, Facebook Pixel, LinkedIn</li></ul>
+    <h2>Správa cookies</h2><p>V patičce webu najdete odkaz "Nastavení cookies", kde můžete kdykoliv změnit svůj souhlas.</p>` },
+  licenses: { title: 'Open source licence', last: '1. 1. 2026', body: `
+    <p>Produkty Zen používají následující open source knihovny. Děkujeme jejich autorům.</p>
+    <ul><li>React (MIT)</li><li>Vue (MIT)</li><li>PostgreSQL (PostgreSQL License)</li><li>Redis (BSD)</li><li>Envoy Proxy (Apache 2.0)</li><li>Rust standard library (MIT)</li></ul>` },
+  dpa: { title: 'Data Processing Agreement (DPA)', last: '15. 3. 2026', body: `
+    <p>Tento DPA dokument upravuje zpracování osobních údajů mezi Zenem (zpracovatel) a obchodníkem (správce) v souladu s GDPR čl. 28.</p>
+    <h2>Předmět zpracování</h2><p>Zen zpracovává osobní údaje za účelem poskytování platebních služeb.</p>
+    <h2>Subdodavatelé</h2><p>Seznam subdodavatelů je publikován na zen.cz/legal/subprocessors a aktualizován 14 dní před změnami.</p>
+    <h2>Bezpečnost</h2><p>Zen je certifikován PCI DSS Level 1, SOC 2 Type II a ISO 27001.</p>` },
+  aml: { title: 'AML politika', last: '10. 1. 2026', body: `
+    <p>Zen je povinnou osobou dle zákona č. 253/2008 Sb. o některých opatřeních proti legalizaci výnosů z trestné činnosti.</p>
+    <h2>KYC</h2><p>Každý obchodník prochází identifikací a ověřením podle AML6 směrnice.</p>
+    <h2>Monitoring</h2><p>Transakce jsou průběžně monitorovány. Podezřelé transakce hlásíme FAÚ.</p>` }
+};
+
+function load(){
+  const t = new URLSearchParams(location.search).get('t') || 'terms';
+  document.querySelectorAll('.docs-sidebar a').forEach(a => a.classList.remove('active'));
+  document.getElementById('l-'+t)?.classList.add('active');
+  const d = docs[t] || docs.terms;
+  document.getElementById('content').innerHTML = `<h1>${d.title}</h1><p class="muted">Naposledy aktualizováno: ${d.last}</p>${d.body}`;
+  document.title = d.title + ' — Zen';
+}
+load();
+</script></body></html>

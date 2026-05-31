@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zen — Finanční infrastruktura pro internet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+
+<!-- Floating theme toggle -->
+<button class="zen-theme-toggle" onclick="zenToggleTheme()" title="Přepnout motiv" aria-label="Přepnout motiv"><span class="theme-toggle-icon">🌙</span></button>
+<button class="zen-chat-bubble" onclick="zenToast('💬 Podpora: napište nám na support@zen.cz nebo přes chat.')" title="Chat" aria-label="Chat"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></button>
+
+<!-- Hero particles (floating decorative blobs) -->
+<div class="hero-particles" aria-hidden="true">
+  <span class="hp hp-1"></span><span class="hp hp-2"></span><span class="hp hp-3"></span>
+  <span class="hp hp-4"></span><span class="hp hp-5"></span><span class="hp hp-6"></span>
+</div>
+
+<!-- Gradient background -->
+<div class="hero-gradient">
+  <svg class="gradient-svg" viewBox="0 0 1440 900" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#a8e6cf"/>
+        <stop offset="35%" stop-color="#88d8c0"/>
+        <stop offset="70%" stop-color="#7b9fe0"/>
+        <stop offset="100%" stop-color="#b19cd9"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,0 L1440,0 L1440,700 Q720,900 0,700 Z" fill="url(#g1)"/>
+  </svg>
+</div>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav-container">
+    <div class="nav-left">
+      <a href="index.html" class="logo">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="16" fill="#0a2540"/>
+          <path d="M10 16 L14 20 L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Zen</span>
+      </a>
+      <button class="zen-burger" aria-label="Menu" onclick="zenToggleMobileMenu()"><span></span><span></span><span></span></button>
+      <ul class="nav-links">
+        <li class="has-dropdown"><a href="#">Produkty <svg width="10" height="6" viewBox="0 0 10 6"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <div class="dropdown">
+            <a href="payments.html">💳 Platby</a><a href="terminal.html">🏪 Terminál</a>
+            <a href="connect.html">🔗 Connect</a><a href="radar.html">🛡️ Radar</a>
+            <a href="billing.html">📄 Fakturace</a><a href="subscriptions.html">🔄 Předplatné</a>
+          </div></li>
+        <li class="has-dropdown"><a href="#">Řešení <svg width="10" height="6" viewBox="0 0 10 6"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <div class="dropdown">
+            <a href="solutions.html?type=ecommerce">E-commerce</a><a href="solutions.html?type=saas">SaaS</a>
+            <a href="solutions.html?type=marketplace">Marketplace</a><a href="solutions.html?type=platforms">Platformy</a>
+          </div></li>
+        <li class="has-dropdown"><a href="#">Vývojáři <svg width="10" height="6" viewBox="0 0 10 6"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <div class="dropdown">
+            <a href="docs.html">📖 Dokumentace</a><a href="api.html">⚙️ API reference</a>
+            <a href="playground.html">⚡ Playground</a><a href="status.html">🟢 Stav systému</a>
+            <a href="changelog.html">📝 Changelog</a>
+          </div></li>
+        <li class="has-dropdown"><a href="#">Zdroje <svg width="10" height="6" viewBox="0 0 10 6"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
+          <div class="dropdown">
+            <a href="blog.html">Blog</a><a href="customers.html">Zákazníci</a>
+            <a href="compare.html">⚖️ Srovnání</a><a href="checkout.html">💳 Checkout</a>
+            <a href="support.html">Podpora</a><a href="about.html">O nás</a>
+          </div></li>
+        <li><a href="pricing.html">Ceník</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <button class="nav-palette-trigger" onclick="zenOpenPalette && zenOpenPalette()" title="Hledat (⌘K)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <span>Hledat</span>
+        <kbd>⌘K</kbd>
+      </button>
+      <a href="contact.html" class="nav-link-auth">Kontakt prodej</a>
+      <a href="login.html" class="nav-link-auth">Přihlásit se →</a>
+      <a href="signup.html" class="btn-primary-sm">Začít zdarma →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <h1>Finanční infrastruktura<br>pro růst vašeho podnikání</h1>
+        <p class="hero-subtitle">Miliony firem od startupů až po korporace používají software a API Zen pro přijímání plateb, odesílání výplat a správu svých obchodů online.</p>
+        <div class="hero-cta">
+          <a href="signup.html" class="btn-primary">Začít hned →</a>
+          <a href="contact.html" class="btn-secondary">Kontaktovat prodej →</a>
+        </div>
+      </div>
+      <div class="hero-visual" style="position:relative;">
+        <div class="floating-card fc-1">
+          <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#00d4aa,#00a884);display:flex;align-items:center;justify-content:center;color:white;font-size:14px;">✓</div>
+          <div><div style="font-weight:600;color:#0a2540;">Platba úspěšná</div><div style="font-size:11px;color:#6b7280;">+ 2 499 Kč • Apple Pay</div></div>
+        </div>
+        <div class="floating-card fc-2">
+          <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#635bff,#a78bfa);display:flex;align-items:center;justify-content:center;color:white;font-size:14px;">€</div>
+          <div><div style="font-weight:600;color:#0a2540;">Výplata odeslána</div><div style="font-size:11px;color:#6b7280;">125 000 Kč → BÚ</div></div>
+        </div>
+        <div class="floating-card fc-3">
+          <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#ffa500,#ff7b00);display:flex;align-items:center;justify-content:center;color:white;font-size:14px;">🛡️</div>
+          <div><div style="font-weight:600;color:#0a2540;">Fraud zablokován</div><div style="font-size:11px;color:#6b7280;">Radar score: 94</div></div>
+        </div>
+        <div class="dashboard-card">
+          <div class="dashboard-header">
+            <div class="dashboard-tabs">
+              <span class="tab active">Dnes</span>
+              <span class="tab">Tento týden</span>
+              <span class="tab">Měsíc</span>
+              <span class="tab">Rok</span>
+            </div>
+          </div>
+          <div class="dashboard-stats">
+            <div class="stat">
+              <div class="stat-label">Objem čistého obratu</div>
+              <div class="stat-value">3 528 198 Kč</div>
+              <div class="stat-change positive">+32,8 %</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Úspěšné platby</div>
+              <div class="stat-value">14 892</div>
+              <div class="stat-change positive">+12,1 %</div>
+            </div>
+          </div>
+          <svg class="dashboard-chart" viewBox="0 0 400 120" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#635bff" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#635bff" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,80 Q40,60 80,65 T160,45 T240,50 T320,25 T400,30 L400,120 L0,120 Z" fill="url(#chartGrad)"/>
+            <path d="M0,80 Q40,60 80,65 T160,45 T240,50 T320,25 T400,30" stroke="#635bff" stroke-width="2" fill="none"/>
+          </svg>
+          <div class="dashboard-footer">
+            <div class="payment-row">
+              <div class="payment-method"><span class="card-icon visa">VISA</span> •••• 4242</div>
+              <div class="payment-amount">+ 1 249 Kč</div>
+            </div>
+            <div class="payment-row">
+              <div class="payment-method"><span class="card-icon mc">MC</span> •••• 8821</div>
+              <div class="payment-amount">+ 3 499 Kč</div>
+            </div>
+            <div class="payment-row">
+              <div class="payment-method"><span class="card-icon ap">AP</span> Apple Pay</div>
+              <div class="payment-amount">+ 799 Kč</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Partners -->
+<section class="partners">
+  <div class="container">
+    <div class="partners-grid">
+      <span>Alza</span>
+      <span>Rohlík</span>
+      <span>Notino</span>
+      <span>Seznam</span>
+      <span>Mall</span>
+      <span>Heureka</span>
+      <span>Slevomat</span>
+      <span>Košík</span>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Platební platforma</div>
+      <h2>Jedno integrované řešení pro<br><span class="gradient-text">všechny vaše finanční potřeby</span></h2>
+      <p class="section-subtitle">Zen nabízí jednotné API, které uživatelům platformy umožňuje přijímat platby, posílat výplaty a automatizovat finanční operace.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card zen-reveal">
+        <div class="feature-icon" style="background: linear-gradient(135deg, #635bff, #a78bfa);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke="white" stroke-width="2"/><path d="M2 10H22" stroke="white" stroke-width="2"/></svg>
+        </div>
+        <h3>Platby</h3>
+        <p>Online platby přímo na webu i v aplikaci. Podpora karet, Apple Pay, Google Pay a desítek dalších metod.</p>
+        <a href="payments.html" class="feature-link">Zjistit více →</a>
+      </div>
+      <div class="feature-card zen-reveal">
+        <div class="feature-icon" style="background: linear-gradient(135deg, #00d4aa, #00a884);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2V22M2 12H22" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Terminál</h3>
+        <p>Přijímejte osobní platby a sjednoťte online a offline kanály pomocí platebních terminálů Zen.</p>
+        <a href="terminal.html" class="feature-link">Zjistit více →</a>
+      </div>
+      <div class="feature-card zen-reveal">
+        <div class="feature-icon" style="background: linear-gradient(135deg, #ff6b6b, #ee5a6f);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 4H20V20H4V4Z" stroke="white" stroke-width="2"/><path d="M8 10L11 13L16 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Předplatné</h3>
+        <p>Správa opakovaných plateb s flexibilním fakturačním cyklem a automatizovanou fakturací.</p>
+        <a href="subscriptions.html" class="feature-link">Zjistit více →</a>
+      </div>
+      <div class="feature-card zen-reveal">
+        <div class="feature-icon" style="background: linear-gradient(135deg, #ffa500, #ff7b00);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 17L9 11L13 15L21 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 7H21V14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Connect</h3>
+        <p>Platební řešení pro platformy a marketplaces — vyplácejte prodejcům po celém světě.</p>
+        <a href="connect.html" class="feature-link">Zjistit více →</a>
+      </div>
+      <div class="feature-card zen-reveal">
+        <div class="feature-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="white" stroke-width="2"/><path d="M12 7V12L15 15" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Fakturace</h3>
+        <p>Fakturujte zákazníky celosvětově s přizpůsobenými fakturami a sledujte platební stav v reálném čase.</p>
+        <a href="billing.html" class="feature-link">Zjistit více →</a>
+      </div>
+      <div class="feature-card zen-reveal">
+        <div class="feature-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Radar</h3>
+        <p>Pokročilá ochrana proti podvodům se strojovým učením natrénovaným na miliardách transakcí.</p>
+        <a href="radar.html" class="feature-link">Zjistit více →</a>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:36px;">
+      <a href="products.html" class="btn-secondary">Prozkoumat všech 12 produktů →</a>
+    </div>
+  </div>
+</section>
+
+<!-- More than payments -->
+<section class="section" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Víc než platby</div>
+      <h2>Rozšiřte se, když přijde čas<br><span class="gradient-text">jedním přepínačem v Dashboardu</span></h2>
+      <p class="section-subtitle">Když firma roste, Zen roste s ní. Žádná nová integrace, žádný další dodavatel — produkty sdílejí stejné API i zákazníky.</p>
+    </div>
+    <div class="more-grid">
+      <a href="capital.html" class="more-card zen-reveal">
+        <span class="more-ico" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6);">💰</span>
+        <div><h3>Capital</h3><p>Financování bez papírování, splácíte z obratu.</p></div>
+      </a>
+      <a href="issuing.html" class="more-card zen-reveal">
+        <span class="more-ico" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);">💳</span>
+        <div><h3>Issuing</h3><p>Vydávejte vlastní virtuální i fyzické karty.</p></div>
+      </a>
+      <a href="identity.html" class="more-card zen-reveal">
+        <span class="more-ico" style="background:linear-gradient(135deg,#0e7490,#06b6d4);">🪪</span>
+        <div><h3>Identity</h3><p>Ověření totožnosti a KYC během minuty.</p></div>
+      </a>
+      <a href="sigma.html" class="more-card zen-reveal">
+        <span class="more-ico" style="background:linear-gradient(135deg,#0f766e,#14b8a6);">📊</span>
+        <div><h3>Sigma</h3><p>SQL analytika nad platbami, žádné ETL.</p></div>
+      </a>
+      <a href="atlas.html" class="more-card zen-reveal">
+        <span class="more-ico" style="background:linear-gradient(135deg,#b45309,#f59e0b);">🏛️</span>
+        <div><h3>Atlas</h3><p>Založte firmu online za pár dní.</p></div>
+      </a>
+      <a href="climate.html" class="more-card zen-reveal">
+        <span class="more-ico" style="background:linear-gradient(135deg,#047857,#10b981);">🌱</span>
+        <div><h3>Climate</h3><p>Odstraňujte CO₂ s každou platbou.</p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+.more-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:1000px; margin:0 auto; }
+.more-card { display:flex; gap:16px; align-items:center; background:white; border:1px solid var(--border); border-radius:14px; padding:20px 22px; text-decoration:none; color:inherit; transition:transform .2s, box-shadow .2s, border-color .2s; }
+.more-card:hover { transform:translateY(-3px); box-shadow:0 14px 32px rgba(50,50,93,.1); border-color:var(--primary); }
+.more-ico { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; }
+.more-card h3 { font-family:'Sora'; font-size:16px; margin:0 0 3px; }
+.more-card p { font-size:13px; color:var(--text-light); margin:0; line-height:1.45; }
+:root[data-theme="dark"] .more-card { background:#121c30; border-color:#1e2a42; }
+@media (max-width:960px){ .more-grid{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:600px){ .more-grid{grid-template-columns:1fr;} }
+</style>
+
+<!-- Developer section -->
+<section class="section dev-section">
+  <div class="container">
+    <div class="dev-grid">
+      <div class="dev-content">
+        <div class="eyebrow light">Pro vývojáře</div>
+        <h2 class="light-heading">API navržené pro<br>výkon a přehlednost</h2>
+        <p class="light-subtitle">Vybudujte přesně to, co vaše firma potřebuje. Zen API a SDK dávají vývojářům vše, co potřebují k integraci za minuty, ne měsíce.</p>
+        <ul class="dev-list">
+          <li><svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8" fill="#00d4aa"/><path d="M4 8L7 11L12 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> Vynikající dokumentace</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8" fill="#00d4aa"/><path d="M4 8L7 11L12 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> Knihovny pro všechny hlavní jazyky</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8" fill="#00d4aa"/><path d="M4 8L7 11L12 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> 99,999% spolehlivost</li>
+          <li><svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8" fill="#00d4aa"/><path d="M4 8L7 11L12 6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> Webhooks a testovací prostředí</li>
+        </ul>
+        <a href="docs.html" class="btn-primary-light">Zobrazit dokumentaci →</a>
+      </div>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-tabs">
+            <span class="code-tab active">Node.js</span>
+            <span class="code-tab">Python</span>
+            <span class="code-tab">Ruby</span>
+            <span class="code-tab">Go</span>
+            <span class="code-tab">PHP</span>
+          </div>
+        </div>
+        <pre class="code-content"><code><span class="code-comment">// Vytvoření platby pomocí Zen API</span>
+<span class="code-keyword">const</span> zen = <span class="code-fn">require</span>(<span class="code-string">'zen'</span>)(<span class="code-string">'sk_live_...'</span>);
+
+<span class="code-keyword">const</span> payment = <span class="code-keyword">await</span> zen.paymentIntents.<span class="code-fn">create</span>({
+  amount: <span class="code-number">249900</span>,
+  currency: <span class="code-string">'czk'</span>,
+  payment_method_types: [<span class="code-string">'card'</span>],
+  description: <span class="code-string">'Objednávka #1052'</span>,
+  metadata: {
+    order_id: <span class="code-string">'1052'</span>,
+    customer: <span class="code-string">'zakaznik@example.cz'</span>
+  }
+});
+
+<span class="code-fn">console</span>.<span class="code-fn">log</span>(payment.id);
+<span class="code-comment">// → pi_3N4QLk2eZvKYlo2C0x7V8yH2</span></code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Live demos -->
+<section class="section" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Vyzkoušejte naživo</div>
+      <h2>Interaktivní demo<br><span class="gradient-text">bez registrace, ihned</span></h2>
+      <p class="section-subtitle">Prohlédněte si, jak Zen funguje v reálném světě. Všechna dema jsou plně funkční a běží v testovacím režimu.</p>
+    </div>
+    <div class="features-grid">
+      <a href="checkout.html" class="feature-card zen-reveal" style="text-decoration:none;color:inherit;">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#635bff,#a78bfa);">💳</div>
+        <h3>Checkout demo</h3>
+        <p>Otevřete ukázkový platební formulář s Apple Pay, Google Pay a kartou. Simulace 3D Secure a úspěšné platby s konfetami.</p>
+        <span class="feature-link">Otevřít demo →</span>
+      </a>
+      <a href="playground.html" class="feature-card zen-reveal" style="text-decoration:none;color:inherit;">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#00d4aa,#00a884);">⚡</div>
+        <h3>API Playground</h3>
+        <p>Testujte naše API v reálném čase. 14 endpointů, editor, historie požadavků a cURL ekvivalenty.</p>
+        <span class="feature-link">Spustit playground →</span>
+      </a>
+      <a href="compare.html" class="feature-card zen-reveal" style="text-decoration:none;color:inherit;">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">⚖️</div>
+        <h3>Srovnání s konkurencí</h3>
+        <p>20 funkcí a sazeb proti GoPay, ComGate, PayU a Stripe. Kalkulačka úspor v reálném čase.</p>
+        <span class="feature-link">Zobrazit srovnání →</span>
+      </a>
+      <a href="dashboard.html" class="feature-card zen-reveal" style="text-decoration:none;color:inherit;">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#f093fb,#f5576c);">📊</div>
+        <h3>Dashboard demo</h3>
+        <p>Prohlédněte si kompletní ovládací panel — KPI, grafy, live ticker, tabulky transakcí.</p>
+        <span class="feature-link">Otevřít dashboard →</span>
+      </a>
+      <a href="docs.html" class="feature-card zen-reveal" style="text-decoration:none;color:inherit;">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">📖</div>
+        <h3>Dokumentace</h3>
+        <p>Detailní průvodce integrací — od prvního API volání po produkční nasazení.</p>
+        <span class="feature-link">Číst dokumentaci →</span>
+      </a>
+      <a href="signup.html" class="feature-card zen-reveal" style="text-decoration:none;color:inherit;">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#0a2540,#2d1b69);">🚀</div>
+        <h3>Začít zdarma</h3>
+        <p>Vytvořte si účet za 60 sekund a získejte přístup k testovacímu prostředí a API klíčům.</p>
+        <span class="feature-link">Registrovat se →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="section stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item zen-reveal">
+        <div class="stat-big" data-counter>500B+ Kč</div>
+        <div class="stat-desc">Zpracováno v platbách ročně</div>
+      </div>
+      <div class="stat-item zen-reveal">
+        <div class="stat-big" data-counter>250+</div>
+        <div class="stat-desc">Platebních metod a měn</div>
+      </div>
+      <div class="stat-item zen-reveal">
+        <div class="stat-big" data-counter>99,999%</div>
+        <div class="stat-desc">Historická dostupnost platformy</div>
+      </div>
+      <div class="stat-item zen-reveal">
+        <div class="stat-big" data-counter>135+</div>
+        <div class="stat-desc">Zemí podporováno</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonial -->
+<section class="section testimonial-section">
+  <div class="container">
+    <div class="testimonial">
+      <svg class="quote-icon" width="48" height="40" viewBox="0 0 48 40"><path d="M0 40V24C0 10.7 8 2 20 0L22 4C14 6 10 12 10 20H20V40H0ZM26 40V24C26 10.7 34 2 46 0L48 4C40 6 36 12 36 20H46V40H26Z" fill="#635bff"/></svg>
+        <blockquote>
+          Zen nám umožnil škálovat v šestnácti zemích během několika měsíců. Jeden integrační bod, jeden dashboard, jeden tým na podporu. Prostě to funguje.
+        </blockquote>
+        <div class="testimonial-author">
+          <div class="author-avatar">JN</div>
+          <div>
+            <div class="author-name">Jana Nováková</div>
+            <div class="author-role">CTO, Alza Technologies</div>
+          </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="section pricing-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Ceník</div>
+      <h2>Jednoduché a transparentní<br><span class="gradient-text">ceny bez skrytých poplatků</span></h2>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Integrovaný</div>
+        <div class="price-desc">Začněte rychle s předpřipravenou integrací</div>
+        <div class="price-amount"><span>1,4 %</span> <small>+ 3 Kč</small></div>
+        <div class="price-note">za úspěšnou evropskou kartu</div>
+        <ul class="price-features">
+          <li>Přístup k Zen dashboardu</li>
+          <li>24/7 e-mailová podpora</li>
+          <li>Všechny platební metody</li>
+          <li>Bez měsíčních poplatků</li>
+          <li>Žádné náklady na nastavení</li>
+        </ul>
+        <a href="signup.html" class="btn-secondary full">Začít →</a>
+      </div>
+      <div class="price-card featured">
+        <div class="badge">Doporučeno</div>
+        <div class="price-name">Upravený</div>
+        <div class="price-desc">Pro firmy s vysokým objemem transakcí</div>
+        <div class="price-amount"><span>Individuální</span></div>
+        <div class="price-note">sazby na míru podle vašeho objemu</div>
+        <ul class="price-features">
+          <li>Vše z plánu Integrovaný</li>
+          <li>Ceny na míru podle objemu</li>
+          <li>Vícenásobné procesory</li>
+          <li>Vyhrazený account manager</li>
+          <li>SLA 99,999 % uptime</li>
+          <li>Prioritní telefonická podpora</li>
+        </ul>
+        <a href="contact.html" class="btn-primary full">Kontaktovat prodej →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box">
+      <h2>Připraveni začít?</h2>
+      <p>Vytvořte si účet a začněte přijímat platby — žádné smlouvy, žádné bankovní údaje. Nebo nás kontaktujte pro úpravu balíčku dle vašich potřeb.</p>
+      <div class="cta-buttons">
+        <a href="signup.html" class="btn-primary-light">Začít hned →</a>
+        <a href="contact.html" class="btn-secondary-light">Kontaktovat prodej →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo logo-dark">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="16" fill="#635bff"/>
+            <path d="M10 16 L14 20 L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Zen</span>
+        </a>
+        <div class="footer-social">
+          <a href="#" aria-label="Twitter"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
+          <a href="#" aria-label="GitHub"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.4.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2 1-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Produkty</h4>
+        <ul>
+          <li><a href="payments.html">Platby</a></li>
+          <li><a href="terminal.html">Terminál</a></li>
+          <li><a href="connect.html">Connect</a></li>
+          <li><a href="radar.html">Radar</a></li>
+          <li><a href="billing.html">Fakturace</a></li>
+          <li><a href="subscriptions.html">Předplatné</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Firma</h4>
+        <ul>
+          <li><a href="about.html">O nás</a></li>
+          <li><a href="customers.html">Zákazníci</a></li>
+          <li><a href="careers.html">Kariéra</a></li>
+          <li><a href="changelog.html">Changelog</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Zdroje</h4>
+        <ul>
+          <li><a href="support.html">Podpora</a></li>
+          <li><a href="contact.html">Kontakt</a></li>
+          <li><a href="docs.html">Dokumentace</a></li>
+          <li><a href="api.html">API reference</a></li>
+          <li><a href="status.html">Stav systému</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Právní</h4>
+        <ul>
+          <li><a href="legal.html?t=privacy">Soukromí</a></li>
+          <li><a href="legal.html?t=terms">Podmínky</a></li>
+          <li><a href="legal.html?t=licenses">Licence</a></li>
+          <li><a href="legal.html?t=cookies">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Zen Payments, a.s. Všechna práva vyhrazena.</div>
+      <div class="footer-lang">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M2 12h20M12 2c3 3 3 17 0 20M12 2c-3 3-3 17 0 20" stroke="currentColor" stroke-width="1.5"/></svg>
+        Česká republika (Čeština)
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

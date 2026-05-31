@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Dokumentace — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div id="nav-placeholder" data-active="developers"></div>
+
+<div class="docs-layout">
+  <aside class="docs-sidebar">
+    <h4>Začínáme</h4>
+    <a href="#intro" class="active">Úvod</a>
+    <a href="#install">Instalace SDK</a>
+    <a href="#first-payment">První platba</a>
+    <a href="#testing">Testovací režim</a>
+
+    <h4>Platby</h4>
+    <a href="#payment-intents">Payment Intents</a>
+    <a href="#checkout">Hosted Checkout</a>
+    <a href="#elements">Zen Elements</a>
+    <a href="#methods">Platební metody</a>
+    <a href="#3ds">3D Secure</a>
+
+    <h4>Zákazníci</h4>
+    <a href="#customers">Vytvoření zákazníka</a>
+    <a href="#saved-methods">Uložené karty</a>
+    <a href="#portal">Customer portal</a>
+
+    <h4>Předplatné</h4>
+    <a href="#subs">Subscription API</a>
+    <a href="#pricing-models">Cenové modely</a>
+    <a href="#invoices">Faktury</a>
+
+    <h4>Infrastruktura</h4>
+    <a href="#webhooks">Webhooky</a>
+    <a href="#idempotency">Idempotence</a>
+    <a href="#errors">Chybové kódy</a>
+    <a href="#limits">Rate limity</a>
+    <a href="api.html">API reference →</a>
+  </aside>
+
+  <main class="docs-content">
+    <h1 id="intro">Začínáme se Zen</h1>
+    <p>Vítejte v dokumentaci Zen. V tomto průvodci projdete cestu od prvního API volání k produkčnímu nasazení za několik minut.</p>
+
+    <div class="docs-callout">💡 <strong>Potřebujete pomoc?</strong> Napište nám na <a href="mailto:support@zen.cz" style="color:var(--primary);">support@zen.cz</a> nebo do chatu — odpovídáme do 2 hodin 24/7.</div>
+
+    <h2 id="install">Instalace SDK</h2>
+    <p>Zen nabízí oficiální knihovny pro nejpoužívanější jazyky:</p>
+    <pre><code><span style="color:#6b7c93;"># Node.js</span>
+npm install zen
+
+<span style="color:#6b7c93;"># Python</span>
+pip install zen
+
+<span style="color:#6b7c93;"># Ruby</span>
+gem install zen
+
+<span style="color:#6b7c93;"># PHP</span>
+composer require zen/zen-php
+
+<span style="color:#6b7c93;"># Go</span>
+go get github.com/zen/zen-go/v7</code></pre>
+
+    <h2 id="first-payment">První platba</h2>
+    <p>Pro vytvoření platby stačí pár řádků kódu. Následující příklad vytvoří Payment Intent na 2 499 Kč:</p>
+    <pre><code><span style="color:#f472b6;">const</span> zen = <span style="color:#60a5fa;">require</span>(<span style="color:#86efac;">'zen'</span>)(<span style="color:#86efac;">'sk_test_...'</span>);
+
+<span style="color:#f472b6;">const</span> payment = <span style="color:#f472b6;">await</span> zen.paymentIntents.<span style="color:#60a5fa;">create</span>({
+  amount: <span style="color:#fbbf24;">249900</span>, <span style="color:#6b7c93;">// v haléřích</span>
+  currency: <span style="color:#86efac;">'czk'</span>,
+  payment_method_types: [<span style="color:#86efac;">'card'</span>, <span style="color:#86efac;">'apple_pay'</span>],
+  description: <span style="color:#86efac;">'Objednávka #1052'</span>,
+});
+
+<span style="color:#60a5fa;">console</span>.<span style="color:#60a5fa;">log</span>(payment.client_secret);</code></pre>
+
+    <p>Klient použije <code>client_secret</code> k dokončení platby pomocí Zen.js nebo mobilního SDK.</p>
+
+    <h2 id="testing">Testovací režim</h2>
+    <p>Používejte testovací API klíče (<code>sk_test_...</code>) pro vývoj bez skutečných peněz. K dispozici jsou testovací čísla karet:</p>
+    <table>
+      <thead><tr><th>Číslo karty</th><th>Chování</th></tr></thead>
+      <tbody>
+        <tr><td><code>4242 4242 4242 4242</code></td><td>Úspěšná platba</td></tr>
+        <tr><td><code>4000 0027 6000 3184</code></td><td>Vyžaduje 3DS</td></tr>
+        <tr><td><code>4000 0000 0000 9995</code></td><td>Nedostatek prostředků</td></tr>
+        <tr><td><code>4000 0000 0000 0002</code></td><td>Zamítnutá karta</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="webhooks">Webhooky</h2>
+    <p>Webhooky umožňují Zenu informovat váš server o událostech asynchronně. Např. když je platba úspěšně zpracována.</p>
+    <pre><code><span style="color:#6b7c93;">// Express handler</span>
+app.<span style="color:#60a5fa;">post</span>(<span style="color:#86efac;">'/webhook'</span>, (req, res) => {
+  <span style="color:#f472b6;">const</span> event = zen.webhooks.<span style="color:#60a5fa;">constructEvent</span>(
+    req.body, req.headers[<span style="color:#86efac;">'zen-signature'</span>], WEBHOOK_SECRET
+  );
+
+  <span style="color:#f472b6;">if</span> (event.type === <span style="color:#86efac;">'payment_intent.succeeded'</span>) {
+    <span style="color:#60a5fa;">console</span>.<span style="color:#60a5fa;">log</span>(<span style="color:#86efac;">'Platba úspěšná:'</span>, event.data.object.id);
+  }
+  res.<span style="color:#60a5fa;">sendStatus</span>(<span style="color:#fbbf24;">200</span>);
+});</code></pre>
+
+    <h2 id="idempotency">Idempotence</h2>
+    <p>Pro zabránění dvojí platbě používejte <code>Idempotency-Key</code> header. Opakovaný požadavek se stejným klíčem vrátí tentýž výsledek bez nového zpracování.</p>
+
+    <h2 id="errors">Chybové kódy</h2>
+    <table>
+      <thead><tr><th>Kód</th><th>Význam</th></tr></thead>
+      <tbody>
+        <tr><td><code>card_declined</code></td><td>Karta zamítnuta bankou</td></tr>
+        <tr><td><code>insufficient_funds</code></td><td>Nedostatek prostředků</td></tr>
+        <tr><td><code>expired_card</code></td><td>Expirovaná karta</td></tr>
+        <tr><td><code>incorrect_cvc</code></td><td>Špatné CVC</td></tr>
+        <tr><td><code>processing_error</code></td><td>Dočasná chyba, zkuste znovu</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="limits">Rate limity</h2>
+    <p>Zen API má následující limity:</p>
+    <ul>
+      <li><strong>Produkce:</strong> 100 požadavků za sekundu</li>
+      <li><strong>Test:</strong> 25 požadavků za sekundu</li>
+      <li><strong>Webhooks:</strong> Retry s exponenciálním backoff až 3 dny</li>
+    </ul>
+
+    <div class="docs-callout" style="background:#fef3c7; border-color:#f59e0b;">⚠️ Pokud překročíte limit, obdržíte <code>429 Too Many Requests</code>. Implementujte retry s backoff.</div>
+
+    <p style="margin-top:40px; padding-top:24px; border-top:1px solid #e6ebf1;">
+      <strong>Chcete jít hlouběji?</strong> Podívejte se na <a href="api.html" style="color:var(--primary);">kompletní API referenci</a> nebo <a href="changelog.html" style="color:var(--primary);">changelog</a>.
+    </p>
+  </main>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+<script>
+document.querySelectorAll('.docs-sidebar a[href^="#"]').forEach(a => {
+  a.onclick = e => { document.querySelectorAll('.docs-sidebar a').forEach(x=>x.classList.remove('active')); a.classList.add('active'); };
+});
+</script></body></html>

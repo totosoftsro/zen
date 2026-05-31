@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Podpora — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero">
+  <div class="container"><div class="page-hero-inner">
+    <h1>Jak vám můžeme pomoci?</h1>
+    <div style="max-width:560px; margin:24px auto 0; position:relative;">
+      <input type="search" placeholder="Hledat v dokumentaci, FAQ, článcích..." oninput="searchKb(this.value)" id="kbSearch" style="width:100%; padding:16px 20px; border:1px solid var(--border); border-radius:12px; font-size:16px; font-family:inherit; box-shadow:0 10px 30px rgba(50,50,93,0.08);">
+    </div>
+  </div></div>
+</section>
+
+<section class="section" style="padding-top:60px;">
+  <div class="container">
+    <div class="features-grid">
+      <a href="docs.html" class="feature-card" style="text-decoration:none; display:block;"><div class="feature-icon" style="background:linear-gradient(135deg,#635bff,#a78bfa);">📖</div>
+        <h3>Dokumentace</h3><p>Kompletní průvodce integrací a funkcemi Zen.</p></a>
+      <a href="api.html" class="feature-card" style="text-decoration:none; display:block;"><div class="feature-icon" style="background:linear-gradient(135deg,#00d4aa,#00a884);">⚙️</div>
+        <h3>API Reference</h3><p>Detailní popis všech endpointů a objektů.</p></a>
+      <a href="#" class="feature-card" style="text-decoration:none; display:block;" onclick="startChat()"><div class="feature-icon" style="background:linear-gradient(135deg,#ff6b6b,#ee5a6f);">💬</div>
+        <h3>Chat 24/7</h3><p>Odpovídáme do 2 hodin, i v noci a o víkendech.</p></a>
+      <a href="status.html" class="feature-card" style="text-decoration:none; display:block;"><div class="feature-icon" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">🟢</div>
+        <h3>Status page</h3><p>Aktuální stav všech Zen služeb v reálném čase.</p></a>
+      <a href="#" class="feature-card" style="text-decoration:none; display:block;"><div class="feature-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">🎓</div>
+        <h3>Zen Academy</h3><p>Zdarma kurzy a certifikace pro vývojáře i obchodníky.</p></a>
+      <a href="#" class="feature-card" style="text-decoration:none; display:block;"><div class="feature-icon" style="background:linear-gradient(135deg,#f093fb,#f5576c);">👥</div>
+        <h3>Komunita</h3><p>6 000+ vývojářů na Slack komunitě. Zeptejte se a sdílejte.</p></a>
+    </div>
+
+    <div style="margin-top:80px;">
+      <h2 style="font-family:Sora; font-size:28px; margin-bottom:24px;">Často kladené otázky</h2>
+      <div class="panel"><div class="panel-body" id="faqList"></div></div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+<script>
+const faq = [
+ ['Jak dlouho trvá ověření účtu?', 'Ověření probíhá během 24 hodin v pracovní dny. Pro urychlení nahrajte všechny dokumenty naráz.'],
+ ['Mohu změnit právní formu firmy?', 'Ano, kontaktujte podporu a pošleme vám formulář. Změna se projeví do 48 hodin.'],
+ ['Jaké jsou limity pro testovací režim?', 'Testovací režim je neomezený co do počtu transakcí. Používá testovací klíče pk_test_/sk_test_.'],
+ ['Jak často Zen vyplácí peníze?', 'Standardně T+2 pracovní dny. S Instant Payouts vyplácíme do minuty, 24/7, za 1% poplatek.'],
+ ['Podporujete mezinárodní platby?', 'Ano. Přijímáme karty ze 135+ zemí ve 45 měnách s automatickým FX.'],
+ ['Co se stane při chargebacku?', 'Dostanete notifikaci, můžete odeslat důkazy. Chargeback má poplatek 400 Kč bez ohledu na výsledek.'],
+ ['Jak zrušit účet?', 'V Nastavení → Plán → Nebezpečná zóna → Zrušit účet. Všechna data jsou uchována 90 dní pro případ reaktivace.'],
+ ['Je Zen PCI DSS compliant?', 'Ano, jsme certifikováni jako Level 1 Service Provider. Používáním Zen jste PCI compliant out-of-the-box.'],
+];
+function renderFaq(list){
+  document.getElementById('faqList').innerHTML = list.map(f => `
+  <details style="cursor:pointer; padding:14px 0; border-bottom:1px solid #f0f3f8;">
+    <summary style="font-weight:600; font-size:16px;">${f[0]}</summary>
+    <p class="muted" style="margin-top:10px; line-height:1.7;">${f[1]}</p>
+  </details>`).join('');
+}
+renderFaq(faq);
+function searchKb(q){ q=q.toLowerCase(); renderFaq(q ? faq.filter(f => f[0].toLowerCase().includes(q) || f[1].toLowerCase().includes(q)) : faq); }
+function startChat(){ const t=document.createElement('div'); t.className='toast'; t.textContent='Otevírám chat...'; document.body.appendChild(t); setTimeout(()=>t.remove(),2000); }
+</script></body></html>

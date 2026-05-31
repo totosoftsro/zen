@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Changelog — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div id="nav-placeholder" data-active="developers"></div>
+
+<section class="page-hero">
+  <div class="container"><div class="page-hero-inner">
+    <div class="eyebrow">Changelog</div>
+    <h1>Co je nového v Zen</h1>
+    <p>Historie vydání, nové funkce a významné vylepšení.</p>
+  </div></div>
+</section>
+
+<section class="section">
+  <div class="container" style="max-width:820px;">
+    <div style="display:flex; flex-direction:column; gap:32px;">
+
+      <div class="panel"><div class="panel-body">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+          <span class="pill success">NEW</span>
+          <span class="muted" style="font-size:13px;">14. 4. 2026 · v2024.04.14</span>
+        </div>
+        <h3 style="font-family:Sora; font-size:22px; margin-bottom:12px;">Zen Radar 2.0</h3>
+        <p class="muted">Nová generace fraud detection založená na transformer architektuře. 40% snížení false positives, 62% více zachycených podvodů.</p>
+        <ul class="muted" style="margin-top:12px; padding-left:20px;">
+          <li>Kontextuální skórování transakcí v rámci session</li>
+          <li>Behaviorální biometrie (timing, pohyb myší)</li>
+          <li>Graph-based detekce sítí podvodníků</li>
+        </ul>
+      </div></div>
+
+      <div class="panel"><div class="panel-body">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+          <span class="pill refund">API</span>
+          <span class="muted" style="font-size:13px;">2. 4. 2026 · v2024.04.02</span>
+        </div>
+        <h3 style="font-family:Sora; font-size:22px; margin-bottom:12px;">Customer Portal API</h3>
+        <p class="muted">Nové endpointy <code>/v1/billing_portal/sessions</code> umožňují vytvořit hosted portal, kde si zákazníci spravují předplatné a platební metody.</p>
+      </div></div>
+
+      <div class="panel"><div class="panel-body">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+          <span class="pill pending">UPDATE</span>
+          <span class="muted" style="font-size:13px;">21. 3. 2026 · v2024.03.21</span>
+        </div>
+        <h3 style="font-family:Sora; font-size:22px; margin-bottom:12px;">Dashboard: Filtry plateb</h3>
+        <p class="muted">Nové filtrování plateb podle stavu, platební metody, částky, měny a více. URL se synchronizuje pro sdílení.</p>
+      </div></div>
+
+      <div class="panel"><div class="panel-body">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+          <span class="pill success">NEW</span>
+          <span class="muted" style="font-size:13px;">5. 3. 2026 · v2024.03.05</span>
+        </div>
+        <h3 style="font-family:Sora; font-size:22px; margin-bottom:12px;">Tap to Pay na iPhone</h3>
+        <p class="muted">iOS SDK nyní podporuje Tap to Pay — přijímejte karty přímo na iPhone bez externího hardware.</p>
+      </div></div>
+
+      <div class="panel"><div class="panel-body">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+          <span class="pill refund">API</span>
+          <span class="muted" style="font-size:13px;">14. 2. 2026 · v2024.02.14</span>
+        </div>
+        <h3 style="font-family:Sora; font-size:22px; margin-bottom:12px;">Idempotency keys v2</h3>
+        <p class="muted">Rozšířili jsme TTL idempotency klíčů na 48 hodin a přidali <code>Idempotency-Replayed: true</code> hlavičku pro přehrávané požadavky.</p>
+      </div></div>
+
+      <div class="panel"><div class="panel-body">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+          <span class="pill success">NEW</span>
+          <span class="muted" style="font-size:13px;">28. 1. 2026 · v2024.01.28</span>
+        </div>
+        <h3 style="font-family:Sora; font-size:22px; margin-bottom:12px;">Zen Tax</h3>
+        <p class="muted">Automatický výpočet DPH podle země zákazníka, reverse charge pro B2B a měsíční reporty pro daňové poradce.</p>
+      </div></div>
+
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script></body></html>

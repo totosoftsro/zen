@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Detail platby — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div class="app-layout" id="appRoot">
+  <div class="app-page-head">
+    <div>
+      <div class="breadcrumb"><a href="payments-app.html">Platby</a> <span>›</span> <span id="pid">pi_...</span></div>
+      <h1 id="amtBig">2 499 Kč <span class="pill success" style="font-size:13px;">Úspěšná</span></h1>
+      <p>Platba zpracována kartou VISA •••• 4242 dne <span id="dat"></span></p>
+    </div>
+    <div class="app-page-actions">
+      <button class="btn-app" onclick="appToast('Účtenka odeslána')">✉️ Odeslat účtenku</button>
+      <button class="btn-app" onclick="if(confirm('Opravdu vrátit?')) appToast('Platba vrácena')">↩️ Vrátit platbu</button>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <div class="panel"><div class="panel-head"><h3>Časová osa</h3></div>
+      <div class="panel-body" style="display:flex; flex-direction:column; gap:18px;">
+        <div style="display:flex; gap:12px;"><div style="width:10px;height:10px;border-radius:50%;background:#10b981;margin-top:6px;"></div>
+          <div><strong>Platba úspěšná</strong><br><span class="muted">Před 2 minutami · 2 499 Kč převedeno</span></div></div>
+        <div style="display:flex; gap:12px;"><div style="width:10px;height:10px;border-radius:50%;background:#635bff;margin-top:6px;"></div>
+          <div><strong>3D Secure ověřeno</strong><br><span class="muted">Před 2 minutami · Bankou ověřeno</span></div></div>
+        <div style="display:flex; gap:12px;"><div style="width:10px;height:10px;border-radius:50%;background:#635bff;margin-top:6px;"></div>
+          <div><strong>Platba zahájena</strong><br><span class="muted">Před 3 minutami · Zdroj: web</span></div></div>
+      </div></div>
+
+      <div class="panel"><div class="panel-head"><h3>Rozpis</h3></div>
+      <div class="panel-body">
+        <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #f0f3f8;"><span class="muted">Hrubá částka</span><span class="amt">2 499,00 Kč</span></div>
+        <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #f0f3f8;"><span class="muted">Zen poplatek (1,4 % + 3 Kč)</span><span class="amt">−37,99 Kč</span></div>
+        <div style="display:flex; justify-content:space-between; padding:10px 0; font-weight:600;"><span>Čistý výnos</span><span class="amt">2 461,01 Kč</span></div>
+      </div></div>
+    </div>
+
+    <div>
+      <div class="panel"><div class="panel-head"><h3>Zákazník</h3></div>
+      <div class="panel-body">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+          <div class="user-avatar-sm" style="width:40px; height:40px;">JN</div>
+          <div><strong>Jana Nováková</strong><br><span class="muted">jana@example.cz</span></div>
+        </div>
+        <div style="font-size:13px; color:#6b7c93;">Zákazník od 12. 3. 2026 · 14 plateb · 38 492 Kč celkem</div>
+      </div></div>
+
+      <div class="panel"><div class="panel-head"><h3>Platební metoda</h3></div>
+      <div class="panel-body">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;"><span class="card-icon visa">VISA</span> <strong>•••• 4242</strong></div>
+        <div class="muted" style="font-size:13px;">Expirace: 12/28 · Vydal: Komerční banka, CZ</div>
+      </div></div>
+
+      <div class="panel"><div class="panel-head"><h3>Metadata</h3></div>
+      <div class="panel-body" style="font-family:monospace; font-size:13px;">
+        <div>order_id: <code>1052</code></div>
+        <div>user_id: <code>cus_abc123</code></div>
+        <div>source: <code>web_checkout</code></div>
+      </div></div>
+    </div>
+  </div>
+</div>
+<script src="app-shell.js"></script>
+<script>
+mountApp('payments');
+const p = new URLSearchParams(location.search); const id = p.get('id') || 'pi_3N4QLk2eZvKYlo2C0x7V8yH2';
+document.getElementById('pid').textContent = id;
+document.getElementById('dat').textContent = new Date().toLocaleString('cs-CZ');
+</script></body></html>

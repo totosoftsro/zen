@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analytika — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="appRoot">
+
+<div class="app-page-head">
+  <div>
+    <h1>Analytika</h1>
+    <p>Detailní přehled výkonu vašeho byznysu — kohorty, funnel, prognóza a geo.</p>
+  </div>
+  <div class="app-page-actions">
+    <select class="btn-app" id="rangeSel" onchange="rerender()">
+      <option value="30">Posledních 30 dní</option>
+      <option value="90" selected>Posledních 90 dní</option>
+      <option value="180">Posledních 180 dní</option>
+      <option value="365">Posledních 365 dní</option>
+    </select>
+    <button class="btn-app" onclick="appToast('Export PDF...')">📄 Export PDF</button>
+    <button class="btn-app primary" onclick="appToast('Report naplánován')">📊 Naplánovat</button>
+  </div>
+</div>
+
+<!-- Revenue forecast -->
+<div class="panel" style="margin-bottom:20px;">
+  <div class="panel-head">
+    <h3>Prognóza obratu (ML model)</h3>
+    <div style="display:flex;gap:10px;align-items:center;font-size:12px;">
+      <span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:12px;height:2px;background:var(--primary);"></span>Skutečnost</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:12px;height:2px;background:#00d4aa;border-top:2px dashed #00d4aa;"></span>Prognóza</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:12px;height:8px;background:rgba(0,212,170,0.2);"></span>Interval 95 %</span>
+    </div>
+  </div>
+  <svg id="forecastSvg" viewBox="0 0 800 260" preserveAspectRatio="none" style="width:100%;height:260px;"></svg>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
+    <div><div style="font-size:11px;color:var(--text-muted);">Aktuální MRR</div><div style="font-family:'Sora';font-size:22px;font-weight:700;">1 248 500 Kč</div></div>
+    <div><div style="font-size:11px;color:var(--text-muted);">Prognóza 30d</div><div style="font-family:'Sora';font-size:22px;font-weight:700;color:#00a884;">1 395 000 Kč</div></div>
+    <div><div style="font-size:11px;color:var(--text-muted);">Očekávaný růst</div><div style="font-family:'Sora';font-size:22px;font-weight:700;color:#00a884;">+11,7 %</div></div>
+    <div><div style="font-size:11px;color:var(--text-muted);">Confidence</div><div style="font-family:'Sora';font-size:22px;font-weight:700;">92 %</div></div>
+  </div>
+</div>
+
+<div class="grid-2">
+  <!-- Conversion funnel -->
+  <div class="panel">
+    <div class="panel-head"><h3>Konverzní funnel</h3><div style="font-size:12px;color:var(--text-muted);">Posledních 30 dní</div></div>
+    <div id="funnel" style="display:flex;flex-direction:column;gap:8px;"></div>
+  </div>
+
+  <!-- Top products -->
+  <div class="panel">
+    <div class="panel-head"><h3>Top produkty dle obratu</h3><a href="products-app.html" style="font-size:12px;color:var(--primary);text-decoration:none;">Všechny →</a></div>
+    <table class="data-table">
+      <thead><tr><th>Produkt</th><th>Prodej</th><th>Obrat</th><th>Trend</th></tr></thead>
+      <tbody id="prodBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Cohort retention -->
+<div class="panel" style="margin-top:20px;">
+  <div class="panel-head">
+    <h3>Kohorty zákazníků — retence v měsících</h3>
+    <div style="font-size:12px;color:var(--text-muted);">Řádek = měsíc akvizice, sloupec = měsíců od akvizice</div>
+  </div>
+  <div id="cohort" style="overflow-x:auto;"></div>
+</div>
+
+<!-- Geographic -->
+<div class="grid-2" style="margin-top:20px;">
+  <div class="panel">
+    <div class="panel-head"><h3>Geografické rozložení</h3></div>
+    <div id="geoList"></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h3>Platební metody</h3></div>
+    <div id="methodsList"></div>
+  </div>
+</div>
+
+<!-- Customer LTV -->
+<div class="panel" style="margin-top:20px;">
+  <div class="panel-head"><h3>Customer Lifetime Value (LTV) distribuce</h3></div>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:20px;">
+    <div><div style="font-size:11px;color:var(--text-muted);">Průměrné LTV</div><div style="font-family:'Sora';font-size:22px;font-weight:700;">8 470 Kč</div></div>
+    <div><div style="font-size:11px;color:var(--text-muted);">Medián LTV</div><div style="font-family:'Sora';font-size:22px;font-weight:700;">2 890 Kč</div></div>
+    <div><div style="font-size:11px;color:var(--text-muted);">CAC</div><div style="font-family:'Sora';font-size:22px;font-weight:700;">980 Kč</div></div>
+    <div><div style="font-size:11px;color:var(--text-muted);">LTV/CAC</div><div style="font-family:'Sora';font-size:22px;font-weight:700;color:#00a884;">8,6×</div></div>
+    <div><div style="font-size:11px;color:var(--text-muted);">Payback</div><div style="font-family:'Sora';font-size:22px;font-weight:700;">2,1 měs.</div></div>
+  </div>
+  <svg id="ltvSvg" viewBox="0 0 800 180" preserveAspectRatio="none" style="width:100%;height:180px;"></svg>
+</div>
+
+</div><!-- /appRoot -->
+
+<script src="app-shell.js"></script>
+<script>
+mountApp('analytics');
+
+// --- Revenue forecast chart ---
+function genPath(n, seed, base, variance) {
+  const pts = [];
+  let v = base;
+  for (let i=0; i<n; i++) {
+    v += (Math.sin(i/5+seed)*variance*0.3 + (Math.random()-0.4)*variance);
+    v = Math.max(base*0.6, v);
+    pts.push(v);
+  }
+  return pts;
+}
+function drawForecast() {
+  const actualN = 60, futureN = 30;
+  const actual = genPath(actualN, 1.2, 100, 12);
+  const last = actual[actualN-1];
+  const forecast = [last];
+  let v = last;
+  for (let i=1; i<futureN; i++) { v += 0.6 + (Math.random()-0.3)*2; forecast.push(v); }
+
+  const W = 800, H = 260;
+  const max = Math.max(...actual, ...forecast) * 1.1;
+  const min = Math.min(...actual, ...forecast) * 0.85;
+  const totalN = actualN + futureN;
+  const sx = i => (i / (totalN-1)) * W;
+  const sy = v => H - ((v - min) / (max - min)) * (H - 20) - 10;
+
+  const actualPath = actual.map((v,i) => `${i===0?'M':'L'} ${sx(i)} ${sy(v)}`).join(' ');
+  const forecastPath = forecast.map((v,i) => `${i===0?'M':'L'} ${sx(actualN-1+i)} ${sy(v)}`).join(' ');
+
+  // Confidence band
+  const bandUp = forecast.map((v,i) => sy(v - (i+1)*0.8));
+  const bandDn = forecast.map((v,i) => sy(v + (i+1)*1.0));
+  let band = '';
+  forecast.forEach((_,i) => { band += `${i===0?'M':'L'} ${sx(actualN-1+i)} ${bandDn[i]} `; });
+  for (let i=forecast.length-1; i>=0; i--) { band += `L ${sx(actualN-1+i)} ${bandUp[i]} `; }
+  band += 'Z';
+
+  const svg = document.getElementById('forecastSvg');
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="gradA" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#635bff" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="#635bff" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    ${[0.25,0.5,0.75].map(p => `<line x1="0" x2="${W}" y1="${H*p}" y2="${H*p}" stroke="currentColor" stroke-opacity="0.08"/>`).join('')}
+    <path d="${actualPath} L ${W*actualN/totalN} ${H} L 0 ${H} Z" fill="url(#gradA)"/>
+    <path d="${band}" fill="rgba(0,212,170,0.2)"/>
+    <path d="${actualPath}" stroke="#635bff" stroke-width="2" fill="none"/>
+    <path d="${forecastPath}" stroke="#00d4aa" stroke-width="2" fill="none" stroke-dasharray="6,4"/>
+    <line x1="${W*(actualN-1)/(totalN-1)}" x2="${W*(actualN-1)/(totalN-1)}" y1="10" y2="${H-10}" stroke="#aab3c4" stroke-dasharray="3,3"/>
+    <text x="${W*(actualN-1)/(totalN-1)+4}" y="24" fill="#aab3c4" font-size="11">Dnes</text>
+  `;
+}
+drawForecast();
+
+// --- Funnel ---
+const funnelData = [
+  { label: 'Návštěvy e-shopu', n: 128400, p: 100, color: '#635bff' },
+  { label: 'Zboží do košíku', n: 42800, p: 33.3, color: '#7d6fff' },
+  { label: 'Vstup do checkoutu', n: 18900, p: 14.7, color: '#9a83ff' },
+  { label: 'Vyplnění údajů', n: 14200, p: 11.1, color: '#b597ff' },
+  { label: 'Úspěšná platba', n: 12850, p: 10.0, color: '#00d4aa' },
+];
+document.getElementById('funnel').innerHTML = funnelData.map((f,i) => `
+  <div>
+    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+      <span>${f.label}</span>
+      <span><strong>${f.n.toLocaleString('cs')}</strong> <span style="color:var(--text-muted);">(${f.p}%)</span></span>
+    </div>
+    <div style="height:28px;background:var(--bg-light);border-radius:6px;overflow:hidden;">
+      <div style="height:100%;width:${f.p}%;background:${f.color};border-radius:6px;transition:width 1s cubic-bezier(.2,.9,.3,1.2);" data-w="${f.p}"></div>
+    </div>
+    ${i < funnelData.length-1 ? `<div style="text-align:center;font-size:11px;color:var(--text-muted);margin:4px 0;">↓ ${(f.p - funnelData[i+1].p).toFixed(1)}% drop</div>` : ''}
+  </div>
+`).join('');
+
+// --- Top products ---
+const products = [
+  { name: 'Zen Pro — roční', sales: 842, rev: 16821580, trend: '+18%' },
+  { name: 'Zen Enterprise', sales: 127, rev: 8253000, trend: '+42%' },
+  { name: 'Radar add-on', sales: 418, rev: 836000, trend: '+12%' },
+  { name: 'Terminal hardware', sales: 89, rev: 1068000, trend: '−4%' },
+  { name: 'Zen Pro — měsíční', sales: 312, rev: 623880, trend: '+7%' },
+  { name: 'Custom onboarding', sales: 18, rev: 540000, trend: '+200%' },
+];
+document.getElementById('prodBody').innerHTML = products.map(p => `
+  <tr>
+    <td><strong>${p.name}</strong></td>
+    <td>${p.sales}</td>
+    <td>${(p.rev/1000).toFixed(0)} tis. Kč</td>
+    <td style="color:${p.trend.startsWith('−') ? '#ef4444' : '#00a884'};font-weight:600;">${p.trend}</td>
+  </tr>
+`).join('');
+
+// --- Cohort grid ---
+const months = ['Lis 25','Pro 25','Led 26','Úno 26','Bře 26','Dub 26'];
+const cohortData = months.map((m, i) => {
+  const row = [100];
+  let v = 100;
+  for (let j=1; j<12-i && j < 6; j++) {
+    v = v * (0.85 + Math.random()*0.08);
+    row.push(Math.round(v));
+  }
+  return { month: m, size: Math.round(400 + Math.random()*600), row };
+});
+let cohortHtml = '<table style="border-collapse:collapse;font-size:12px;"><thead><tr><th style="padding:8px;text-align:left;">Kohorta</th><th style="padding:8px;">Velikost</th>';
+for (let j=0; j<6; j++) cohortHtml += `<th style="padding:8px;">M${j}</th>`;
+cohortHtml += '</tr></thead><tbody>';
+cohortData.forEach(c => {
+  cohortHtml += `<tr><td style="padding:8px;font-weight:600;">${c.month}</td><td style="padding:8px;color:var(--text-muted);">${c.size}</td>`;
+  for (let j=0; j<6; j++) {
+    const v = c.row[j];
+    if (v === undefined) { cohortHtml += '<td></td>'; }
+    else {
+      const a = Math.min(1, v/100);
+      const bg = j===0 ? '#635bff' : `rgba(99,91,255,${a})`;
+      const color = a > 0.45 ? 'white' : 'var(--text)';
+      cohortHtml += `<td style="padding:8px;text-align:center;background:${bg};color:${color};font-weight:600;border-radius:4px;min-width:48px;">${v}%</td>`;
+    }
+  }
+  cohortHtml += '</tr>';
+});
+cohortHtml += '</tbody></table>';
+document.getElementById('cohort').innerHTML = cohortHtml;
+
+// --- Geo distribution ---
+const geo = [
+  { c: '🇨🇿 Česká republika', rev: 58, tx: 8420 },
+  { c: '🇸🇰 Slovensko', rev: 18, tx: 2610 },
+  { c: '🇩🇪 Německo', rev: 12, tx: 1840 },
+  { c: '🇦🇹 Rakousko', rev: 6, tx: 920 },
+  { c: '🇵🇱 Polsko', rev: 4, tx: 580 },
+  { c: '🌍 Ostatní', rev: 2, tx: 280 },
+];
+document.getElementById('geoList').innerHTML = geo.map(g => `
+  <div style="margin-bottom:12px;">
+    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+      <span>${g.c}</span>
+      <span><strong>${g.rev}%</strong> <span style="color:var(--text-muted);">${g.tx.toLocaleString('cs')} tx</span></span>
+    </div>
+    <div style="height:6px;background:var(--bg-light);border-radius:3px;overflow:hidden;">
+      <div style="height:100%;width:${g.rev}%;background:linear-gradient(90deg,#635bff,#a78bfa);"></div>
+    </div>
+  </div>
+`).join('');
+
+// --- Payment methods ---
+const methods = [
+  { m: '💳 Karta (Visa, MC)', p: 68, tx: 9890 },
+  { m: '🍎 Apple Pay', p: 14, tx: 2030 },
+  { m: '🔵 Google Pay', p: 8, tx: 1160 },
+  { m: '🏦 Bankovní převod', p: 6, tx: 870 },
+  { m: '📱 QR platba', p: 3, tx: 435 },
+  { m: '💸 Twint / Ostatní', p: 1, tx: 145 },
+];
+document.getElementById('methodsList').innerHTML = methods.map(m => `
+  <div style="margin-bottom:12px;">
+    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+      <span>${m.m}</span>
+      <span><strong>${m.p}%</strong> <span style="color:var(--text-muted);">${m.tx.toLocaleString('cs')}</span></span>
+    </div>
+    <div style="height:6px;background:var(--bg-light);border-radius:3px;overflow:hidden;">
+      <div style="height:100%;width:${m.p}%;background:linear-gradient(90deg,#00d4aa,#00a884);"></div>
+    </div>
+  </div>
+`).join('');
+
+// --- LTV distribution histogram ---
+function drawLTV() {
+  const bins = [0, 500, 1500, 3000, 6000, 12000, 25000, 50000];
+  const counts = [180, 340, 420, 510, 380, 220, 95, 32];
+  const max = Math.max(...counts);
+  const W = 800, H = 180;
+  const bw = W / counts.length;
+  const svg = document.getElementById('ltvSvg');
+  svg.innerHTML = counts.map((c,i) => {
+    const h = (c/max) * (H-30);
+    return `<rect x="${i*bw+4}" y="${H-h-20}" width="${bw-8}" height="${h}" rx="4" fill="url(#ltvGrad)"/>
+      <text x="${i*bw+bw/2}" y="${H-4}" text-anchor="middle" font-size="10" fill="currentColor" opacity="0.6">${bins[i]<1000?bins[i]:bins[i]/1000+'k'}</text>
+      <text x="${i*bw+bw/2}" y="${H-h-26}" text-anchor="middle" font-size="10" fill="currentColor">${c}</text>`;
+  }).join('') + `<defs><linearGradient id="ltvGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#635bff"/><stop offset="100%" stop-color="#a78bfa"/></linearGradient></defs>`;
+}
+drawLTV();
+
+function rerender() { drawForecast(); appToast('Období: ' + document.getElementById('rangeSel').options[document.getElementById('rangeSel').selectedIndex].text); }
+</script>
+</body>
+</html>

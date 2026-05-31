@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Playground — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div id="nav-placeholder" data-active="developers"></div>
+
+<section class="page-hero" style="padding:40px 0 20px;">
+  <div class="container">
+    <div class="eyebrow">Pro vývojáře</div>
+    <h1 style="font-size:36px;margin-bottom:8px;">API Playground</h1>
+    <p style="font-size:16px;color:var(--text-light);max-width:640px;">Testujte Zen API v reálném čase. Vyberte endpoint vlevo, upravte payload a klikněte na „Odeslat" — vše probíhá v testovacím sandboxu.</p>
+  </div>
+</section>
+
+<div class="pg-layout">
+  <!-- Endpoints sidebar -->
+  <div class="pg-panel">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+      <div style="background:var(--bg-light);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:700;color:var(--primary);">TEST</div>
+      <div style="font-size:12px;color:var(--text-muted);">sk_test_4eC39H...</div>
+    </div>
+    <h4 style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin:16px 0 10px;font-weight:700;">Payments</h4>
+    <div class="pg-endpoint-list" id="list1"></div>
+    <h4 style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin:22px 0 10px;font-weight:700;">Customers</h4>
+    <div class="pg-endpoint-list" id="list2"></div>
+    <h4 style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin:22px 0 10px;font-weight:700;">Subscriptions</h4>
+    <div class="pg-endpoint-list" id="list3"></div>
+    <h4 style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin:22px 0 10px;font-weight:700;">Connect</h4>
+    <div class="pg-endpoint-list" id="list4"></div>
+  </div>
+
+  <!-- Request panel -->
+  <div class="pg-panel">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+      <span id="pgMethod" class="method-chip post" style="font-family:'SF Mono',monospace;font-size:11px;padding:4px 10px;border-radius:4px;background:#00d4aa;color:white;font-weight:700;">POST</span>
+      <code id="pgPath" style="font-size:13px;font-family:'SF Mono',monospace;color:var(--text);flex:1;">/v1/payment_intents</code>
+      <button class="btn-primary-sm" onclick="runRequest()" id="runBtn">Odeslat ⚡</button>
+    </div>
+    <h4 style="font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:600;">Request body (JSON)</h4>
+    <textarea class="pg-editor" id="pgBody"></textarea>
+
+    <h4 style="font-size:12px;color:var(--text-muted);margin:16px 0 8px;font-weight:600;">Hlavičky</h4>
+    <div style="font-family:'SF Mono',monospace;font-size:12px;background:var(--bg-light);padding:12px;border-radius:8px;line-height:1.7;">
+      <div><span style="color:var(--text-muted);">Authorization:</span> Bearer sk_test_4eC39H...</div>
+      <div><span style="color:var(--text-muted);">Content-Type:</span> application/x-www-form-urlencoded</div>
+      <div><span style="color:var(--text-muted);">Zen-Version:</span> 2026-03-15</div>
+    </div>
+
+    <h4 style="font-size:12px;color:var(--text-muted);margin:16px 0 8px;font-weight:600;">cURL ekvivalent</h4>
+    <pre style="background:#0f1823;color:#e2e8f0;padding:12px;border-radius:8px;font-family:'SF Mono',monospace;font-size:12px;overflow-x:auto;" id="pgCurl"></pre>
+  </div>
+
+  <!-- Response panel -->
+  <div class="pg-panel">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+      <div style="font-size:13px;font-weight:600;">Odpověď</div>
+      <span id="pgStatus" style="font-family:'SF Mono',monospace;font-size:11px;padding:4px 10px;border-radius:4px;background:#e8f7f0;color:#00a884;font-weight:700;">200 OK</span>
+      <span id="pgTime" style="font-size:11px;color:var(--text-muted);">— 284 ms</span>
+    </div>
+    <pre class="pg-editor" style="white-space:pre-wrap;overflow-x:auto;" id="pgResp"></pre>
+
+    <h4 style="font-size:12px;color:var(--text-muted);margin:16px 0 8px;font-weight:600;">Historie (posledních 10)</h4>
+    <div id="pgHistory" style="display:flex;flex-direction:column;gap:4px;max-height:240px;overflow-y:auto;"></div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+<script>
+const endpoints = {
+  payments: [
+    { method:'POST', path:'/v1/payment_intents', label:'Create PaymentIntent', body:{ amount: 249900, currency: 'czk', payment_method_types: ['card'], description: 'Objednávka #1052' }, resp:{ id: 'pi_3N4QLk2eZvKYlo2C', object: 'payment_intent', amount: 249900, amount_received: 0, currency: 'czk', status: 'requires_payment_method', client_secret: 'pi_3N4QLk2eZvKYlo2C_secret_LMxYz', created: 1745376321 } },
+    { method:'GET', path:'/v1/payment_intents/{id}', label:'Retrieve PaymentIntent', body:null, resp:{ id: 'pi_3N4QLk2eZvKYlo2C', status: 'succeeded', amount: 249900 } },
+    { method:'POST', path:'/v1/payment_intents/{id}/confirm', label:'Confirm PaymentIntent', body:{ payment_method: 'pm_card_visa' }, resp:{ id: 'pi_3N4QLk2eZvKYlo2C', status: 'succeeded' } },
+    { method:'POST', path:'/v1/refunds', label:'Create Refund', body:{ payment_intent: 'pi_3N4QLk2eZvKYlo2C', amount: 24990 }, resp:{ id: 'rf_1N4', object: 'refund', amount: 24990, status: 'succeeded' } },
+    { method:'GET', path:'/v1/charges', label:'List Charges', body:null, resp:{ object:'list', data:[{id:'ch_1',amount:249900},{id:'ch_2',amount:199900}] } },
+  ],
+  customers: [
+    { method:'POST', path:'/v1/customers', label:'Create Customer', body:{ email: 'novak@example.cz', name: 'Jan Novák', description: 'VIP zákazník' }, resp:{ id: 'cus_NaAB', object: 'customer', email: 'novak@example.cz', created: 1745376321 } },
+    { method:'GET', path:'/v1/customers', label:'List Customers', body:null, resp:{ object:'list', data:[{id:'cus_1',email:'a@b.cz'},{id:'cus_2',email:'c@d.cz'}] } },
+    { method:'DELETE', path:'/v1/customers/{id}', label:'Delete Customer', body:null, resp:{ id:'cus_NaAB', deleted:true } },
+  ],
+  subs: [
+    { method:'POST', path:'/v1/subscriptions', label:'Create Subscription', body:{ customer: 'cus_NaAB', items: [{ price: 'price_1NBZ' }] }, resp:{ id:'sub_1N', status:'active', current_period_end: 1776912321 } },
+    { method:'POST', path:'/v1/subscriptions/{id}/cancel', label:'Cancel Subscription', body:null, resp:{ id:'sub_1N', status:'canceled' } },
+    { method:'GET', path:'/v1/invoices', label:'List Invoices', body:null, resp:{ object:'list', data:[] } },
+  ],
+  connect: [
+    { method:'POST', path:'/v1/accounts', label:'Create Connected Account', body:{ type:'express', country:'CZ', email:'prodejce@shop.cz' }, resp:{ id:'acct_1N', object:'account', type:'express' } },
+    { method:'POST', path:'/v1/transfers', label:'Create Transfer', body:{ amount:24990, currency:'czk', destination:'acct_1N' }, resp:{ id:'tr_1N', object:'transfer', amount:24990 } },
+  ]
+};
+
+let currentEp = endpoints.payments[0];
+const history = [];
+
+function renderList(id, arr) {
+  document.getElementById(id).innerHTML = arr.map((e,i) => `
+    <button class="pg-endpoint-btn" onclick="selectEp('${id}',${i})">
+      <span style="font-family:'SF Mono',monospace;font-size:10px;color:${methodColor(e.method)};font-weight:700;min-width:42px;">${e.method}</span>
+      <span>${e.label}</span>
+    </button>
+  `).join('');
+}
+function methodColor(m) {
+  return { GET: '#00a884', POST: '#635bff', DELETE: '#ee5a6f', PUT: '#ffa500' }[m] || '#888';
+}
+
+renderList('list1', endpoints.payments);
+renderList('list2', endpoints.customers);
+renderList('list3', endpoints.subs);
+renderList('list4', endpoints.connect);
+
+function selectEp(listId, i) {
+  const map = { list1: endpoints.payments, list2: endpoints.customers, list3: endpoints.subs, list4: endpoints.connect };
+  currentEp = map[listId][i];
+  document.querySelectorAll('.pg-endpoint-btn').forEach(b => b.classList.remove('active'));
+  event.target.closest('.pg-endpoint-btn').classList.add('active');
+  renderEp();
+}
+
+function renderEp() {
+  document.getElementById('pgMethod').textContent = currentEp.method;
+  document.getElementById('pgMethod').style.background = methodColor(currentEp.method);
+  document.getElementById('pgPath').textContent = currentEp.path;
+  document.getElementById('pgBody').value = currentEp.body ? JSON.stringify(currentEp.body, null, 2) : '// bez těla';
+  updateCurl();
+}
+function updateCurl() {
+  const body = currentEp.body;
+  const parts = body ? Object.entries(body).map(([k,v]) => `-d "${k}=${typeof v === 'object' ? JSON.stringify(v) : v}"`).join(' \\\n  ') : '';
+  document.getElementById('pgCurl').textContent =
+`curl https://api.zen.cz${currentEp.path} \\
+  -H "Authorization: Bearer sk_test_4eC39H..." \\
+  -X ${currentEp.method}${parts ? ' \\\n  ' + parts : ''}`;
+}
+function runRequest() {
+  const btn = document.getElementById('runBtn');
+  btn.disabled = true;
+  btn.textContent = 'Odesílám...';
+  document.getElementById('pgResp').textContent = '// posílám požadavek...';
+  const start = Date.now();
+  setTimeout(() => {
+    const elapsed = Date.now() - start + 180;
+    const success = Math.random() > 0.08;
+    const status = success ? (currentEp.method === 'POST' ? 201 : 200) : 400;
+    document.getElementById('pgStatus').textContent = success ? `${status} OK` : '400 Bad Request';
+    document.getElementById('pgStatus').style.background = success ? '#e8f7f0' : '#fee2e2';
+    document.getElementById('pgStatus').style.color = success ? '#00a884' : '#ef4444';
+    document.getElementById('pgTime').textContent = `— ${elapsed} ms`;
+    const resp = success ? currentEp.resp : { error: { type: 'invalid_request_error', message: 'Missing required param: currency' } };
+    document.getElementById('pgResp').textContent = JSON.stringify(resp, null, 2);
+    history.unshift({ method: currentEp.method, path: currentEp.path, status, time: new Date().toLocaleTimeString('cs') });
+    if (history.length > 10) history.pop();
+    renderHistory();
+    btn.disabled = false;
+    btn.innerHTML = 'Odeslat ⚡';
+  }, 450 + Math.random()*600);
+}
+function renderHistory() {
+  document.getElementById('pgHistory').innerHTML = history.map(h => `
+    <div style="display:flex;gap:8px;padding:6px 10px;border-radius:6px;background:var(--bg-light);font-size:12px;font-family:'SF Mono',monospace;align-items:center;">
+      <span style="color:${h.status < 400 ? '#00a884' : '#ef4444'};font-weight:700;min-width:36px;">${h.status}</span>
+      <span style="color:${methodColor(h.method)};font-weight:700;min-width:48px;">${h.method}</span>
+      <span style="flex:1;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${h.path}</span>
+      <span style="color:var(--text-muted);">${h.time}</span>
+    </div>
+  `).join('') || '<div style="color:var(--text-muted);font-size:12px;padding:8px;">Zatím žádná historie.</div>';
+}
+
+renderEp();
+document.getElementById('pgBody').addEventListener('input', () => {
+  try { currentEp.body = JSON.parse(document.getElementById('pgBody').value); updateCurl(); } catch {}
+});
+document.querySelector('.pg-endpoint-btn')?.classList.add('active');
+</script>
+</body>
+</html>

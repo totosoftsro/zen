@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Issuing — vydávejte vlastní karty | Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="nav-placeholder" data-active="products"></div>
+
+<section class="page-hero dark" style="background:linear-gradient(135deg,#0a2540,#7c3aed);overflow:hidden;">
+  <div class="container"><div class="page-hero-inner" style="display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;text-align:left;">
+    <div>
+      <div class="breadcrumb" style="color:rgba(255,255,255,0.7);"><a href="index.html" style="color:white;">Domů</a> <span>›</span> Produkty <span>›</span> Issuing</div>
+      <h1 style="text-align:left;">Vydávejte vlastní<br>platební karty</h1>
+      <p style="text-align:left;color:#cbd5e1;">Virtuální i fyzické karty během chvíle. Naprogramujte si vlastní pravidla útrat a kontrolujte každou transakci v reálném čase přes API.</p>
+      <div class="hero-cta" style="margin-top:28px;">
+        <a href="signup.html" class="btn-primary-light">Vytvořit první kartu →</a>
+        <a href="docs.html" class="btn-secondary-light">API dokumentace</a>
+      </div>
+    </div>
+    <div class="iss-card-wrap">
+      <div class="iss-card" id="issCard">
+        <div class="iss-card-top">
+          <span class="iss-logo">Zen</span>
+          <span class="iss-chip"></span>
+        </div>
+        <div class="iss-num" id="issNum">4242  7531  •••• ••••</div>
+        <div class="iss-bottom">
+          <div><span class="iss-lbl">Držitel</span><span class="iss-val" id="issHolder">JAN NOVÁK</span></div>
+          <div><span class="iss-lbl">Platnost</span><span class="iss-val">05/29</span></div>
+          <div class="iss-brand">VISA</div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);">⚡</div><h3>Karta za vteřinu</h3><p>Vytvořte virtuální kartu jedním API voláním. Token je hned použitelný v Apple Pay i Google Pay.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#635bff,#4f46e5);">🎛️</div><h3>Spend controls</h3><p>Limity na kategorie (MCC), částky, obchodníky, čas. Pravidla nastavíte programově nebo v Dashboardu.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#00d4aa,#00a884);">🔔</div><h3>Realtime authorizace</h3><p>Webhook při každé autorizaci. Schvalte nebo odmítněte transakci vlastní logikou do 2 sekund.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">💳</div><h3>Fyzické karty</h3><p>Brandované plastové i kovové karty s vaším logem. Doručení do 5 pracovních dnů po ČR.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">📱</div><h3>Digital wallets</h3><p>Push-provisioning přímo do peněženky uživatele. Karta funguje dřív, než dorazí plast.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ee5a6f,#ff6b6b);">💰</div><h3>Cashback & odměny</h3><p>Vracejte uživatelům část útrat. Interchange sdílíme s vámi — nový zdroj příjmů.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Use cases</div><h2>Pro co se Issuing hodí</h2></div>
+    <div class="iss-uses">
+      <div class="iss-use"><div class="iu-ico">🏢</div><h4>Firemní karty</h4><p>Vydejte karty zaměstnancům s limity podle oddělení. Každá útrata má kategorii a je hned v účetnictví.</p></div>
+      <div class="iss-use"><div class="iu-ico">🚚</div><h4>Výplaty řidičům & kurýrům</h4><p>Okamžité vyplácení na kartu místo bankovního převodu. Peníze dostupné ihned po směně.</p></div>
+      <div class="iss-use"><div class="iu-ico">🛒</div><h4>Nákupní karty</h4><p>Pro nákupčí a pobočky s přesnými pravidly, u koho a kolik smí utratit.</p></div>
+      <div class="iss-use"><div class="iu-ico">💼</div><h4>Fintech & neobanky</h4><p>Postavte vlastní bankovní produkt na našem stacku. My řešíme procesing, vy zákazníka.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="max-width:920px;">
+    <div class="section-header"><div class="eyebrow">Vytvořte kartu</div><h2>Jedno API volání</h2></div>
+    <div class="code-block">
+      <div class="code-head"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span style="margin-left:10px;color:#94a3b8;font-size:12px;">create_card.sh</span></div>
+      <pre><code><span class="ct-c"># Vytvoření virtuální karty se spend controls</span>
+curl https://api.zen.cz/v1/issuing/cards \
+  -u <span class="ct-s">"sk_live_••••••••:"</span> \
+  -d <span class="ct-k">cardholder</span>=<span class="ct-s">"ich_1Nov4k"</span> \
+  -d <span class="ct-k">currency</span>=<span class="ct-s">"czk"</span> \
+  -d <span class="ct-k">type</span>=<span class="ct-s">"virtual"</span> \
+  -d <span class="ct-k">spending_controls[spending_limits][0][amount]</span>=<span class="ct-n">5000000</span> \
+  -d <span class="ct-k">spending_controls[spending_limits][0][interval]</span>=<span class="ct-s">"monthly"</span> \
+  -d <span class="ct-k">spending_controls[allowed_categories][]</span>=<span class="ct-s">"transport"</span></code></pre>
+    </div>
+  </div>
+</section>
+
+<section class="section stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-big">&lt; 1 s</div><div class="stat-desc">Vytvoření virtuální karty</div></div>
+      <div class="stat-item"><div class="stat-big">2 mil.+</div><div class="stat-desc">Vydaných karet na platformě</div></div>
+      <div class="stat-item"><div class="stat-big">190+</div><div class="stat-desc">Zemí, kde karty fungují</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container"><div class="cta-box">
+    <h2>Postavte vlastní kartový produkt</h2>
+    <p>Od virtuální karty pro testy po milion fyzických karet v produkci. Začněte v testovacím režimu zdarma.</p>
+    <div class="cta-buttons">
+      <a href="signup.html" class="btn-primary-light">Začít zdarma →</a>
+      <a href="contact.html" class="btn-secondary-light">Kontaktovat prodej</a>
+    </div>
+  </div></div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+
+<style>
+.iss-card-wrap { perspective:1200px; display:flex; justify-content:center; }
+.iss-card { width:340px; height:214px; border-radius:18px; background:linear-gradient(135deg,#1e1b4b,#6d28d9 60%,#a78bfa); padding:24px; color:white; box-shadow:0 30px 60px rgba(0,0,0,.4); position:relative; overflow:hidden; transform:rotateY(-12deg) rotateX(6deg); transition:transform .3s; }
+.iss-card:hover { transform:rotateY(0) rotateX(0); }
+.iss-card::before { content:''; position:absolute; top:-40%; right:-20%; width:240px; height:240px; background:radial-gradient(circle, rgba(255,255,255,.25), transparent 70%); }
+.iss-card-top { display:flex; justify-content:space-between; align-items:flex-start; }
+.iss-logo { font-family:'Sora'; font-weight:800; font-size:22px; }
+.iss-chip { width:42px; height:32px; border-radius:6px; background:linear-gradient(135deg,#fde68a,#d4af37); display:block; }
+.iss-num { font-family:'JetBrains Mono','Courier New',monospace; font-size:20px; letter-spacing:2px; margin-top:34px; }
+.iss-bottom { display:flex; gap:24px; align-items:flex-end; margin-top:24px; }
+.iss-lbl { display:block; font-size:9px; text-transform:uppercase; letter-spacing:.1em; color:rgba(255,255,255,.6); }
+.iss-val { display:block; font-size:13px; font-weight:600; margin-top:2px; }
+.iss-brand { margin-left:auto; font-family:'Sora'; font-style:italic; font-weight:800; font-size:22px; }
+
+.iss-uses { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+.iss-use { background:white; border:1px solid var(--border); border-radius:14px; padding:24px; }
+.iu-ico { font-size:30px; margin-bottom:10px; }
+.iss-use h4 { font-family:'Sora'; margin-bottom:6px; }
+.iss-use p { font-size:13px; color:var(--text-light); margin:0; line-height:1.55; }
+
+.code-block { background:#0d1424; border-radius:14px; overflow:hidden; border:1px solid #1e2a42; }
+.code-head { display:flex; align-items:center; gap:6px; padding:12px 16px; background:#0a1020; border-bottom:1px solid #1e2a42; }
+.code-dot { width:11px; height:11px; border-radius:50%; background:#3a4a6a; }
+.code-block pre { margin:0; padding:20px; overflow-x:auto; }
+.code-block code { font-family:'JetBrains Mono','Courier New',monospace; font-size:13px; color:#e2e8f0; line-height:1.7; }
+.ct-c { color:#64748b; }
+.ct-s { color:#86efac; }
+.ct-k { color:#93c5fd; }
+.ct-n { color:#fcd34d; }
+
+:root[data-theme="dark"] .iss-use { background:#121c30; border-color:#1e2a42; }
+
+@media (max-width:960px){
+  .page-hero-inner { grid-template-columns:1fr !important; text-align:center !important; }
+  .page-hero-inner h1, .page-hero-inner p { text-align:center !important; }
+  .iss-uses { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:600px){ .iss-uses{grid-template-columns:1fr;} .iss-card{width:300px;} }
+</style>
+</body>
+</html>

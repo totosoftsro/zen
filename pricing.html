@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Ceník — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div id="nav-placeholder" data-active="pricing"></div>
+
+<section class="page-hero">
+  <div class="container"><div class="page-hero-inner">
+    <h1>Jednoduché a transparentní<br><span class="gradient-text">ceny bez skrytých poplatků</span></h1>
+    <p>Bez měsíčních poplatků, bez nákladů na nastavení, bez skrytých příplatků. Platíte pouze za úspěšně zpracované transakce.</p>
+  </div></div>
+</section>
+
+<section class="section" style="padding-top:60px;">
+  <div class="container">
+    <div class="calc-box">
+      <h3 style="margin-bottom:6px; font-family:Sora;">Kolik ušetříte se Zenem?</h3>
+      <p class="muted" style="margin-bottom:16px; font-size:14px;">Přesuňte posuvník podle měsíčního obratu</p>
+      <input type="range" min="10000" max="10000000" step="10000" value="500000" class="calc-slider" id="slider">
+      <div style="display:flex; justify-content:space-between; font-size:13px; color:#6b7c93; margin-bottom:14px;">
+        <span>10 000 Kč</span><span id="sliderVal" style="font-weight:600; color:#0a2540;">500 000 Kč</span><span>10 000 000 Kč</span>
+      </div>
+      <div class="calc-result">
+        <div class="calc-result-item"><div class="calc-result-value" id="fees">7 500 Kč</div><div class="calc-result-label">Měsíční poplatky Zen</div></div>
+        <div class="calc-result-item"><div class="calc-result-value" id="net" style="color:#00a884;">492 500 Kč</div><div class="calc-result-label">Čistý příjem měsíčně</div></div>
+      </div>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="price-card"><div class="price-name">Integrovaný</div><div class="price-desc">Rychlý start s předpřipravenou integrací</div><div class="price-amount"><span>1,4 %</span> <small>+ 3 Kč</small></div><div class="price-note">za úspěšnou evropskou kartu</div>
+        <ul class="price-features"><li>Všechny platební metody</li><li>24/7 e-mailová podpora</li><li>Dashboard + reporty</li><li>Webhooks a API</li><li>Bez měsíčních poplatků</li><li>Bez setup fee</li></ul>
+        <a href="signup.html" class="btn-secondary full">Začít zdarma →</a></div>
+      <div class="price-card featured"><div class="badge">Pro velké</div><div class="price-name">Upravený</div><div class="price-desc">Individuální ceny pro velké obchodníky</div><div class="price-amount"><span>Individuální</span></div><div class="price-note">ušetříte 25–40 % při objemu nad 5M Kč/měs</div>
+        <ul class="price-features"><li>Vše z plánu Integrovaný</li><li>Ceny na míru</li><li>Dedicated account manager</li><li>SLA 99,999 %</li><li>Prioritní podpora 24/7</li><li>Multi-processor routing</li><li>Vlastní reporting</li></ul>
+        <a href="contact.html" class="btn-primary full">Kontaktovat prodej →</a></div>
+    </div>
+
+    <div style="max-width:880px; margin:60px auto 0;">
+      <h3 style="font-family:Sora; margin-bottom:20px;">Doplňkové služby</h3>
+      <div class="panel">
+        <table class="data-table">
+          <thead><tr><th>Služba</th><th>Cena</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Zen Radar (fraud detection)</strong><br><span class="muted">Strojové učení proti podvodům</span></td><td class="amt">+ 0,5 Kč / transakce</td></tr>
+            <tr><td><strong>Zen Connect</strong><br><span class="muted">Platby pro marketplaces</span></td><td class="amt">+ 0,25 % / transakce</td></tr>
+            <tr><td><strong>Mezinárodní karty</strong><br><span class="muted">Karty mimo EHP</span></td><td class="amt">2,9 % + 3 Kč</td></tr>
+            <tr><td><strong>Chargeback</strong><br><span class="muted">Dispute review a důkazy</span></td><td class="amt">400 Kč / dispute</td></tr>
+            <tr><td><strong>Instant payouts</strong><br><span class="muted">Výplata do minuty</span></td><td class="amt">1 % z částky</td></tr>
+            <tr><td><strong>Zen Tax</strong><br><span class="muted">Automatické DPH + reporty</span></td><td class="amt">+ 0,4 % / transakce</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-top:80px;">
+      <h2>Často kladené otázky</h2>
+    </div>
+    <div style="max-width:720px; margin:0 auto;">
+      <div class="panel"><div class="panel-body">
+        <details style="cursor:pointer; padding:12px 0;"><summary style="font-weight:600; font-size:16px;">Jsou nějaké měsíční poplatky?</summary><p class="muted" style="margin-top:10px;">Ne. Platíte pouze procentuální poplatek z úspěšně zpracovaných transakcí. Žádný měsíční paušál, žádné skryté náklady.</p></details>
+        <hr style="border:none; border-top:1px solid #e6ebf1; margin:8px 0;">
+        <details style="cursor:pointer; padding:12px 0;"><summary style="font-weight:600; font-size:16px;">Kdy dostanu peníze?</summary><p class="muted" style="margin-top:10px;">Standardní výplata je T+2 pracovní dny. S Instant Payouts (za poplatek 1 %) vyplácíme do několika minut, 24/7.</p></details>
+        <hr style="border:none; border-top:1px solid #e6ebf1; margin:8px 0;">
+        <details style="cursor:pointer; padding:12px 0;"><summary style="font-weight:600; font-size:16px;">Můžu zrušit kdykoliv?</summary><p class="muted" style="margin-top:10px;">Ano, bez výpovědní doby a bez sankcí. Zen je pay-as-you-go služba.</p></details>
+        <hr style="border:none; border-top:1px solid #e6ebf1; margin:8px 0;">
+        <details style="cursor:pointer; padding:12px 0;"><summary style="font-weight:600; font-size:16px;">Podporujete mezinárodní platby?</summary><p class="muted" style="margin-top:10px;">Ano. Přijímáme karty ze 135+ zemí ve 45 měnách s automatickým přepočtem.</p></details>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+<script>
+const s = document.getElementById('slider');
+s.oninput = () => {
+  const v = +s.value;
+  const f = Math.round(v * 0.014 + (v/2000)*3);
+  document.getElementById('sliderVal').textContent = v.toLocaleString('cs-CZ') + ' Kč';
+  document.getElementById('fees').textContent = f.toLocaleString('cs-CZ') + ' Kč';
+  document.getElementById('net').textContent = (v-f).toLocaleString('cs-CZ') + ' Kč';
+};
+</script>
+</body></html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Srovnání — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero">
+  <div class="container"><div class="page-hero-inner">
+    <div class="eyebrow">Srovnání</div>
+    <h1>Zen vs. konkurence</h1>
+    <p>Transparentní srovnání funkcí, cen a výkonu. Porovnáváme se s běžnými českými a evropskými platebními bránami.</p>
+  </div></div>
+</section>
+
+<section class="section">
+  <div class="container" style="overflow-x:auto;">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="min-width:240px;">Funkce</th>
+          <th class="zen-col">Zen</th>
+          <th>GoPay</th>
+          <th>ComGate</th>
+          <th>PayU</th>
+          <th>Stripe</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Sazba za evropskou kartu</strong></td><td class="check">1,4 % + 3 Kč</td><td>1,9 % + 2 Kč</td><td>1,5 % + 3 Kč</td><td>1,8 % + 2,5 Kč</td><td>1,4 % + 0,25 €</td></tr>
+        <tr><td>Doba výplaty</td><td class="check">T+2</td><td>T+5</td><td>T+3</td><td>T+5</td><td>T+2</td></tr>
+        <tr><td>Apple Pay / Google Pay</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Plná podpora předplatného</td><td class="check">✓</td><td class="cross">✗</td><td>omezeno</td><td>omezeno</td><td class="check">✓</td></tr>
+        <tr><td>Fraud detection (ML)</td><td class="check">✓ Radar 2.0</td><td class="cross">✗</td><td>základní</td><td>základní</td><td class="check">✓</td></tr>
+        <tr><td>Split payments pro marketplaces</td><td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>Vlastní checkout UI (Elements)</td><td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>Podpora 24/7 v češtině</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td>e-mail</td><td class="cross">✗ (angličtina)</td></tr>
+        <tr><td>API response time (p95)</td><td class="check">89 ms</td><td>320 ms</td><td>240 ms</td><td>410 ms</td><td>125 ms</td></tr>
+        <tr><td>Vývojářská dokumentace</td><td class="check">✓ Skvělá</td><td>průměr</td><td>dobrá</td><td>průměr</td><td class="check">✓ Výborná</td></tr>
+        <tr><td>Webhooky s retry</td><td class="check">✓</td><td>omezeno</td><td class="check">✓</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>Testovací sandbox</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>SDKs (JS, PHP, Python, Go, Ruby, .NET)</td><td class="check">6 jazyků</td><td>3 jazyky</td><td>4 jazyky</td><td>2 jazyky</td><td class="check">8 jazyků</td></tr>
+        <tr><td>Platba QR kódem (Spayd)</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td></tr>
+        <tr><td>Bankovní tlačítko (ČSOB, KB, RB...)</td><td class="check">✓ 12 bank</td><td class="check">✓ 10 bank</td><td class="check">✓ 8 bank</td><td class="check">✓ 6 bank</td><td class="cross">✗</td></tr>
+        <tr><td>Virtuální terminál</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td>omezeno</td><td class="check">✓</td></tr>
+        <tr><td>Vestavěná fakturace</td><td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>Měsíční poplatky</td><td class="check">0 Kč</td><td class="check">0 Kč</td><td class="cross">490 Kč</td><td class="check">0 Kč</td><td class="check">0 Kč</td></tr>
+        <tr><td>Chargeback poplatek</td><td class="check">250 Kč</td><td>500 Kč</td><td>400 Kč</td><td>500 Kč</td><td>15 €</td></tr>
+        <tr><td>SLA uptime</td><td class="check">99,999 %</td><td>99,9 %</td><td>99,95 %</td><td>99,9 %</td><td class="check">99,999 %</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Proč Zen</div>
+      <h2>Výhody, které změní váš byznys</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#635bff,#a78bfa);">💰</div>
+        <h3>Ušetříte až 38 % na poplatcích</h3>
+        <p>Nižší sazby, bez skrytých poplatků a bez nutnosti platit za měsíční paušál.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#00d4aa,#00a884);">⚡</div>
+        <h3>3× rychlejší API</h3>
+        <p>Průměrná odezva 89 ms ve srovnání s 240-410 ms u české konkurence.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#f093fb,#f5576c);">🛡️</div>
+        <h3>Nižší riziko fraudu</h3>
+        <p>Radar 2.0 s ML modelem natrénovaným na miliardách transakcí.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">🇨🇿</div>
+        <h3>Česká firma, česká podpora</h3>
+        <p>Odpovíme vám v češtině do 1 hodiny — i o víkendech.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">🔌</div>
+        <h3>Integrace za minuty</h3>
+        <p>6 SDK jazyků, plugin pro WordPress, Shopify, WooCommerce, Magento.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#ee5a6f,#ff6b6b);">🌍</div>
+        <h3>135+ zemí a 45 měn</h3>
+        <p>Přijímejte platby od kohokoliv na světě s automatickou konverzí.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Kalkulačka úspor</div>
+      <h2>Kolik byste ušetřili na Zenu?</h2>
+    </div>
+    <div class="calc-box" style="max-width:720px;margin:0 auto;">
+      <div style="margin-bottom:20px;">
+        <label style="font-size:13px;color:var(--text-light);">Měsíční objem plateb</label>
+        <div style="font-family:'Sora';font-size:40px;font-weight:700;color:var(--primary);" id="calcVol">500 000 Kč</div>
+        <input type="range" min="100000" max="10000000" step="50000" value="500000" id="volSlider" style="width:100%;accent-color:var(--primary);" oninput="updateCompare(this.value)">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);"><span>100 tis.</span><span>10 mil.</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px;">
+        <div style="background:linear-gradient(135deg,rgba(99,91,255,0.08),rgba(167,139,250,0.08));padding:18px;border-radius:12px;border:2px solid var(--primary);">
+          <div style="font-size:12px;color:var(--primary);font-weight:600;margin-bottom:4px;">ZEN</div>
+          <div style="font-family:'Sora';font-size:22px;font-weight:700;" id="zenCost">10 000 Kč</div>
+          <div style="font-size:11px;color:var(--text-muted);">měsíčně</div>
+        </div>
+        <div style="background:var(--bg-light);padding:18px;border-radius:12px;">
+          <div style="font-size:12px;color:var(--text-muted);font-weight:600;margin-bottom:4px;">GoPay</div>
+          <div style="font-family:'Sora';font-size:22px;font-weight:700;" id="gopayCost">12 500 Kč</div>
+          <div style="font-size:11px;color:var(--text-muted);">měsíčně</div>
+        </div>
+        <div style="background:var(--bg-light);padding:18px;border-radius:12px;">
+          <div style="font-size:12px;color:var(--text-muted);font-weight:600;margin-bottom:4px;">ComGate</div>
+          <div style="font-family:'Sora';font-size:22px;font-weight:700;" id="comgateCost">11 500 Kč</div>
+          <div style="font-size:11px;color:var(--text-muted);">měsíčně</div>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,#00d4aa,#00a884);color:white;padding:18px;border-radius:12px;margin-top:16px;text-align:center;">
+        Uspoříte <strong id="saveAmt">30 000 Kč ročně</strong> ve srovnání s nejbližší konkurencí 💰
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container"><div class="cta-box">
+    <h2>Připraveni na změnu?</h2>
+    <p>Přejít na Zen trvá 10 minut. Migrace plateb a předplatného je zdarma a provede vás tým expertů.</p>
+    <div class="cta-buttons">
+      <a href="signup.html" class="btn-primary-light">Začít zdarma →</a>
+      <a href="contact.html" class="btn-secondary-light">Poradit se s prodejem</a>
+    </div>
+  </div></div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+<script>
+function updateCompare(v) {
+  v = parseInt(v);
+  document.getElementById('calcVol').textContent = v.toLocaleString('cs') + ' Kč';
+  const zen = Math.round(v * 0.014 + (v/2000)*3);
+  const gopay = Math.round(v * 0.019 + (v/2000)*2);
+  const comgate = Math.round(v * 0.015 + (v/2000)*3 + 490);
+  document.getElementById('zenCost').textContent = zen.toLocaleString('cs') + ' Kč';
+  document.getElementById('gopayCost').textContent = gopay.toLocaleString('cs') + ' Kč';
+  document.getElementById('comgateCost').textContent = comgate.toLocaleString('cs') + ' Kč';
+  const save = Math.min(gopay, comgate) - zen;
+  document.getElementById('saveAmt').textContent = (save * 12).toLocaleString('cs') + ' Kč ročně';
+}
+updateCompare(500000);
+</script>
+</body>
+</html>

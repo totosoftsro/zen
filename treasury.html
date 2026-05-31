@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treasury — banking-as-a-service | Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="nav-placeholder" data-active="products"></div>
+
+<section class="page-hero dark" style="background:linear-gradient(135deg,#0a2540,#0369a1);">
+  <div class="container"><div class="page-hero-inner">
+    <div class="breadcrumb" style="color:rgba(255,255,255,0.7);"><a href="index.html" style="color:white;">Domů</a> <span>›</span> Produkty <span>›</span> Treasury</div>
+    <h1>Postavte banku<br>do svého produktu</h1>
+    <p style="color:#cbd5e1;">Účty, IBAN, převody, úročení i debetní karty pro vaše uživatele — přes API. Treasury je kompletní bankovní infrastruktura jako služba.</p>
+    <div class="hero-cta" style="justify-content:center; margin-top:28px;">
+      <a href="signup.html" class="btn-primary-light">Získat přístup →</a>
+      <a href="docs.html" class="btn-secondary-light">API dokumentace</a>
+    </div>
+  </div></div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#0369a1,#0ea5e9);">🏦</div><h3>Účty s IBAN</h3><p>Vytvořte uživatelům vlastní účty s unikátním IBAN jedním API voláním. Vedeno u licencované banky.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#635bff,#a78bfa);">⚡</div><h3>Okamžité převody</h3><p>SEPA Instant, ACH i interní transfery v reálném čase. Webhook o každém pohybu.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#00d4aa,#00a884);">💳</div><h3>Napojení na Issuing</h3><p>Vydejte k účtu debetní kartu. Útrata se okamžitě promítne do zůstatku — žádné zpoždění.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">📈</div><h3>Úročení zůstatků</h3><p>Nabídněte uživatelům úrok z volných prostředků. Úrok připisujeme automaticky každý den.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">🛡️</div><h3>Pojištěné vklady</h3><p>Prostředky u partnerských bank kryté zákonným pojištěním vkladů do 100 000 €.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ee5a6f,#ff6b6b);">📋</div><h3>Compliance v ceně</h3><p>KYC, AML monitoring i reporting řešíme za vás. Vy stavíte produkt, my hlídáme regulaci.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-light);">
+  <div class="container" style="max-width:900px;">
+    <div class="section-header"><div class="eyebrow">Účet na míru</div><h2>Vytvořte uživateli účet jedním voláním</h2></div>
+    <div class="code-block">
+      <div class="code-head"><span class="code-dot"></span><span class="code-dot"></span><span class="code-dot"></span><span style="margin-left:10px;color:#94a3b8;font-size:12px;">create_account.sh</span></div>
+      <pre><code><span class="ct-c"># Otevření účtu s IBAN pro uživatele platformy</span>
+curl https://api.zen.cz/v1/treasury/financial_accounts \
+  -u <span class="ct-s">"sk_live_••••••••:"</span> \
+  -d <span class="ct-k">supported_currencies[]</span>=<span class="ct-s">"czk"</span> \
+  -d <span class="ct-k">supported_currencies[]</span>=<span class="ct-s">"eur"</span> \
+  -d <span class="ct-k">features[card_issuing][requested]</span>=<span class="ct-n">true</span> \
+  -d <span class="ct-k">features[inbound_transfers][ach][requested]</span>=<span class="ct-n">true</span> \
+  -d <span class="ct-k">metadata[user_id]</span>=<span class="ct-s">"usr_8821"</span></code></pre>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Use cases</div><h2>Kdo staví na Treasury</h2></div>
+    <div class="tr-uses">
+      <div class="tr-use"><div class="tu-ico">💼</div><h4>Neobanky & fintech</h4><p>Spusťte vlastní bankovní produkt bez vlastní licence. Time-to-market v týdnech, ne letech.</p></div>
+      <div class="tr-use"><div class="tu-ico">🛍️</div><h4>Marketplace peněženky</h4><p>Prodejci drží zůstatek na účtu u vás, utrácí kartou nebo vybírají kdykoli.</p></div>
+      <div class="tr-use"><div class="tu-ico">🧾</div><h4>Účetní & výplatní SW</h4><p>Posílejte výplaty a platby dodavatelům přímo z aplikace, bez exportů do banky.</p></div>
+      <div class="tr-use"><div class="tu-ico">🚀</div><h4>Vertikální SaaS</h4><p>Přidejte embedded finance ke svému oborovému softwaru a vytvořte nový příjem.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section stats-section" style="background:linear-gradient(135deg,#0a2540,#0369a1);">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-big" style="color:white;">100 000 €</div><div class="stat-desc" style="color:#bae6fd;">Pojištění vkladů na účet</div></div>
+      <div class="stat-item"><div class="stat-big" style="color:white;">&lt; 1 s</div><div class="stat-desc" style="color:#bae6fd;">Interní převod mezi účty</div></div>
+      <div class="stat-item"><div class="stat-big" style="color:white;">SEPA</div><div class="stat-desc" style="color:#bae6fd;">Instant + klasické převody</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container"><div class="cta-box">
+    <h2>Embedded finance pro váš produkt</h2>
+    <p>Treasury je v uzavřené bétě. Ozvěte se a probereme váš use case a regulatorní rámec.</p>
+    <div class="cta-buttons">
+      <a href="contact.html" class="btn-primary-light">Požádat o přístup →</a>
+      <a href="docs.html" class="btn-secondary-light">Přečíst docs</a>
+    </div>
+  </div></div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+
+<style>
+.code-block { background:#0d1424; border-radius:14px; overflow:hidden; border:1px solid #1e2a42; }
+.code-head { display:flex; align-items:center; gap:6px; padding:12px 16px; background:#0a1020; border-bottom:1px solid #1e2a42; }
+.code-dot { width:11px; height:11px; border-radius:50%; background:#3a4a6a; }
+.code-block pre { margin:0; padding:20px; overflow-x:auto; }
+.code-block code { font-family:'JetBrains Mono','Courier New',monospace; font-size:13px; color:#e2e8f0; line-height:1.7; }
+.ct-c { color:#64748b; } .ct-s { color:#86efac; } .ct-k { color:#93c5fd; } .ct-n { color:#fcd34d; }
+
+.tr-uses { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+.tr-use { background:white; border:1px solid var(--border); border-radius:14px; padding:24px; }
+.tu-ico { font-size:30px; margin-bottom:10px; }
+.tr-use h4 { font-family:'Sora'; margin-bottom:6px; }
+.tr-use p { font-size:13px; color:var(--text-light); margin:0; line-height:1.55; }
+:root[data-theme="dark"] .tr-use { background:#121c30; border-color:#1e2a42; }
+@media (max-width:960px){ .tr-uses{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:600px){ .tr-uses{grid-template-columns:1fr;} }
+</style>
+</body>
+</html>

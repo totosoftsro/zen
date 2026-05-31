@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Zůstatky — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div class="app-layout" id="appRoot">
+  <div class="app-page-head"><div><h1>Zůstatky a výplaty</h1><p>Přehled dostupných prostředků a nadcházejících výplat</p></div>
+    <div class="app-page-actions"><button class="btn-app primary" onclick="appToast('Výplata iniciována')">💸 Okamžitá výplata</button></div></div>
+
+  <div class="card-grid" style="grid-template-columns: repeat(3,1fr);">
+    <div class="kpi-card"><div class="kpi-label">Dostupný zůstatek</div><div class="kpi-value">2 984 250 Kč</div><div class="kpi-delta up">Připraveno k výplatě</div></div>
+    <div class="kpi-card"><div class="kpi-label">V procesu</div><div class="kpi-value">543 948 Kč</div><div class="kpi-delta muted">Zaúčtuje se za 2 dny</div></div>
+    <div class="kpi-card"><div class="kpi-label">Výplata 17. 4.</div><div class="kpi-value">1 250 000 Kč</div><div class="kpi-delta">→ CZ65 0100 0000 xxxx 4242</div></div>
+  </div>
+
+  <div class="panel"><div class="panel-head"><h3>Historie výplat</h3></div>
+  <table class="data-table"><thead><tr><th>Datum</th><th>Částka</th><th>Stav</th><th>Bankovní účet</th><th>ID</th></tr></thead><tbody id="pb"></tbody></table></div>
+</div>
+<script src="app-shell.js"></script>
+<script>
+mountApp('balance');
+const rows = [
+ ['16. 4. 2026', '1 250 000 Kč', 'pending', 'Čeká na výplatu', 'CZ65 ••• 4242'],
+ ['10. 4. 2026', '982 540 Kč', 'success', 'Vyplaceno', 'CZ65 ••• 4242'],
+ ['3. 4. 2026', '1 105 000 Kč', 'success', 'Vyplaceno', 'CZ65 ••• 4242'],
+ ['27. 3. 2026', '748 320 Kč', 'success', 'Vyplaceno', 'CZ65 ••• 4242'],
+ ['20. 3. 2026', '1 320 000 Kč', 'success', 'Vyplaceno', 'CZ65 ••• 4242'],
+ ['13. 3. 2026', '990 120 Kč', 'success', 'Vyplaceno', 'CZ65 ••• 4242'],
+];
+document.getElementById('pb').innerHTML = rows.map(r => `<tr onclick="appToast('Detail výplaty')">
+ <td>${r[0]}</td><td class="amt">${r[1]}</td><td><span class="pill ${r[2]}">${r[3]}</span></td><td class="muted">${r[4]}</td><td class="muted" style="font-family:monospace;font-size:12px;">po_${Math.random().toString(36).substring(2,10).toUpperCase()}</td>
+</tr>`).join('');
+</script></body></html>

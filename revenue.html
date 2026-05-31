@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revenue Recognition — automatické účtování tržeb | Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="nav-placeholder" data-active="products"></div>
+
+<section class="page-hero dark" style="background:linear-gradient(135deg,#0a2540,#9333ea);">
+  <div class="container"><div class="page-hero-inner">
+    <div class="breadcrumb" style="color:rgba(255,255,255,0.7);"><a href="index.html" style="color:white;">Domů</a> <span>›</span> Produkty <span>›</span> Revenue Recognition</div>
+    <h1>Účtování tržeb<br>na autopilota</h1>
+    <p style="color:#cbd5e1;">Automatizujte časové rozlišení výnosů podle IFRS 15 / ASC 606. Žádné tabulky, žádné ruční rozpočítávání — Zen rozpozná tržby správně a připraví uzávěrku za minuty.</p>
+    <div class="hero-cta" style="justify-content:center; margin-top:28px;">
+      <a href="#demo" class="btn-primary-light">Ukázat rozpis →</a>
+      <a href="contact.html" class="btn-secondary-light">Mluvit s expertem</a>
+    </div>
+  </div></div>
+</section>
+
+<section class="section" id="demo">
+  <div class="container" style="max-width:920px;">
+    <div class="section-header"><div class="eyebrow">Jak to vypadá</div><h2>Roční předplatné rozpočítané v čase</h2><p class="section-desc">Zákazník zaplatí 12 000 Kč 1. ledna za roční plán. Tržba se nepozná hned — rozloží se rovnoměrně do 12 měsíců.</p></div>
+    <div class="rev-demo">
+      <div class="rev-controls">
+        <button class="rev-tab active" onclick="revLoad('annual',this)">Roční předplatné</button>
+        <button class="rev-tab" onclick="revLoad('setup',this)">Setup + měsíční</button>
+        <button class="rev-tab" onclick="revLoad('refund',this)">Vratka v půlce</button>
+      </div>
+      <div class="rev-summary" id="revSummary"></div>
+      <div class="rev-chart" id="revChart"></div>
+      <div class="rev-legend"><span><i style="background:#9333ea;"></i> Rozpoznaná tržba</span><span><i style="background:#e2e8f0;"></i> Odložená tržba (závazek)</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#9333ea,#c084fc);">📐</div><h3>IFRS 15 / ASC 606</h3><p>Pravidla pro časové rozlišení výnosů zabudovaná. Compliance bez znalosti účetních standardů.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#635bff,#a78bfa);">🤖</div><h3>Plně automaticky</h3><p>Z plateb a předplatných vytváříme rozvrhy rozpoznání. Žádné ruční tabulky ani vzorce.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#00d4aa,#00a884);">🔄</div><h3>Změny v půlce</h3><p>Upgrade, downgrade, vratka, proration — rozvrh se přepočítá automaticky a správně.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">📊</div><h3>Měsíční uzávěrka</h3><p>Deferred revenue waterfall, MRR, journal entries — reporty připravené k odeslání auditorovi.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">🔗</div><h3>Export do účetnictví</h3><p>Napojení na Pohodu, Money, XERO, NetSuite i QuickBooks. Účetní deník jedním klikem.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ee5a6f,#ff6b6b);">🔍</div><h3>Auditní stopa</h3><p>Ke každému číslu dohledáte konkrétní platbu, smlouvu i pravidlo. Audit bez stresu.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-big">−90 %</div><div class="stat-desc">Času nad měsíční uzávěrkou</div></div>
+      <div class="stat-item"><div class="stat-big">0</div><div class="stat-desc">Ručních tabulek</div></div>
+      <div class="stat-item"><div class="stat-big">IFRS 15</div><div class="stat-desc">& ASC 606 compliant</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container"><div class="cta-box">
+    <h2>Zavřete měsíc za minuty</h2>
+    <p>Revenue Recognition je v tarifu Business a výš. Zapnete bez migrace — funguje na vašich existujících datech.</p>
+    <div class="cta-buttons">
+      <a href="signup.html" class="btn-primary-light">Začít →</a>
+      <a href="pricing.html" class="btn-secondary-light">Ceník</a>
+    </div>
+  </div></div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+
+<script>
+const months = ['Led','Úno','Bře','Dub','Kvě','Čvn','Čvc','Srp','Zář','Říj','Lis','Pro'];
+const scenarios = {
+  annual: { total:12000, rec: Array(12).fill(1000), note:'12 000 Kč zaplaceno předem · rozpoznáváno 1 000 Kč/měsíc' },
+  setup:  { total:18000, rec: [3000,...Array(11).fill(1363.64)], note:'Setup fee 3 000 Kč (ihned) + 15 000 Kč ročně rovnoměrně' },
+  refund: { total:6000, rec: [1000,1000,1000,1000,1000,1000,0,0,0,0,0,0], note:'Roční plán zrušen po 6 měsících · zbytek vrácen, nerozpoznán' },
+};
+function revLoad(key, btn){
+  document.querySelectorAll('.rev-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const s = scenarios[key];
+  const total = s.rec.reduce((a,b)=>a+b,0);
+  let cum=0;
+  const max = Math.max(...s.rec);
+  document.getElementById('revSummary').innerHTML = `
+    <div class="rs-item"><div class="rs-big">${Math.round(s.total).toLocaleString('cs-CZ')} Kč</div><div class="rs-lbl">Fakturováno</div></div>
+    <div class="rs-item"><div class="rs-big">${Math.round(total).toLocaleString('cs-CZ')} Kč</div><div class="rs-lbl">Celkem rozpoznáno</div></div>
+    <div class="rs-item"><div class="rs-big">${Math.round(s.total-total).toLocaleString('cs-CZ')} Kč</div><div class="rs-lbl">Odloženo / vráceno</div></div>
+    <div class="rs-note">${s.note}</div>`;
+  document.getElementById('revChart').innerHTML = s.rec.map((v,i)=>{
+    const h = max>0 ? Math.max(4, v/max*150) : 4;
+    return `<div class="rev-bar-wrap"><div class="rev-bar" style="height:${h}px;animation-delay:${i*45}ms" title="${months[i]}: ${Math.round(v).toLocaleString('cs-CZ')} Kč"></div><span>${months[i]}</span></div>`;
+  }).join('');
+}
+revLoad('annual', document.querySelector('.rev-tab'));
+</script>
+
+<style>
+.rev-demo { background:white; border:1px solid var(--border); border-radius:18px; padding:28px; }
+.rev-controls { display:flex; gap:8px; margin-bottom:22px; flex-wrap:wrap; }
+.rev-tab { background:var(--bg-light); border:1px solid var(--border); padding:9px 16px; border-radius:999px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; color:var(--text); }
+.rev-tab.active { background:#9333ea; color:white; border-color:#9333ea; }
+.rev-summary { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:24px; position:relative; }
+.rs-item { background:var(--bg-light); border-radius:12px; padding:16px; text-align:center; }
+.rs-big { font-family:'Sora'; font-size:22px; font-weight:800; }
+.rs-lbl { font-size:12px; color:var(--text-light); margin-top:3px; }
+.rs-note { grid-column:1/-1; font-size:13px; color:var(--text-light); background:rgba(147,51,234,.08); padding:12px 16px; border-radius:10px; text-align:center; }
+.rev-chart { display:flex; align-items:flex-end; gap:8px; height:180px; padding:10px 0; }
+.rev-bar-wrap { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:6px; height:100%; }
+.rev-bar { width:100%; max-width:42px; background:linear-gradient(180deg,#a855f7,#9333ea); border-radius:6px 6px 0 0; animation:revGrow .5s ease backwards; }
+@keyframes revGrow { from{height:0 !important;opacity:0;} }
+.rev-bar-wrap span { font-size:11px; color:var(--text-muted); }
+.rev-legend { display:flex; gap:20px; justify-content:center; margin-top:14px; font-size:13px; color:var(--text-light); }
+.rev-legend i { display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:6px; vertical-align:middle; }
+:root[data-theme="dark"] .rev-demo { background:#121c30; border-color:#1e2a42; }
+:root[data-theme="dark"] .rev-tab, :root[data-theme="dark"] .rs-item { background:#0b1220; border-color:#1e2a42; }
+@media (max-width:600px){ .rev-summary{grid-template-columns:1fr;} .rev-bar-wrap span{font-size:9px;} }
+</style>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produkty — kompletní finanční platforma | Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="nav-placeholder" data-active="products"></div>
+
+<section class="page-hero dark" style="background:linear-gradient(135deg,#0a2540,#635bff);">
+  <div class="container"><div class="page-hero-inner">
+    <div class="eyebrow" style="color:#a78bfa;">Produkty</div>
+    <h1>Jedna platforma.<br>Celá vaše ekonomika.</h1>
+    <p style="color:#cbd5e1;">Od první platby přes financování a vydávání karet až po daně a udržitelnost. Vše propojené jedním API a jedním Dashboardem.</p>
+    <div class="hero-cta" style="justify-content:center; margin-top:28px;">
+      <a href="signup.html" class="btn-primary-light">Začít zdarma →</a>
+      <a href="quickstart.html" class="btn-secondary-light">Quickstart pro vývojáře</a>
+    </div>
+  </div></div>
+</section>
+
+<!-- Quick filter -->
+<div class="prod-filter-bar">
+  <div class="container">
+    <div class="prod-filters">
+      <button class="pf-btn active" onclick="filterProd('all',this)">Vše</button>
+      <button class="pf-btn" onclick="filterProd('payments',this)">💳 Platby</button>
+      <button class="pf-btn" onclick="filterProd('finance',this)">💰 Finance</button>
+      <button class="pf-btn" onclick="filterProd('trust',this)">🛡️ Důvěra & data</button>
+      <button class="pf-btn" onclick="filterProd('grow',this)">🚀 Růst</button>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <div class="prod-group" data-cat="payments">
+      <div class="pg-head"><h2>💳 Přijímání plateb</h2><p>Jádro Zenu — přijímejte peníze kdekoli a jakkoli.</p></div>
+      <div class="prod-grid">
+        <a href="payments.html" class="prod-card" data-tag="payments">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#635bff,#a78bfa);">💳</div>
+          <h3>Platby</h3>
+          <p>Online platby na webu i v appce. Karty, Apple Pay, Google Pay, bankovní převody a desítky lokálních metod.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+        <a href="terminal.html" class="prod-card" data-tag="payments">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#00d4aa,#00a884);">🏪</div>
+          <h3>Terminál</h3>
+          <p>Přijímejte osobní platby a sjednoťte online i kamenný prodej do jednoho přehledu.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+        <a href="connect.html" class="prod-card" data-tag="payments">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#ff6b6b,#ee5a6f);">🔗</div>
+          <h3>Connect</h3>
+          <p>Platby a výplaty pro platformy a marketplace. Onboarding prodejců, split plateb, KYC.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+        <a href="billing.html" class="prod-card" data-tag="payments">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">📄</div>
+          <h3>Fakturace</h3>
+          <p>Vystavujte faktury celosvětově, sledujte úhrady a posílejte upomínky automaticky.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+        <a href="subscriptions.html" class="prod-card" data-tag="payments">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">🔄</div>
+          <h3>Předplatné</h3>
+          <p>Opakované platby s flexibilním cyklem, zkušebními obdobími a automatickým obnovováním.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+        <a href="payment-links.html" class="prod-card" data-tag="payments">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#4f46e5,#818cf8);">🔗</div>
+          <h3>Payment Links</h3>
+          <p>Vytvořte platební odkaz bez kódu a sdílejte ho e-mailem, na sítích nebo přes QR kód.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="prod-group" data-cat="finance">
+      <div class="pg-head"><h2>💰 Finance & rozšíření</h2><p>Posuňte se za platby — kapitál, karty a založení firmy.</p></div>
+      <div class="prod-grid">
+        <a href="capital.html" class="prod-card" data-tag="finance">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6);">💰</div>
+          <h3>Capital</h3>
+          <p>Financování přímo z Dashboardu. Žádné papírování, splácíte procentem z obratu.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+        <a href="issuing.html" class="prod-card" data-tag="finance">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);">💳</div>
+          <h3>Issuing</h3>
+          <p>Vydávejte vlastní virtuální i fyzické karty s naprogramovanými pravidly útrat.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+        <a href="atlas.html" class="prod-card" data-tag="finance">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#b45309,#f59e0b);">🏛️</div>
+          <h3>Atlas</h3>
+          <p>Založte s.r.o. nebo a.s. kompletně online — notář, rejstřík, IČO, účet i účetnictví.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+        <a href="tax.html" class="prod-card" data-tag="finance">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#0a2540,#134e4a);">🧾</div>
+          <h3>Tax</h3>
+          <p>Automatický výpočet DPH, OSS i US sales tax. Podklady pro přiznání jedním klikem.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+        <a href="treasury.html" class="prod-card" data-tag="finance">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#0369a1,#0ea5e9);">🏦</div>
+          <h3>Treasury</h3>
+          <p>Banking-as-a-service — účty s IBAN, převody a karty pro vaše uživatele přes API.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+        <a href="revenue.html" class="prod-card" data-tag="finance">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#9333ea,#c084fc);">📐</div>
+          <h3>Revenue Recognition</h3>
+          <p>Automatické časové rozlišení výnosů dle IFRS 15 / ASC 606. Uzávěrka za minuty.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="prod-group" data-cat="trust">
+      <div class="pg-head"><h2>🛡️ Důvěra & data</h2><p>Chraňte byznys a rozumějte mu do hloubky.</p></div>
+      <div class="prod-grid">
+        <a href="radar.html" class="prod-card" data-tag="trust">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#f093fb,#f5576c);">🛡️</div>
+          <h3>Radar</h3>
+          <p>Ochrana proti podvodům se strojovým učením natrénovaným na miliardách transakcí.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+        <a href="identity.html" class="prod-card" data-tag="trust">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#0e7490,#06b6d4);">🪪</div>
+          <h3>Identity</h3>
+          <p>Ověření dokladů a biometrie selfie za minutu. Splňte KYC i AML bez tření.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+        <a href="sigma.html" class="prod-card" data-tag="trust">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#0f766e,#14b8a6);">📊</div>
+          <h3>Sigma</h3>
+          <p>Ptejte se svých plateb přímo v SQL. Žádné ETL, celá databáze připravená k dotazům.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+        <a href="analytics.html" class="prod-card" data-tag="trust">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#6366f1,#818cf8);">📈</div>
+          <h3>Analytika</h3>
+          <p>Forecasty obratu, cohort retence, konverzní funnel a LTV — vše v Dashboardu.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="prod-group" data-cat="grow">
+      <div class="pg-head"><h2>🚀 Růst & dopad</h2><p>Nástroje, které vás posunou dál — a planetu taky.</p></div>
+      <div class="prod-grid">
+        <a href="climate.html" class="prod-card" data-tag="grow">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#047857,#10b981);">🌱</div>
+          <h3>Climate</h3>
+          <p>Věnujte zlomek obratu na permanentní odstraňování CO₂ z atmosféry.</p>
+          <span class="pc-link">Zjistit více →</span>
+        </a>
+        <a href="checkout.html" class="prod-card" data-tag="grow">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#635bff,#4f46e5);">🛒</div>
+          <h3>Checkout</h3>
+          <p>Hotová, konverzně optimalizovaná platební stránka. Nasadíte za pár minut.</p>
+          <span class="pc-link">Vyzkoušet demo →</span>
+        </a>
+        <a href="playground.html" class="prod-card" data-tag="grow">
+          <div class="pc-ico" style="background:linear-gradient(135deg,#f59e0b,#fbbf24);">⚡</div>
+          <h3>API Playground</h3>
+          <p>Otestujte si API endpointy naživo přímo v prohlížeči, bez psaní kódu.</p>
+          <span class="pc-link">Otevřít →</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section dev-section" style="background:#0a1124;">
+  <div class="container">
+    <div style="text-align:center;max-width:680px;margin:0 auto;">
+      <div class="eyebrow light">Jeden stack</div>
+      <h2 class="light-heading">Vše spolu mluví. Z první minuty.</h2>
+      <p style="color:#94a3b8;margin:14px 0 28px;">Žádné lepení nástrojů od pěti dodavatelů. Platba, faktura, karta i daň sdílejí stejného zákazníka, stejné API a stejný přehled. Začněte s jedním produktem a přidávejte další jedním přepínačem.</p>
+      <div class="prod-logos">
+        <span>Platby</span><span>Capital</span><span>Issuing</span><span>Radar</span><span>Identity</span><span>Sigma</span><span>Tax</span><span>Climate</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container"><div class="cta-box">
+    <h2>Připraveni začít?</h2>
+    <p>Vytvořte si účet zdarma a aktivujte produkty, které potřebujete. Bez paušálu, platíte jen za to, co použijete.</p>
+    <div class="cta-buttons">
+      <a href="signup.html" class="btn-primary-light">Začít zdarma →</a>
+      <a href="pricing.html" class="btn-secondary-light">Zobrazit ceník</a>
+    </div>
+  </div></div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+
+<script>
+function filterProd(cat, btn){
+  document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.prod-group').forEach(g=>{
+    g.style.display = (cat==='all' || g.dataset.cat===cat) ? '' : 'none';
+  });
+}
+</script>
+
+<style>
+.prod-filter-bar { position:sticky; top:64px; z-index:40; background:var(--bg, #fff); border-bottom:1px solid var(--border); padding:14px 0; }
+:root[data-theme="dark"] .prod-filter-bar { background:#0b1220; }
+.prod-filters { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+.pf-btn { background:var(--bg-light); border:1px solid var(--border); padding:8px 16px; border-radius:999px; font-size:13px; font-weight:600; color:var(--text); cursor:pointer; font-family:inherit; transition:all .2s; }
+.pf-btn:hover { border-color:var(--primary); }
+.pf-btn.active { background:var(--primary); color:white; border-color:var(--primary); }
+
+.prod-group { margin-bottom:48px; }
+.prod-group:last-child { margin-bottom:0; }
+.pg-head { margin-bottom:22px; }
+.pg-head h2 { font-family:'Sora'; font-size:24px; margin-bottom:4px; }
+.pg-head p { color:var(--text-light); margin:0; font-size:15px; }
+
+.prod-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+.prod-card { display:block; background:white; border:1px solid var(--border); border-radius:16px; padding:26px; text-decoration:none; color:inherit; transition:transform .25s, box-shadow .25s, border-color .25s; }
+.prod-card:hover { transform:translateY(-5px); box-shadow:0 20px 44px rgba(50,50,93,.12); border-color:var(--primary); }
+.pc-ico { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:26px; color:white; margin-bottom:16px; }
+.prod-card h3 { font-family:'Sora'; font-size:18px; margin-bottom:8px; }
+.prod-card p { font-size:13.5px; color:var(--text-light); line-height:1.55; margin-bottom:14px; }
+.pc-link { font-size:13px; font-weight:600; color:var(--primary); }
+
+.prod-logos { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+.prod-logos span { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); color:#cbd5e1; padding:8px 16px; border-radius:999px; font-size:13px; font-weight:600; }
+
+:root[data-theme="dark"] .prod-card { background:#121c30; border-color:#1e2a42; }
+
+@media (max-width:960px){ .prod-grid{grid-template-columns:repeat(2,1fr);} .prod-filter-bar{top:0;} }
+@media (max-width:600px){ .prod-grid{grid-template-columns:1fr;} }
+</style>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Produkty — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div class="app-layout" id="appRoot">
+  <div class="app-page-head"><div><h1>Produktový katalog</h1><p>Správa produktů a cenových plánů</p></div>
+    <div class="app-page-actions"><button class="btn-app primary" onclick="addProd()">+ Nový produkt</button></div></div>
+  <div class="panel">
+    <table class="data-table"><thead><tr><th>Název</th><th>Popis</th><th>Cena</th><th>Fakturace</th><th>Aktivní</th></tr></thead><tbody id="pb"></tbody></table>
+  </div>
+</div>
+<script src="app-shell.js"></script>
+<script>
+mountApp('products');
+const products = [
+ ['Starter plán', 'Základní funkce pro malé firmy', '490 Kč', 'měsíčně', true],
+ ['Professional plán', 'Pro rostoucí firmy', '1 490 Kč', 'měsíčně', true],
+ ['Enterprise plán', 'Individuální řešení', 'od 4 990 Kč', 'ročně', true],
+ ['Doplněk: Pokročilé reporty', 'Detailní analytika', '290 Kč', 'měsíčně', true],
+ ['Jednorázová implementace', 'Setup + školení', '19 900 Kč', 'jednorázově', true],
+ ['E-book: Platby 2026', 'Digitální publikace', '199 Kč', 'jednorázově', false],
+];
+function render() {
+  document.getElementById('pb').innerHTML = products.map((p,i) => `
+  <tr>
+    <td><strong>${p[0]}</strong></td>
+    <td class="muted">${p[1]}</td>
+    <td class="amt">${p[2]}</td>
+    <td class="muted">${p[3]}</td>
+    <td><span class="pill ${p[4]?'success':'failed'}">${p[4]?'Aktivní':'Archiv'}</span></td>
+  </tr>`).join('');
+}
+function addProd(){
+  const n = prompt('Název produktu:'); if(!n) return;
+  const price = prompt('Cena v Kč:'); if(!price) return;
+  products.unshift([n, 'Nově vytvořený produkt', price+' Kč', 'měsíčně', true]); render(); appToast('Produkt vytvořen');
+}
+render();
+</script></body></html>

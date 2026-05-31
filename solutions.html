@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Řešení — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero dark" id="hero">
+  <div class="container"><div class="page-hero-inner">
+    <div class="eyebrow" style="color:#a78bfa;" id="eye">Řešení na míru</div>
+    <h1 id="h1">Platby pro váš byznys</h1>
+    <p id="sub">Ať děláte cokoliv, Zen má řešení navržené pro váš byznys model.</p>
+    <div class="hero-cta" style="justify-content:center; margin-top:28px;">
+      <a href="signup.html" class="btn-primary-light">Začít zdarma →</a>
+      <a href="contact.html" class="btn-secondary-light">Kontaktovat prodej</a>
+    </div>
+  </div></div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="features-grid" id="featList"></div>
+  </div>
+</section>
+
+<section class="section stats-section">
+  <div class="container"><div class="stats-grid" id="statGrid"></div></div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+<script>
+const sol = {
+  ecommerce: {
+    title: 'E-commerce bez kompromisů',
+    eye: 'E-commerce',
+    sub: 'Optimalizovaný checkout, 250+ platebních metod a chytrá detekce podvodů. Vše co e-shop potřebuje.',
+    features: [['⚡','Rychlý checkout','Předpřipravené komponenty s 1-click přihlášením.'],
+      ['🌍','Lokální metody','Apple Pay, Google Pay, Klarna, Twint, iDEAL a další.'],
+      ['📉','Snížený churn','Smart Retry vrací 4,3 % zamítnutých plateb.'],
+      ['📱','Mobile first','SDK pro iOS a Android s nativním vzhledem.'],
+      ['🛡️','Fraud protection','Radar 2.0 včetně ve všech plánech.'],
+      ['🧾','Daně automaticky','Zen Tax spočítá DPH a reverse charge.']],
+    stats: [['+18 %','Konverze checkoutu'],['1,8×','Rychlejší zaplacení'],['−42 %','Chargeback rate']]
+  },
+  saas: {
+    title: 'Recurring revenue bez starostí',
+    eye: 'SaaS',
+    sub: 'MRR, churn analýza, usage-based billing a customer portal. Zen Subscriptions řeší vše.',
+    features: [['🔄','Flexibilní plány','Fixed, tiered, usage-based nebo jejich kombinace.'],
+      ['📊','MRR & LTV','Analýzy přímo v dashboardu, cohort analýzy.'],
+      ['📉','Dunning','Smart retry pro obnovení selhaných plateb.'],
+      ['🎁','Trialy a kódy','Zkušební doby, slevové kupóny, promo kódy.'],
+      ['👤','Customer portal','Zákazníci si spravují předplatné sami.'],
+      ['🧮','Proration','Automatický přepočet při změnách plánu.']],
+    stats: [['+38 %','Recovery rate'],['−23 %','Churn v kohortě'],['4 200+','SaaS firem používá Zen']]
+  },
+  marketplace: {
+    title: 'Platební platforma pro marketplaces',
+    eye: 'Marketplace',
+    sub: 'KYC, split platby, multi-currency výplaty. Postavte si marketplace, Zen se postará o peníze.',
+    features: [['🚀','Prodejce za 2 min','Předpřipravený onboarding s KYC a ověřením.'],
+      ['💸','Split platby','Automatické rozdělení výnosu v jedné transakci.'],
+      ['🌐','Globální výplaty','135+ zemí, 45 měn, bankovní převod nebo karta.'],
+      ['📋','Vlastní reporting','Vaše platforma, váš branding, vaše pravidla.'],
+      ['🛡️','Snížená odpovědnost','Zen drží licence a spravuje rizika.'],
+      ['⚖️','Soulad s regulacemi','PSD2, AML, GDPR — vše vyřešeno.']],
+    stats: [['8 000+','Marketplaces na Zen'],['2 min','Průměrný onboarding prodejce'],['135','zemí podporováno']]
+  },
+  platforms: {
+    title: 'Platformy s vestavěnými platbami',
+    eye: 'Platformy',
+    sub: 'Nabídněte svým zákazníkům platby jako součást vašeho produktu. Embedded finance v praxi.',
+    features: [['🔌','Embedded UI','Komponenty, které vypadají jako část vašeho produktu.'],
+      ['💼','White-label','Vaše značka, vaše doména, vaše UX.'],
+      ['📈','Revenue share','Vydělávejte z každé transakce vašich zákazníků.'],
+      ['🔐','Compliance included','PCI DSS, PSD2 a další regulace — vše vyřešeno.'],
+      ['🧩','Rychlá integrace','Kompletní řešení za 2–4 týdny.'],
+      ['🎯','API First','Všechno, co vidíte, dostanete přes API.']],
+    stats: [['18 %','Revenue share pro platformy'],['2–4 týdny','Time to market'],['450+','platforem používá Zen Connect']]
+  }
+};
+
+function load(){
+  const type = new URLSearchParams(location.search).get('type') || 'ecommerce';
+  const s = sol[type];
+  document.getElementById('h1').textContent = s.title;
+  document.getElementById('eye').textContent = s.eye;
+  document.getElementById('sub').textContent = s.sub;
+  document.title = s.title + ' — Zen';
+
+  const gradients = {ecommerce:'#635bff,#a78bfa', saas:'#00d4aa,#00a884', marketplace:'#ffa500,#ff7b00', platforms:'#f093fb,#f5576c'};
+  document.getElementById('hero').style.background = `linear-gradient(135deg,${gradients[type]})`;
+
+  document.getElementById('featList').innerHTML = s.features.map(f => `
+    <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,${gradients[type]});">${f[0]}</div>
+    <h3>${f[1]}</h3><p>${f[2]}</p></div>`).join('');
+  document.getElementById('statGrid').innerHTML = s.stats.map(st => `
+    <div class="stat-item"><div class="stat-big">${st[0]}</div><div class="stat-desc">${st[1]}</div></div>`).join('');
+}
+load();
+</script></body></html>

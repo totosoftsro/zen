@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offline — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#0a2540,#635bff); color:white; text-align:center; padding:24px; }
+  .wrap { max-width:460px; }
+  .logo { width:84px; height:84px; margin:0 auto 28px; }
+  h1 { font-family:'Sora'; font-size:30px; margin-bottom:12px; }
+  p { font-size:16px; opacity:.85; line-height:1.6; margin-bottom:28px; }
+  .btn { display:inline-block; background:white; color:#635bff; font-weight:700; padding:14px 28px; border-radius:12px; text-decoration:none; border:none; font-size:15px; cursor:pointer; font-family:inherit; }
+  .dot { display:inline-block; width:10px; height:10px; border-radius:50%; background:#f87171; margin-right:8px; animation:pulse 1.4s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+  .status { font-size:13px; opacity:.7; margin-top:20px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <svg class="logo" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="white"/><path d="M10 16 L14 20 L22 12" stroke="#635bff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <h1>Jste offline</h1>
+    <p>Tuto stránku se nepodařilo načíst, protože nemáte připojení k internetu. Zkontrolujte síť a zkuste to znovu.</p>
+    <button class="btn" onclick="location.reload()">↻ Zkusit znovu</button>
+    <div class="status"><span class="dot"></span><span id="st">Čekám na připojení…</span></div>
+  </div>
+  <script>
+    window.addEventListener('online', () => { document.getElementById('st').textContent = 'Připojení obnoveno — načítám…'; setTimeout(()=>location.href='index.html', 600); });
+  </script>
+</body>
+</html>

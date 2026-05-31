@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Kariéra — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero dark" style="background:linear-gradient(135deg,#0a2540,#2d1b69);">
+  <div class="container"><div class="page-hero-inner">
+    <h1>Budujme finanční<br>infrastrukturu budoucnosti</h1>
+    <p>Hledáme nejlepší lidi, kteří chtějí měnit to, jak se platí v Evropě.</p>
+    <div class="hero-cta" style="justify-content:center; margin-top:28px;">
+      <a href="#jobs" class="btn-primary-light">Otevřené pozice →</a>
+      <a href="about.html" class="btn-secondary-light">O firmě</a>
+    </div>
+  </div></div>
+</section>
+
+<section class="section stats-section">
+  <div class="container"><div class="stats-grid">
+    <div class="stat-item"><div class="stat-big">480+</div><div class="stat-desc">zaměstnanců ve 12 zemích</div></div>
+    <div class="stat-item"><div class="stat-big">42</div><div class="stat-desc">národností v týmu</div></div>
+    <div class="stat-item"><div class="stat-big">4,8★</div><div class="stat-desc">Glassdoor skóre</div></div>
+    <div class="stat-item"><div class="stat-big">93 %</div><div class="stat-desc">lidí by doporučilo Zen</div></div>
+  </div></div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header"><h2>Proč Zen?</h2></div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#635bff,#a78bfa);">🌍</div><h3>Remote-first</h3><p>Pracuj odkudkoliv v EU. Kanceláře v Praze, Berlíně a Amsterdamu pro ty, kdo chtějí.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#00d4aa,#00a884);">💰</div><h3>Konkurenceschopný plat</h3><p>Mzda v horním decilu + stock options pro každého.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">📚</div><h3>Rozpočet na růst</h3><p>50 000 Kč ročně na knihy, kurzy, konference a certifikace.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">🏖️</div><h3>Unlimited PTO</h3><p>Minimálně 25 dní, ale bereme si kolik potřebujeme.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#f093fb,#f5576c);">🏥</div><h3>Zdravotní benefity</h3><p>Prémiová zdravotní pojistka, MultiSport karta, cafeteria body.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ff6b6b,#ee5a6f);">👶</div><h3>Rodičovská dovolená</h3><p>16 týdnů plně placená dovolená pro oba rodiče.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="jobs" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Volné pozice</div><h2>Připojte se k nám</h2></div>
+    <div style="display:flex; gap:12px; margin-bottom:24px; flex-wrap:wrap;">
+      <button class="btn-app" onclick="filterJobs('')" style="background:#635bff; color:white; border:none;">Vše (24)</button>
+      <button class="btn-app" onclick="filterJobs('Engineering')">Engineering</button>
+      <button class="btn-app" onclick="filterJobs('Product')">Product</button>
+      <button class="btn-app" onclick="filterJobs('Sales')">Sales</button>
+      <button class="btn-app" onclick="filterJobs('Marketing')">Marketing</button>
+      <button class="btn-app" onclick="filterJobs('Support')">Support</button>
+    </div>
+    <div class="jobs-list" id="jobsList"></div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+<script>
+const jobs = [
+  ['Senior Backend Engineer', 'Engineering', 'Praha / Remote', 'Full-time'],
+  ['Staff Platform Engineer', 'Engineering', 'Berlín / Remote', 'Full-time'],
+  ['Frontend Engineer (React)', 'Engineering', 'Praha', 'Full-time'],
+  ['Site Reliability Engineer', 'Engineering', 'Remote EU', 'Full-time'],
+  ['Data Engineer', 'Engineering', 'Amsterdam', 'Full-time'],
+  ['Security Engineer', 'Engineering', 'Remote EU', 'Full-time'],
+  ['ML Engineer — Fraud', 'Engineering', 'Praha', 'Full-time'],
+  ['Mobile Engineer (iOS)', 'Engineering', 'Remote EU', 'Full-time'],
+  ['Senior Product Manager', 'Product', 'Praha', 'Full-time'],
+  ['Product Designer', 'Product', 'Remote EU', 'Full-time'],
+  ['UX Researcher', 'Product', 'Praha', 'Full-time'],
+  ['Technical Writer', 'Product', 'Remote EU', 'Full-time'],
+  ['Account Executive', 'Sales', 'Praha', 'Full-time'],
+  ['Enterprise AE (DACH)', 'Sales', 'Berlín', 'Full-time'],
+  ['Sales Engineer', 'Sales', 'Remote EU', 'Full-time'],
+  ['SDR', 'Sales', 'Praha', 'Full-time'],
+  ['Growth Marketing Manager', 'Marketing', 'Praha', 'Full-time'],
+  ['Content Writer (CZ)', 'Marketing', 'Remote', 'Part-time'],
+  ['Brand Designer', 'Marketing', 'Praha', 'Full-time'],
+  ['Event Coordinator', 'Marketing', 'Praha', 'Full-time'],
+  ['Customer Success Manager', 'Support', 'Praha', 'Full-time'],
+  ['Technical Support Engineer', 'Support', 'Remote EU', 'Full-time'],
+  ['Onboarding Specialist', 'Support', 'Praha', 'Full-time'],
+  ['Finance Analyst', 'Finance', 'Praha', 'Full-time'],
+];
+function render(f=''){
+  document.getElementById('jobsList').innerHTML = jobs.filter(j => !f || j[1]===f).map(j => `
+  <div class="job" onclick="alert('Otevřít pozici: '+'${j[0]}')">
+    <div><div class="job-title">${j[0]}</div><div class="job-dept">${j[1]}</div></div>
+    <div class="job-loc">📍 ${j[2]}</div>
+    <div><span class="job-chip">${j[3]}</span></div>
+    <div style="color:#635bff; font-weight:600;">Zobrazit →</div>
+  </div>`).join('');
+}
+function filterJobs(f){
+  document.querySelectorAll('#jobs button').forEach(b=>{b.style.background=''; b.style.color=''; b.style.border='';});
+  event.target.style.background='#635bff'; event.target.style.color='white'; event.target.style.border='none';
+  render(f);
+}
+render();
+</script></body></html>

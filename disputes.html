@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Spory & chargebacky — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"><link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div class="app-layout" id="appRoot">
+  <div class="app-page-head">
+    <div><h1>Spory & chargebacky</h1><p>Spravujte reklamace plateb a předkládejte důkazy bance</p></div>
+    <div class="app-page-actions">
+      <button class="btn-app" onclick="appToast('📤 Export sporů do CSV…')">📤 Export</button>
+      <button class="btn-app" onclick="location.href='radar.html'">🛡️ Nastavit Radar</button>
+    </div>
+  </div>
+
+  <div class="disp-stats">
+    <div class="disp-stat"><div class="ds-ic" style="background:#fef3c7;color:#d97706;">⏳</div><div><div class="ds-big" id="sOpen">0</div><div class="ds-lbl">Vyžaduje odpověď</div></div></div>
+    <div class="disp-stat"><div class="ds-ic" style="background:#dbeafe;color:#2563eb;">🔍</div><div><div class="ds-big" id="sReview">0</div><div class="ds-lbl">U banky k posouzení</div></div></div>
+    <div class="disp-stat"><div class="ds-ic" style="background:#dcfce7;color:#16a34a;">🏆</div><div><div class="ds-big" id="sWon">0</div><div class="ds-lbl">Vyhráno (30 dní)</div></div></div>
+    <div class="disp-stat"><div class="ds-ic" style="background:#fee2e2;color:#dc2626;">📉</div><div><div class="ds-big" id="sRate">0 %</div><div class="ds-lbl">Míra sporů</div></div></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <select class="btn-app" id="dFilter" onchange="renderDisp()">
+          <option value="">Všechny stavy</option>
+          <option value="needs_response">Vyžaduje odpověď</option>
+          <option value="under_review">U banky</option>
+          <option value="won">Vyhráno</option>
+          <option value="lost">Prohráno</option>
+        </select>
+        <input class="btn-app" placeholder="Hledat ID, zákazníka…" style="min-width:240px;" oninput="searchDisp(this.value)">
+        <span class="muted" style="font-size:13px;" id="dCount"></span>
+      </div>
+      <div class="topbar-mode-toggle"><button class="active">Vše</button><button onclick="appToast('Filtr: urgentní')">⚠️ Urgentní</button></div>
+    </div>
+    <table class="data-table">
+      <thead><tr><th>Částka</th><th>Stav</th><th>Důvod</th><th>Zákazník</th><th>ID sporu</th><th>Lhůta</th><th></th></tr></thead>
+      <tbody id="dtb"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence drawer -->
+<div class="disp-drawer-back" id="drawerBack" onclick="closeDrawer()"></div>
+<aside class="disp-drawer" id="drawer">
+  <div class="dd-head">
+    <div><div class="dd-title" id="ddTitle">Spor</div><div class="dd-sub" id="ddSub"></div></div>
+    <button class="dd-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="dd-body" id="ddBody"></div>
+</aside>
+
+<script src="app-shell.js"></script>
+<script>
+mountApp('disputes');
+
+const reasons = [
+  ['fraudulent','Podvodná transakce'],
+  ['product_not_received','Zboží nedoručeno'],
+  ['product_unacceptable','Zboží neodpovídá popisu'],
+  ['duplicate','Duplicitní platba'],
+  ['subscription_canceled','Zrušené předplatné'],
+  ['credit_not_processed','Nevrácená platba'],
+];
+const customers = ['Jana Nováková','Petr Svoboda','Eva Černá','Martin Dvořák','Tereza Horáková','Lukáš Procházka','Zuzana Králová','Filip Kučera','David Beneš','Klára Marková'];
+const statuses = [
+  ['needs_response','Vyžaduje odpověď','badge-warn', 0.32],
+  ['under_review','U banky','badge-info', 0.28],
+  ['won','Vyhráno','badge-ok', 0.25],
+  ['lost','Prohráno','badge-err', 0.15],
+];
+function pickStatus(){ const r=Math.random(); let s=0; for(const x of statuses){ s+=x[3]; if(r<s) return x; } return statuses[0]; }
+
+const disputes = [];
+for (let i=0;i<28;i++){
+  const st = pickStatus();
+  const reason = reasons[Math.floor(Math.random()*reasons.length)];
+  const days = st[0]==='needs_response' ? Math.floor(Math.random()*7)+1 : null;
+  disputes.push({
+    amt: Math.floor(Math.random()*24000)+490,
+    st, reason,
+    cust: customers[Math.floor(Math.random()*customers.length)],
+    id: 'dp_' + Math.random().toString(36).substring(2,12).toUpperCase(),
+    deadline: days,
+    opened: new Date(Date.now() - Math.floor(Math.random()*20)*86400000),
+  });
+}
+
+let search = '';
+function searchDisp(v){ search = v.toLowerCase(); renderDisp(); }
+
+function renderDisp(){
+  const f = document.getElementById('dFilter').value;
+  const view = disputes.filter(d =>
+    (!f || d.st[0]===f) &&
+    (!search || d.cust.toLowerCase().includes(search) || d.id.toLowerCase().includes(search) || d.reason[1].toLowerCase().includes(search))
+  );
+  document.getElementById('dtb').innerHTML = view.map((d,idx)=>`
+    <tr onclick="openDrawer(${disputes.indexOf(d)})" style="cursor:pointer;">
+      <td class="amt">${d.amt.toLocaleString('cs-CZ')} Kč</td>
+      <td><span class="dbadge ${d.st[2]}">${d.st[1]}</span></td>
+      <td><span class="muted">${d.reason[1]}</span></td>
+      <td>${d.cust}</td>
+      <td><code class="mono">${d.id}</code></td>
+      <td>${d.deadline ? `<span class="deadline ${d.deadline<=2?'urgent':''}">${d.deadline} ${d.deadline===1?'den':'dny'}</span>` : '<span class="muted">—</span>'}</td>
+      <td style="text-align:right;">${d.st[0]==='needs_response' ? '<span class="dgo">Reagovat →</span>' : '<span class="muted">Detail →</span>'}</td>
+    </tr>`).join('');
+  document.getElementById('dCount').textContent = view.length + ' sporů';
+
+  // Stats
+  document.getElementById('sOpen').textContent = disputes.filter(d=>d.st[0]==='needs_response').length;
+  document.getElementById('sReview').textContent = disputes.filter(d=>d.st[0]==='under_review').length;
+  document.getElementById('sWon').textContent = disputes.filter(d=>d.st[0]==='won').length;
+  document.getElementById('sRate').textContent = '0,12 %';
+}
+renderDisp();
+
+const evidenceItems = [
+  ['🧾','Doklad o nákupu','Faktura a potvrzení objednávky'],
+  ['📦','Důkaz doručení','Tracking číslo + podpis příjemce'],
+  ['💬','Komunikace se zákazníkem','E-maily a chat historie'],
+  ['📋','Obchodní podmínky','Akceptované VOP při nákupu'],
+  ['🔐','Záznam o autentizaci','3D Secure / device fingerprint'],
+  ['↩️','Zásady vrácení','Refund a storno politika'],
+];
+
+function openDrawer(i){
+  const d = disputes[i];
+  document.getElementById('ddTitle').textContent = d.amt.toLocaleString('cs-CZ') + ' Kč · ' + d.reason[1];
+  document.getElementById('ddSub').innerHTML = `<code class="mono">${d.id}</code> · ${d.cust} · otevřeno ${d.opened.toLocaleDateString('cs-CZ')}`;
+  const canRespond = d.st[0]==='needs_response';
+  document.getElementById('ddBody').innerHTML = `
+    <div class="dd-status dbadge ${d.st[2]}" style="margin-bottom:16px;">${d.st[1]}</div>
+    ${d.deadline ? `<div class="dd-alert ${d.deadline<=2?'urgent':''}">⏰ Zbývá ${d.deadline} ${d.deadline===1?'den':'dny'} na předložení důkazů. Po vypršení spor automaticky prohráváte.</div>` : ''}
+
+    <div class="dd-section-title">Časová osa</div>
+    <div class="dd-timeline">
+      <div class="dt-row"><span class="dt-dot done"></span><div><strong>Platba proběhla</strong><span>${d.opened.toLocaleDateString('cs-CZ')}</span></div></div>
+      <div class="dt-row"><span class="dt-dot done"></span><div><strong>Zákazník otevřel spor</strong><span>Důvod: ${d.reason[1]}</span></div></div>
+      <div class="dt-row"><span class="dt-dot ${canRespond?'active':'done'}"></span><div><strong>Předložení důkazů</strong><span>${canRespond?'Čeká na vás':'Odesláno bance'}</span></div></div>
+      <div class="dt-row"><span class="dt-dot ${d.st[0]==='won'||d.st[0]==='lost'?'done':''}"></span><div><strong>Rozhodnutí banky</strong><span>${d.st[0]==='won'?'Vyhráno ✓':d.st[0]==='lost'?'Prohráno':'Obvykle do 60–75 dní'}</span></div></div>
+    </div>
+
+    <div class="dd-section-title">Důkazy k předložení</div>
+    <div class="dd-evidence">
+      ${evidenceItems.map((e,idx)=>`
+        <label class="dd-ev ${canRespond?'':'locked'}">
+          <input type="checkbox" ${!canRespond?'checked disabled':(idx<2?'checked':'')}>
+          <span class="dd-ev-ic">${e[0]}</span>
+          <span><strong>${e[1]}</strong><small>${e[2]}</small></span>
+        </label>`).join('')}
+    </div>
+
+    ${canRespond ? `
+      <div class="dd-actions">
+        <button class="btn-app primary" onclick="submitEvidence()">📨 Předložit důkazy bance</button>
+        <button class="btn-app" onclick="acceptDispute()">Přijmout spor (vrátit)</button>
+      </div>
+      <p class="dd-hint">💡 Tip: Spory s důvodem „${d.reason[1]}" mají vyšší šanci na výhru s důkazem o ${d.reason[0]==='product_not_received'?'doručení':'autentizaci a komunikaci'}.</p>
+    ` : `
+      <div class="dd-actions"><button class="btn-app" onclick="appToast('📄 Stahuji kompletní podklady sporu')">📄 Stáhnout podklady</button></div>
+    `}
+  `;
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawerBack').classList.add('open');
+}
+function closeDrawer(){ document.getElementById('drawer').classList.remove('open'); document.getElementById('drawerBack').classList.remove('open'); }
+function submitEvidence(){ closeDrawer(); appToast('✓ Důkazy odeslány bance. Sledujte stav v seznamu.'); }
+function acceptDispute(){ closeDrawer(); appToast('Spor přijat — částka vrácena zákazníkovi.'); }
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawer(); });
+</script>
+
+<style>
+.disp-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:20px; }
+.disp-stat { background:var(--bg, #fff); border:1px solid var(--border); border-radius:14px; padding:18px; display:flex; gap:14px; align-items:center; }
+.ds-ic { width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; }
+.ds-big { font-family:'Sora'; font-size:26px; font-weight:800; line-height:1; }
+.ds-lbl { font-size:12px; color:var(--text-light); margin-top:4px; }
+:root[data-theme="dark"] .disp-stat { background:#121c30; border-color:#1e2a42; }
+
+.dbadge { display:inline-block; padding:4px 11px; border-radius:999px; font-size:12px; font-weight:600; }
+.badge-warn { background:#fef3c7; color:#b45309; }
+.badge-info { background:#dbeafe; color:#1d4ed8; }
+.badge-ok { background:#dcfce7; color:#15803d; }
+.badge-err { background:#fee2e2; color:#b91c1c; }
+.mono { font-family:'JetBrains Mono',monospace; font-size:12px; }
+.deadline { font-weight:600; }
+.deadline.urgent { color:#dc2626; }
+.dgo { color:var(--primary); font-weight:600; }
+
+/* Drawer */
+.disp-drawer-back { position:fixed; inset:0; background:rgba(10,37,64,.4); backdrop-filter:blur(3px); opacity:0; visibility:hidden; transition:.25s; z-index:200; }
+.disp-drawer-back.open { opacity:1; visibility:visible; }
+.disp-drawer { position:fixed; top:0; right:0; height:100vh; width:min(480px,94vw); background:var(--bg,#fff); box-shadow:-20px 0 60px rgba(0,0,0,.2); transform:translateX(100%); transition:transform .3s cubic-bezier(.4,0,.2,1); z-index:201; overflow-y:auto; }
+.disp-drawer.open { transform:translateX(0); }
+:root[data-theme="dark"] .disp-drawer { background:#0f1729; }
+.dd-head { display:flex; justify-content:space-between; align-items:flex-start; padding:24px; border-bottom:1px solid var(--border); position:sticky; top:0; background:inherit; }
+.dd-title { font-family:'Sora'; font-size:18px; font-weight:700; }
+.dd-sub { font-size:13px; color:var(--text-light); margin-top:4px; }
+.dd-close { background:var(--bg-light); border:none; width:34px; height:34px; border-radius:9px; cursor:pointer; font-size:15px; color:var(--text); }
+.dd-body { padding:24px; }
+.dd-alert { background:#fef3c7; color:#92400e; border-radius:10px; padding:12px 14px; font-size:13px; margin-bottom:18px; line-height:1.5; }
+.dd-alert.urgent { background:#fee2e2; color:#991b1b; }
+.dd-section-title { font-family:'Sora'; font-size:13px; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin:22px 0 12px; }
+.dd-timeline { position:relative; }
+.dt-row { display:flex; gap:14px; padding-bottom:18px; position:relative; }
+.dt-row:not(:last-child)::before { content:''; position:absolute; left:6px; top:16px; bottom:0; width:2px; background:var(--border); }
+.dt-dot { width:14px; height:14px; border-radius:50%; background:var(--border); flex-shrink:0; margin-top:2px; z-index:1; }
+.dt-dot.done { background:#16a34a; }
+.dt-dot.active { background:#f59e0b; box-shadow:0 0 0 4px rgba(245,158,11,.2); }
+.dt-row strong { display:block; font-size:14px; }
+.dt-row span { font-size:12px; color:var(--text-light); }
+.dd-evidence { display:flex; flex-direction:column; gap:8px; }
+.dd-ev { display:flex; align-items:center; gap:12px; padding:12px; border:1px solid var(--border); border-radius:10px; cursor:pointer; }
+.dd-ev.locked { opacity:.7; }
+.dd-ev input { width:18px; height:18px; accent-color:var(--primary); }
+.dd-ev-ic { font-size:20px; }
+.dd-ev strong { display:block; font-size:14px; }
+.dd-ev small { font-size:12px; color:var(--text-light); }
+.dd-actions { display:flex; flex-direction:column; gap:10px; margin-top:22px; }
+.dd-actions .btn-app { width:100%; justify-content:center; }
+.dd-hint { font-size:12px; color:var(--text-light); background:var(--bg-light); padding:12px; border-radius:10px; margin-top:14px; line-height:1.5; }
+.dd-status { margin-bottom:4px; }
+:root[data-theme="dark"] .dd-close, :root[data-theme="dark"] .dd-hint { background:#0b1220; }
+
+@media (max-width:768px){ .disp-stats{grid-template-columns:repeat(2,1fr);} }
+</style>
+</body>
+</html>

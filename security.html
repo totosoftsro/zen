@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bezpečnost a compliance — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero dark" style="background:linear-gradient(135deg,#0a2540,#1e3a5f);">
+  <div class="container"><div class="page-hero-inner">
+    <div class="eyebrow" style="color:#a78bfa;">🛡️ Bezpečnost na prvním místě</div>
+    <h1>Bankovní bezpečnost<br>pro vaše platby</h1>
+    <p style="color:#cbd5e1;">Miliardy transakcí. Nula průniků. Zen drží nejvyšší certifikáty v oboru a pravidelně prochází nezávislými audity.</p>
+  </div></div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">Certifikace</div>
+      <h2>Nejvyšší standardy v oboru</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:1100px;margin:0 auto;">
+      <div class="cert-card"><div class="cert-shield">🔒</div><h4>PCI DSS v4.0</h4><div class="cert-level">Level 1</div><p>Nejvyšší úroveň pro zpracovatele > 6 mil. transakcí ročně. Audit 2× ročně.</p></div>
+      <div class="cert-card"><div class="cert-shield">✓</div><h4>SOC 2 Type II</h4><div class="cert-level">Security, Availability, Confidentiality</div><p>Roční audit Deloitte. Reporty dostupné pod NDA.</p></div>
+      <div class="cert-card"><div class="cert-shield">🌍</div><h4>ISO 27001</h4><div class="cert-level">Information Security</div><p>Mezinárodní standard pro řízení informační bezpečnosti.</p></div>
+      <div class="cert-card"><div class="cert-shield">🇪🇺</div><h4>GDPR</h4><div class="cert-level">Plně kompatibilní</div><p>Data Processing Agreement součástí každé smlouvy. DPO tým v EU.</p></div>
+      <div class="cert-card"><div class="cert-shield">🏦</div><h4>PSD2</h4><div class="cert-level">SCA + PIS/AIS</div><p>Silná autentizace klientů a open banking API.</p></div>
+      <div class="cert-card"><div class="cert-shield">🧾</div><h4>ISO 22301</h4><div class="cert-level">Business Continuity</div><p>Plán kontinuity — DR site ve druhém regionu, RTO 15 min.</p></div>
+      <div class="cert-card"><div class="cert-shield">🔐</div><h4>HITECH/HIPAA</h4><div class="cert-level">Pro healthcare</div><p>BAA k dispozici pro zdravotnické obchodníky v USA.</p></div>
+      <div class="cert-card"><div class="cert-shield">🌐</div><h4>CSA STAR</h4><div class="cert-level">Cloud Security</div><p>Level 2 certifikace pro cloud security posture.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Ochrana dat</div><h2>Data v klidu i v pohybu</h2></div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#635bff,#a78bfa);">🔒</div>
+        <h3>AES-256 encryption at rest</h3>
+        <p>Všechna citlivá data šifrována pomocí AWS KMS + HSM. Klíče rotovány každých 90 dní.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#00d4aa,#00a884);">🔐</div>
+        <h3>TLS 1.3 in transit</h3>
+        <p>Všechna API volání přes TLS 1.3 s perfect forward secrecy. HSTS, certificate pinning v SDKs.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#f093fb,#f5576c);">🎭</div>
+        <h3>Tokenizace</h3>
+        <p>Čísla karet nikdy neopouštějí naše HSM. Vracíme pouze tokenizované reprezentace.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">🔑</div>
+        <h3>Zero-trust architektura</h3>
+        <p>Žádné implicitní důvěry uvnitř sítě. Každý request autentizován a autorizován.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">🏢</div>
+        <h3>Data residency</h3>
+        <p>Evropští zákazníci mají data v EU (Frankfurt + Stockholm). Žádný přenos mimo EU bez souhlasu.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:linear-gradient(135deg,#ee5a6f,#ff6b6b);">🛡️</div>
+        <h3>DDoS protection</h3>
+        <p>Cloudflare + AWS Shield Advanced. Odolné proti útokům > 1 Tbps.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Transparentnost</div><h2>Důvěřujte, ale ověřte</h2></div>
+    <div style="max-width:900px;margin:0 auto;">
+      <div class="sec-row"><div class="sec-icon">📋</div><div><h3>Trust & Compliance Portal</h3><p>Přístup k reportům SOC 2, PCI AoC, penetration test výsledkům a detailním security otázkám. Stačí podepsat NDA.</p><a href="contact.html" class="feature-link">Požádat o přístup →</a></div></div>
+      <div class="sec-row"><div class="sec-icon">🐛</div><div><h3>Bug bounty program</h3><p>Vypláceme odměny až <strong>500 000 Kč</strong> za kritické zranitelnosti. Přes 280 etických hackerů v programu.</p><a href="#" class="feature-link">HackerOne program →</a></div></div>
+      <div class="sec-row"><div class="sec-icon">📊</div><div><h3>Status page v reálném čase</h3><p>Kompletní historie incidentů, uptime metriky a plánované údržby. 99,999 % dostupnost za 12 měsíců.</p><a href="status.html" class="feature-link">status.zen.cz →</a></div></div>
+      <div class="sec-row"><div class="sec-icon">🔬</div><div><h3>Pen testy 2× ročně</h3><p>Nezávislé penetration testy od NCC Group a Bishop Fox. Reporty součástí compliance balíčku.</p><a href="#" class="feature-link">Vzorový report →</a></div></div>
+      <div class="sec-row"><div class="sec-icon">👨‍💼</div><div><h3>Security tým 24/7</h3><p>Dedikovaný security operations center (SOC) monitoruje systém 24/7/365. Průměrná odezva na incident < 4 minuty.</p><a href="contact.html" class="feature-link">security@zen.cz →</a></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-big" data-counter>0</div><div class="stat-desc">Úniků dat od roku 2018</div></div>
+      <div class="stat-item"><div class="stat-big" data-counter>99,999 %</div><div class="stat-desc">Uptime za posledních 12 měsíců</div></div>
+      <div class="stat-item"><div class="stat-big" data-counter>4 min</div><div class="stat-desc">Průměrná odezva na incident</div></div>
+      <div class="stat-item"><div class="stat-big" data-counter>14</div><div class="stat-desc">Certifikací a auditů</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container"><div class="cta-box">
+    <h2>Máte bezpečnostní dotaz?</h2>
+    <p>Náš security tým odpoví do 24 hodin. Poskytujeme kompletní dokumentaci, reporty a odpovědi na due diligence dotazníky.</p>
+    <div class="cta-buttons">
+      <a href="contact.html" class="btn-primary-light">Kontaktovat security tým →</a>
+      <a href="legal.html?t=dpa" class="btn-secondary-light">Stáhnout DPA</a>
+    </div>
+  </div></div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+<style>
+.cert-card { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 24px; text-align: center; transition: transform 0.25s, box-shadow 0.25s; }
+.cert-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(50,50,93,0.08); }
+.cert-shield { width: 60px; height: 60px; margin: 0 auto 14px; border-radius: 50%; background: linear-gradient(135deg, #635bff, #a78bfa); color: white; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+.cert-card h4 { font-family: 'Sora'; font-size: 16px; margin-bottom: 4px; }
+.cert-level { font-size: 11px; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+.cert-card p { font-size: 13px; color: var(--text-light); margin: 0; line-height: 1.5; }
+:root[data-theme="dark"] .cert-card { background: #121c30; border-color: #1e2a42; }
+
+.sec-row { display: flex; gap: 20px; padding: 20px; background: white; border-radius: 14px; border: 1px solid var(--border); margin-bottom: 14px; }
+.sec-row h3 { font-family: 'Sora'; margin-bottom: 6px; }
+.sec-row p { color: var(--text-light); font-size: 14px; margin-bottom: 8px; }
+.sec-icon { width: 54px; height: 54px; background: var(--bg-light); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+:root[data-theme="dark"] .sec-row { background: #121c30; border-color: #1e2a42; }
+:root[data-theme="dark"] .sec-icon { background: #0b1220; }
+</style>
+</body>
+</html>

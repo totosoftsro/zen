@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akce a webináře — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<section class="page-hero">
+  <div class="container"><div class="page-hero-inner">
+    <div class="eyebrow">Akce a webináře</div>
+    <h1>Setkejte se se Zen<br>osobně i online</h1>
+    <p>Konference, meetupy, webináře a hackathony po celé Evropě. Všechny akce jsou zdarma pro registrované uživatele.</p>
+  </div></div>
+</section>
+
+<!-- Featured event -->
+<section class="section">
+  <div class="container">
+    <div style="background:linear-gradient(135deg,#635bff,#a78bfa);border-radius:20px;padding:50px;color:white;display:grid;grid-template-columns:2fr 1fr;gap:40px;align-items:center;">
+      <div>
+        <div style="background:rgba(255,255,255,0.2);display:inline-block;padding:6px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px;">🎉 Vlajková akce</div>
+        <h2 style="font-family:'Sora';font-size:42px;margin-bottom:12px;line-height:1.1;">Zen Summit 2026</h2>
+        <p style="color:rgba(255,255,255,0.9);font-size:16px;margin-bottom:24px;line-height:1.6;">
+          Největší fintech konference v Česku. 2 dny, 8 keynote speakerů, 40+ přednášek,
+          hackathon s 500 000 Kč cenou a večerní party na Pražském hradě.
+        </p>
+        <div style="display:flex;gap:30px;margin-bottom:26px;flex-wrap:wrap;">
+          <div><div style="font-size:12px;opacity:0.8;">📅 Datum</div><div style="font-weight:600;">14.–15. 10. 2026</div></div>
+          <div><div style="font-size:12px;opacity:0.8;">📍 Místo</div><div style="font-weight:600;">O2 universum, Praha</div></div>
+          <div><div style="font-size:12px;opacity:0.8;">🎟 Cena</div><div style="font-weight:600;">Zdarma</div></div>
+          <div><div style="font-size:12px;opacity:0.8;">👥 Očekáváme</div><div style="font-weight:600;">2 500+ účastníků</div></div>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button class="btn-primary-light" onclick="zenToast('✓ Rezervace Zen Summit 2026 odeslána', 'success')">Rezervovat místo →</button>
+          <a href="#" class="btn-secondary-light">Program (PDF)</a>
+        </div>
+      </div>
+      <div style="position:relative;">
+        <div style="background:rgba(0,0,0,0.2);border-radius:16px;padding:30px;text-align:center;">
+          <div style="font-family:'Sora';font-size:84px;font-weight:800;line-height:1;" id="countdown">174</div>
+          <div style="font-size:14px;opacity:0.85;margin-top:8px;">dnů do akce</div>
+          <div style="margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.2);font-size:12px;opacity:0.8;">
+            🔴 Live streaming dostupný
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header" style="text-align:left;margin-bottom:24px;"><h2 style="font-size:28px;">📅 Nadcházející akce</h2></div>
+    <div id="upcomingList" style="display:flex;flex-direction:column;gap:14px;"></div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Webináře na vyžádání</div><h2>Koukněte se kdykoliv</h2></div>
+    <div class="features-grid" id="webinarsList"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header"><div class="eyebrow">Newsletter</div><h2>Nikdy zmeškejte akci</h2></div>
+    <div style="max-width:500px;margin:0 auto;text-align:center;">
+      <p style="color:var(--text-light);margin-bottom:20px;">Dostávejte pozvánky na události a notifikace o nových webinářích přímo do e-mailu.</p>
+      <form onsubmit="event.preventDefault();zenToast('✓ Přihlášeno — uvidíme se brzy!', 'success');" style="display:flex;gap:8px;">
+        <input type="email" placeholder="vas@email.cz" required style="flex:1;padding:12px 16px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;outline:none;">
+        <button type="submit" class="btn-primary">Přihlásit →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+<style>
+.event-row { display: grid; grid-template-columns: 100px 1fr auto; gap: 24px; align-items: center; background: white; border: 1px solid var(--border); border-radius: 14px; padding: 24px; transition: transform 0.2s; }
+.event-row:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(50,50,93,0.06); }
+:root[data-theme="dark"] .event-row { background: #121c30; border-color: #1e2a42; }
+.event-date { text-align: center; background: linear-gradient(135deg, rgba(99,91,255,0.1), rgba(167,139,250,0.1)); border-radius: 12px; padding: 14px 10px; }
+.event-date .day { font-family: 'Sora'; font-size: 32px; font-weight: 800; color: var(--primary); line-height: 1; }
+.event-date .month { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-top: 4px; font-weight: 600; }
+.event-body h3 { font-family: 'Sora'; font-size: 18px; margin-bottom: 6px; }
+.event-meta { display: flex; gap: 14px; font-size: 12px; color: var(--text-muted); }
+.event-tag { display: inline-block; background: rgba(0,212,170,0.1); color: #00a884; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; margin-right: 6px; }
+.event-tag.online { background: rgba(99,91,255,0.1); color: var(--primary); }
+.event-tag.hybrid { background: rgba(255,165,0,0.12); color: #d97706; }
+</style>
+<script>
+// Countdown
+function updateCountdown() {
+  const target = new Date('2026-10-14').getTime();
+  const now = Date.now();
+  const days = Math.max(0, Math.ceil((target - now) / 86400000));
+  const el = document.getElementById('countdown');
+  if (el) el.textContent = days;
+}
+updateCountdown();
+
+const events = [
+  { day: 28, month: 'Dub', title: 'Zen Meetup Praha: Subscription economy v roce 2026', desc: 'Pivovar U Medvídků • 18:30–22:00 • Pivo a pizza v ceně 🍕', tags: ['IRL Praha','Meetup','Zdarma'] },
+  { day: 6, month: 'Kvě', title: 'Webinář: Od Stripe k Zenu za 1 týden', desc: 'Kompletní migrační postup • 45 min + Q&A', tags: ['Online','Webinář'] },
+  { day: 14, month: 'Kvě', title: 'Fraud prevention Bootcamp', desc: 'Online intenzivní trénink • 3 dny • certifikace', tags: ['Online','Kurz','3 dny'] },
+  { day: 22, month: 'Kvě', title: 'Zen Brno Meetup: Marketplaces a split platby', desc: 'Impact Hub Brno • 18:30 • networking a demo', tags: ['IRL Brno','Meetup','Zdarma'] },
+  { day: 4, month: 'Čer', title: 'Webinář: Radar 2.0 — pokročilé pravidlá', desc: 'Tomáš Dvořák (Head of Risk) • 60 min • demo', tags: ['Online','Webinář','Advanced'] },
+  { day: 12, month: 'Čer', title: 'Zen @ WebExpo 2026', desc: 'Největší CZ/SK webová konference • 2 přednášky + booth', tags: ['Konference','IRL Praha'] },
+  { day: 25, month: 'Čer', title: 'Developer Dinner Bratislava', desc: 'Exkluzivní večer pro 40 vývojářů • Degustace vín Elesko', tags: ['IRL Bratislava','VIP'] },
+  { day: 18, month: 'Čec', title: 'Zen Hackathon: Embedded Finance', desc: 'Praha • 48 hodin • cena 500 000 Kč', tags: ['Hackathon','IRL Praha','500k'] },
+  { day: 9, month: 'Srp', title: 'Webinář: Připrav e-shop na vánoční sezónu', desc: 'Load testing, retry logic, Radar nastavení', tags: ['Online','Webinář','Seasonal'] },
+  { day: 14, month: 'Říj', title: 'Zen Summit 2026 — Den 1', desc: 'O2 universum Praha • keynote + hackathon • 2500+ účastníků', tags: ['Konference','IRL Praha','Featured'] },
+];
+function tagClass(t) {
+  if (t.includes('Online') || t === 'Webinář' || t === 'Kurz') return 'online';
+  if (t === 'Hybrid' || t === 'Featured') return 'hybrid';
+  return '';
+}
+document.getElementById('upcomingList').innerHTML = events.map(e => `
+  <div class="event-row">
+    <div class="event-date"><div class="day">${e.day}</div><div class="month">${e.month}</div></div>
+    <div class="event-body">
+      <div style="margin-bottom:6px;">${e.tags.map(t => `<span class="event-tag ${tagClass(t)}">${t}</span>`).join('')}</div>
+      <h3>${e.title}</h3>
+      <div class="event-meta"><span>📍 ${e.desc}</span></div>
+    </div>
+    <button class="btn-app primary" onclick="zenToast('✓ Rezervováno: ' + this.dataset.t, 'success')" data-t="${e.title}">Registrovat →</button>
+  </div>
+`).join('');
+
+const webinars = [
+  { thumb: '🎓', title: 'Úvod do Zen API', time: '42 min', views: '8,2 tis.', speaker: 'Jan Novák, Developer Advocate' },
+  { thumb: '💳', title: 'Zen Elements v Reactu', time: '38 min', views: '5,6 tis.', speaker: 'Petra Svobodová, Staff Engineer' },
+  { thumb: '🔄', title: 'Subscription billing 101', time: '55 min', views: '12,4 tis.', speaker: 'Martin Novák, Product Lead' },
+  { thumb: '🛡️', title: 'Radar pro pokročilé', time: '48 min', views: '3,8 tis.', speaker: 'Tomáš Dvořák, Head of Risk' },
+  { thumb: '🔗', title: 'Connect pro marketplaces', time: '62 min', views: '6,1 tis.', speaker: 'Lucie Horáková, Solutions Engineer' },
+  { thumb: '🏪', title: 'In-person platby s Terminálem', time: '34 min', views: '2,9 tis.', speaker: 'Adam Horák, Hardware Lead' },
+];
+document.getElementById('webinarsList').innerHTML = webinars.map(w => `
+  <div class="feature-card" style="cursor:pointer;" onclick="zenToast('Spouštím webinář: ' + this.querySelector('h3').textContent)">
+    <div style="height:140px;background:linear-gradient(135deg,#635bff,#a78bfa);border-radius:12px;margin:-8px -8px 16px;display:flex;align-items:center;justify-content:center;font-size:72px;position:relative;">
+      ${w.thumb}
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.15);border-radius:12px;opacity:0;transition:opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">
+        <div style="width:60px;height:60px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:24px;">▶</div>
+      </div>
+      <div style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.7);color:white;padding:2px 8px;border-radius:4px;font-size:11px;">${w.time}</div>
+    </div>
+    <h3>${w.title}</h3>
+    <p style="font-size:13px;">${w.speaker}</p>
+    <div style="font-size:11px;color:var(--text-muted);margin-top:8px;">👁️ ${w.views} zhlédnutí</div>
+  </div>
+`).join('');
+</script>
+</body>
+</html>

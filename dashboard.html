@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="app-sidebar">
+    <div class="app-logo">
+      <svg width="26" height="26" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#635bff"/><path d="M10 16 L14 20 L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      Zen
+    </div>
+    <nav class="app-nav">
+      <a href="dashboard.html" class="active"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 13h8V3H3v10zM3 21h8v-6H3v6zM13 21h8V11h-8v10zM13 3v6h8V3h-8z"/></svg> Přehled</a>
+      <a href="payments-app.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg> Platby</a>
+      <a href="balance.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg> Zůstatky</a>
+      <a href="customers-app.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg> Zákazníci</a>
+      <a href="products-app.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-3V5a2 2 0 00-2-2H9a2 2 0 00-2 2v2H4v14h16V7z"/></svg> Produkty</a>
+      <a href="invoices-app.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg> Faktury</a>
+
+      <div class="app-nav-group">Vývojáři</div>
+      <a href="api-keys.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg> API klíče</a>
+      <a href="webhooks.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6m11-11h-6m-10 0H1"/></svg> Webhooky</a>
+      <a href="logs.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg> API logy</a>
+
+      <div class="app-nav-group">Nastavení</div>
+      <a href="settings.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33h0A1.65 1.65 0 009 4.6V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v0a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg> Nastavení</a>
+      <a href="team.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Tým</a>
+    </nav>
+  </aside>
+
+  <div class="app-main">
+    <div class="app-topbar">
+      <div class="app-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input placeholder="Hledat platby, zákazníky, produkty...  (⌘K)" id="appSearch">
+      </div>
+      <div class="app-topbar-right">
+        <div class="topbar-mode-toggle">
+          <button class="active">Live</button>
+          <button onclick="toast('Přepnuto do testovacího režimu')">Test</button>
+        </div>
+        <button class="app-icon-btn" onclick="toast('3 nová oznámení')" title="Oznámení">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span class="dot"></span>
+        </button>
+        <button class="app-icon-btn" onclick="location.href='docs.html'" title="Dokumentace">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+        </button>
+        <div class="user-chip" onclick="toast('Menu profilu')">
+          <div class="user-avatar-sm" id="userAvatar">ZN</div>
+          <span class="user-chip-name" id="userName">Uživatel</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-content">
+      <!-- Live transaction ticker -->
+      <div class="live-ticker">
+        <span class="live-dot"></span>
+        <span style="font-weight:600;color:var(--text);">LIVE</span>
+        <div class="ticker-item" id="ticker">Čekám na transakce...</div>
+        <span id="tickerCount" style="font-size:11px;color:var(--text-muted);background:rgba(255,255,255,0.5);padding:2px 8px;border-radius:10px;">0 tx/s</span>
+      </div>
+
+      <div class="app-page-head">
+        <div>
+          <h1>Přehled</h1>
+          <p id="welcomeMsg">Vítejte zpět — zde je shrnutí aktivity za posledních 30 dní</p>
+        </div>
+        <div class="app-page-actions">
+          <button class="btn-app" onclick="toast('Export CSV...')">📤 Export</button>
+          <button class="btn-app" onclick="toast('Report odeslán')">📊 Report</button>
+          <button class="btn-app primary" onclick="location.href='new-payment.html'">+ Nová platba</button>
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Čistý obrat</div>
+          <div class="kpi-value" id="kpi1">3 528 198 Kč</div>
+          <div class="kpi-delta up">▲ 32,8 % vs. předchozí období</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Úspěšné platby</div>
+          <div class="kpi-value" id="kpi2">14 892</div>
+          <div class="kpi-delta up">▲ 12,1 %</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Průměrná hodnota</div>
+          <div class="kpi-value" id="kpi3">2 369 Kč</div>
+          <div class="kpi-delta up">▲ 4,7 %</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Míra úspěšnosti</div>
+          <div class="kpi-value" id="kpi4">97,8 %</div>
+          <div class="kpi-delta down">▼ 0,3 %</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Obrat v čase</h3>
+            <div class="topbar-mode-toggle">
+              <button data-range="7" onclick="setRange(this,7)">7 dní</button>
+              <button class="active" data-range="30" onclick="setRange(this,30)">30 dní</button>
+              <button data-range="90" onclick="setRange(this,90)">90 dní</button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <svg class="big-chart" id="bigChart" viewBox="0 0 800 260" preserveAspectRatio="none"></svg>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h3>Platební metody</h3></div>
+          <div class="panel-body">
+            <div id="methodList" style="display:flex; flex-direction:column; gap:16px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h3>Poslední platby</h3>
+          <a href="payments-app.html" style="color:var(--primary); font-size:13px; font-weight:500;">Zobrazit vše →</a>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Částka</th><th>Stav</th><th>Zákazník</th><th>Metoda</th><th>ID</th><th>Datum</th></tr>
+          </thead>
+          <tbody id="txBody"></tbody>
+        </table>
+      </div>
+
+      <div class="grid-2" style="margin-top:20px;">
+        <div class="panel">
+          <div class="panel-head"><h3>Top zákazníci</h3></div>
+          <div class="panel-body" id="topCustomers"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Aktivita</h3></div>
+          <div class="panel-body" id="activity"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Load user
+const u = JSON.parse(localStorage.getItem('zen_user') || '{"name":"demo","email":"demo@zen.cz"}');
+document.getElementById('userName').textContent = u.name || 'Uživatel';
+document.getElementById('userAvatar').textContent = (u.name || 'ZN').substring(0,2).toUpperCase();
+
+// Random walk data
+function genData(n, base, variance) {
+  const d = []; let v = base;
+  for (let i=0;i<n;i++){ v += (Math.random()-0.45)*variance; d.push(Math.max(v, base*0.3)); }
+  return d;
+}
+
+function drawChart(range = 30) {
+  const data = genData(range, 100000, 20000);
+  const svg = document.getElementById('bigChart');
+  const w = 800, h = 260, pad = 20;
+  const max = Math.max(...data);
+  const pts = data.map((v,i) => `${pad + i*(w-2*pad)/(data.length-1)},${h - pad - (v/max)*(h-2*pad)}`).join(' ');
+  const area = `M${pad},${h-pad} L${pts.split(' ').join(' L')} L${w-pad},${h-pad} Z`.replace('L L','L');
+  svg.innerHTML = `
+    <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#635bff" stop-opacity="0.25"/><stop offset="100%" stop-color="#635bff" stop-opacity="0"/></linearGradient></defs>
+    <line x1="${pad}" x2="${w-pad}" y1="${h-pad}" y2="${h-pad}" stroke="#e6ebf1"/>
+    <line x1="${pad}" x2="${w-pad}" y1="${h/2}" y2="${h/2}" stroke="#e6ebf1" stroke-dasharray="3,3"/>
+    <polyline points="${pts}" fill="none" stroke="#635bff" stroke-width="2.5"/>
+    <polygon points="${pad},${h-pad} ${pts} ${w-pad},${h-pad}" fill="url(#cg)"/>
+    ${data.map((v,i)=>{const x=pad + i*(w-2*pad)/(data.length-1);const y=h-pad-(v/max)*(h-2*pad);return `<circle cx="${x}" cy="${y}" r="3" fill="#635bff" opacity="0"><animate attributeName="opacity" values="0;1" dur="0.3s" begin="${i*0.02}s" fill="freeze"/></circle>`}).join('')}
+  `;
+}
+function setRange(btn, r) {
+  btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  drawChart(r);
+}
+drawChart(30);
+
+// Payment methods donut
+const methods = [
+  {name: 'Karta', pct: 58, color: '#635bff'},
+  {name: 'Apple Pay', pct: 18, color: '#00d4aa'},
+  {name: 'Google Pay', pct: 12, color: '#ffa500'},
+  {name: 'Bankovní převod', pct: 8, color: '#f472b6'},
+  {name: 'Ostatní', pct: 4, color: '#94a3b8'}
+];
+document.getElementById('methodList').innerHTML = methods.map(m => `
+  <div>
+    <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px;">
+      <span style="font-weight:500; color:#0a2540;">${m.name}</span>
+      <span style="color:#6b7c93;">${m.pct}%</span>
+    </div>
+    <div style="background:#f0f3f8; border-radius:6px; height:6px; overflow:hidden;">
+      <div style="background:${m.color}; height:100%; width:${m.pct}%; border-radius:6px; transition:width 1s ease;"></div>
+    </div>
+  </div>
+`).join('');
+
+// Transactions
+const customers = ['Jana Nováková','Petr Svoboda','Eva Černá','Martin Dvořák','Tereza Horáková','Lukáš Procházka','Alza Technologies','Rohlík Shop','Startup s.r.o.'];
+const statuses = [['success','Úspěšná'],['success','Úspěšná'],['success','Úspěšná'],['pending','Čeká'],['failed','Zamítnuta'],['refund','Vráceno']];
+const mths = ['VISA ••4242','MC ••8821','Apple Pay','VISA ••1117','Google Pay','MC ••5500'];
+const txs = Array.from({length: 8}, (_,i) => {
+  const s = statuses[Math.floor(Math.random()*statuses.length)];
+  return {
+    amt: (Math.floor(Math.random()*30000) + 99) + ' Kč',
+    st: s, cust: customers[Math.floor(Math.random()*customers.length)],
+    m: mths[Math.floor(Math.random()*mths.length)],
+    id: 'pi_' + Math.random().toString(36).substring(2, 12).toUpperCase(),
+    d: new Date(Date.now() - i*3600000*Math.random()*4).toLocaleString('cs-CZ', {day:'numeric', month:'numeric', hour:'2-digit', minute:'2-digit'})
+  };
+});
+document.getElementById('txBody').innerHTML = txs.map(t => `
+  <tr onclick="location.href='payment-detail.html?id=${t.id}'">
+    <td class="amt">${t.amt}</td>
+    <td><span class="pill ${t.st[0]}">${t.st[1]}</span></td>
+    <td>${t.cust}</td>
+    <td class="muted">${t.m}</td>
+    <td class="muted" style="font-family:monospace; font-size:12px;">${t.id}</td>
+    <td class="muted">${t.d}</td>
+  </tr>
+`).join('');
+
+// Top customers
+const topC = customers.slice(0, 5).map((c, i) => ({
+  name: c,
+  value: (50000 - i*8000 + Math.floor(Math.random()*5000))
+}));
+document.getElementById('topCustomers').innerHTML = topC.map(c => `
+  <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #f0f3f8;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div class="user-avatar-sm" style="width:34px; height:34px; font-size:13px;">${c.name.split(' ').map(x=>x[0]).join('').substring(0,2)}</div>
+      <div>
+        <div style="font-weight:500; color:#0a2540; font-size:14px;">${c.name}</div>
+        <div style="font-size:12px; color:#6b7c93;">${Math.floor(Math.random()*30+2)} plateb</div>
+      </div>
+    </div>
+    <div class="amt">${c.value.toLocaleString('cs-CZ')} Kč</div>
+  </div>
+`).join('');
+
+// Activity feed
+const acts = [
+  {t:'Nová platba přijata', d:'před 2 minutami', i:'💳'},
+  {t:'Nový zákazník Tereza H.', d:'před 12 minutami', i:'👤'},
+  {t:'Webhook doručen', d:'před 28 minutami', i:'🔗'},
+  {t:'Vrácena platba #pi_3N4QL', d:'před 1 hodinou', i:'↩️'},
+  {t:'Faktura #INV-1052 zaplacena', d:'před 2 hodinami', i:'📄'},
+  {t:'API klíč vygenerován', d:'před 5 hodinami', i:'🔑'},
+];
+document.getElementById('activity').innerHTML = acts.map(a => `
+  <div style="display:flex; gap:12px; padding:10px 0; border-bottom:1px solid #f0f3f8;">
+    <div style="font-size:18px;">${a.i}</div>
+    <div style="flex:1;">
+      <div style="font-size:14px; color:#0a2540;">${a.t}</div>
+      <div style="font-size:12px; color:#6b7c93;">${a.d}</div>
+    </div>
+  </div>
+`).join('');
+
+// Cmd+K search
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    document.getElementById('appSearch').focus();
+  }
+});
+
+function toast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast'; t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2500);
+}
+
+// --- Live transaction ticker ---
+const txCustomers = ['Alza.cz','Notino s.r.o.','Rohlík CZ','Jan Novák','eshop.cz','SaaS Pro','ABC Consulting','Moravská pekárna','Digital Agency','NBA fanshop','Studio Kino','Hotel Praha'];
+const txAmounts = [249,499,1299,2499,5990,899,349,12500,799,3499,199,6490,1999];
+const tickerEl = document.getElementById('ticker');
+const tickerCountEl = document.getElementById('tickerCount');
+let txCount = 0;
+function pushTx() {
+  const c = txCustomers[Math.floor(Math.random()*txCustomers.length)];
+  const a = txAmounts[Math.floor(Math.random()*txAmounts.length)];
+  const methods = ['💳','🍎','🔵','💸'];
+  const m = methods[Math.floor(Math.random()*methods.length)];
+  tickerEl.innerHTML = `<span style="color:var(--primary);font-weight:600;">${m} +${a.toLocaleString('cs')} Kč</span> <span style="color:var(--text-muted);">• ${c}</span> <span style="color:var(--text-muted);font-size:11px;">• právě teď</span>`;
+  txCount++;
+  if (txCount % 3 === 0) {
+    tickerCountEl.textContent = (1.4 + Math.random()*2).toFixed(1) + ' tx/s';
+  }
+}
+setInterval(pushTx, 2200 + Math.random()*1500);
+setTimeout(pushTx, 600);
+
+// --- Onboarding modal (first visit) ---
+if (!localStorage.getItem('zen_onboarded')) {
+  setTimeout(() => {
+    let step = 0;
+    const steps = [
+      { title: '👋 Vítejte v Zen', desc: 'Rychlá prohlídka — za 30 sekund vám ukážeme vše důležité. Váš první API klíč je připravený.', img: '🎉' },
+      { title: 'Přehled metrik', desc: 'Všechny důležité ukazatele na jednom místě — obrat, počet plateb, úspěšnost a průměrná hodnota.', img: '📊' },
+      { title: 'Rychlé akce', desc: 'Nová platba, export CSV i reporty máte vždy po ruce v pravém horním rohu.', img: '⚡' },
+      { title: 'Jste připraveni', desc: 'Začněte vytvořením prvního API klíče nebo si projděte dokumentaci. Tato nápověda je kdykoliv dostupná v menu.', img: '🚀' },
+    ];
+    const b = document.createElement('div');
+    b.className = 'onboarding-backdrop';
+    b.innerHTML = '<div class="onboarding-card" id="obCard"></div>';
+    document.body.appendChild(b);
+    function renderOb() {
+      const s = steps[step];
+      document.getElementById('obCard').innerHTML = `
+        <div class="onboarding-steps">${steps.map((_,i) => `<div class="onboarding-step ${i<=step?'active':''}"></div>`).join('')}</div>
+        <div style="font-size:64px;text-align:center;margin-bottom:16px;">${s.img}</div>
+        <h2 style="font-family:'Sora';font-size:24px;margin-bottom:10px;text-align:center;">${s.title}</h2>
+        <p style="color:var(--text-light);text-align:center;margin-bottom:28px;line-height:1.6;">${s.desc}</p>
+        <div style="display:flex;gap:10px;justify-content:space-between;">
+          <button class="btn-app" onclick="skipOb()">Přeskočit</button>
+          <button class="btn-app primary" onclick="nextOb()">${step === steps.length-1 ? 'Dokončit ✓' : 'Další →'}</button>
+        </div>`;
+    }
+    window.nextOb = () => {
+      step++;
+      if (step >= steps.length) { closeOb(); return; }
+      renderOb();
+    };
+    window.skipOb = closeOb;
+    function closeOb() {
+      localStorage.setItem('zen_onboarded','1');
+      b.style.opacity = '0';
+      setTimeout(() => b.remove(), 300);
+      if (window.zenToast) zenToast('✓ Vítejte! Kdykoliv stiskněte ⌘K pro rychlé hledání.', 'success');
+    }
+    renderOb();
+  }, 800);
+}
+</script>
+</body>
+</html>

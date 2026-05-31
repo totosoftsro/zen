@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quickstart — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="nav-placeholder" data-active="developers"></div>
+
+<section class="page-hero">
+  <div class="container"><div class="page-hero-inner">
+    <div class="eyebrow">Quickstart</div>
+    <h1>Od nuly k první platbě za 3 minuty</h1>
+    <p>Personalizovaný průvodce — vyberte jazyk a typ integrace, my vygenerujeme kód, který zkopírujete a pustíte.</p>
+  </div></div>
+</section>
+
+<section class="section">
+  <div class="container" style="max-width:1100px;">
+
+    <!-- Wizard steps -->
+    <div style="display:flex;gap:8px;margin-bottom:40px;">
+      <div class="qs-step active" data-n="1"><span>1</span> Jazyk</div>
+      <div class="qs-step" data-n="2"><span>2</span> Use case</div>
+      <div class="qs-step" data-n="3"><span>3</span> Částka a měna</div>
+      <div class="qs-step" data-n="4"><span>4</span> Kód</div>
+    </div>
+
+    <!-- Step 1: language -->
+    <div class="qs-panel active" id="qs1">
+      <h2>Jaký jazyk používáte?</h2>
+      <p style="color:var(--text-muted);margin-bottom:30px;">Podporujeme 8 SDK — a to nejsou všechna.</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;">
+        <button class="qs-card" data-val="node">⬢ Node.js</button>
+        <button class="qs-card" data-val="python">🐍 Python</button>
+        <button class="qs-card" data-val="php">🐘 PHP</button>
+        <button class="qs-card" data-val="ruby">💎 Ruby</button>
+        <button class="qs-card" data-val="go">🔵 Go</button>
+        <button class="qs-card" data-val="java">☕ Java</button>
+        <button class="qs-card" data-val="dotnet">🟪 .NET</button>
+        <button class="qs-card" data-val="curl">⌨️ cURL</button>
+      </div>
+    </div>
+
+    <!-- Step 2: use case -->
+    <div class="qs-panel" id="qs2">
+      <h2>Co chcete udělat?</h2>
+      <p style="color:var(--text-muted);margin-bottom:30px;">Vyberte primární use case — můžete kombinovat později.</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+        <button class="qs-card qs-card-lg" data-val="payment">💳<br><strong>Přijmout platbu</strong><br><small>Checkout, API, mobile SDK</small></button>
+        <button class="qs-card qs-card-lg" data-val="subscription">🔄<br><strong>Předplatné</strong><br><small>Recurring, trials, proration</small></button>
+        <button class="qs-card qs-card-lg" data-val="marketplace">🏬<br><strong>Marketplace</strong><br><small>Multi-vendor, split platby</small></button>
+        <button class="qs-card qs-card-lg" data-val="invoice">📄<br><strong>Fakturace</strong><br><small>Jednorázové faktury</small></button>
+        <button class="qs-card qs-card-lg" data-val="terminal">🏪<br><strong>In-person POS</strong><br><small>Terminál v prodejně</small></button>
+        <button class="qs-card qs-card-lg" data-val="payout">💸<br><strong>Výplaty</strong><br><small>Vyplácení dodavatelům</small></button>
+      </div>
+    </div>
+
+    <!-- Step 3: amount -->
+    <div class="qs-panel" id="qs3">
+      <h2>Zadejte testovací částku</h2>
+      <p style="color:var(--text-muted);margin-bottom:30px;">Tato částka bude použita v ukázkovém kódu.</p>
+      <div style="display:grid;grid-template-columns:1fr 200px;gap:14px;margin-bottom:20px;">
+        <div class="form-group"><label>Částka</label><input type="number" id="qsAmount" value="2499" min="1"></div>
+        <div class="form-group"><label>Měna</label>
+          <select id="qsCurrency">
+            <option value="czk">CZK — Česká koruna</option>
+            <option value="eur">EUR — Euro</option>
+            <option value="usd">USD — Dolar</option>
+            <option value="pln">PLN — Polský zlotý</option>
+            <option value="gbp">GBP — Libra</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Popis transakce (volitelné)</label>
+        <input type="text" id="qsDesc" placeholder="Objednávka #1052 — Zen Pro" value="Zen Pro — roční předplatné">
+      </div>
+      <div style="background:var(--bg-light);padding:14px;border-radius:10px;margin-top:20px;display:flex;gap:12px;">
+        <span style="font-size:24px;">💡</span>
+        <div style="font-size:13px;line-height:1.5;">
+          <strong>Tip:</strong> V testovacím režimu nepoužíváme skutečné karty. Použijte číslo <code style="background:white;padding:2px 6px;border-radius:4px;">4242 4242 4242 4242</code> s jakýmkoli datem expirace a CVC.
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: code -->
+    <div class="qs-panel" id="qs4">
+      <h2>Hotovo — zkopírujte kód a spusťte</h2>
+      <p style="color:var(--text-muted);margin-bottom:20px;">Váš personalizovaný integrační kód:</p>
+
+      <div style="background:#0f1823;border-radius:12px;overflow:hidden;">
+        <div style="display:flex;justify-content:space-between;padding:12px 16px;background:rgba(255,255,255,0.05);color:#aab3c4;font-size:12px;font-family:'SF Mono',monospace;">
+          <span id="qsFilename">example.js</span>
+          <button onclick="copyCode()" style="background:transparent;border:none;color:#aab3c4;cursor:pointer;font-size:12px;">📋 Kopírovat</button>
+        </div>
+        <pre id="qsCode" style="margin:0;padding:20px;color:#e2e8f0;font-family:'SF Mono',monospace;font-size:13px;line-height:1.7;overflow-x:auto;"></pre>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:30px;">
+        <a href="docs.html" class="feature-card" style="text-align:center;text-decoration:none;color:inherit;padding:20px;">
+          <div style="font-size:36px;">📖</div><h4 style="margin:10px 0 4px;">Dokumentace</h4><p style="font-size:13px;margin:0;">Kompletní průvodce</p>
+        </a>
+        <a href="playground.html" class="feature-card" style="text-align:center;text-decoration:none;color:inherit;padding:20px;">
+          <div style="font-size:36px;">⚡</div><h4 style="margin:10px 0 4px;">Playground</h4><p style="font-size:13px;margin:0;">Otestujte API</p>
+        </a>
+        <a href="signup.html" class="feature-card" style="text-align:center;text-decoration:none;color:inherit;padding:20px;">
+          <div style="font-size:36px;">🔑</div><h4 style="margin:10px 0 4px;">Získat API klíč</h4><p style="font-size:13px;margin:0;">Zaregistrujte se</p>
+        </a>
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;margin-top:40px;">
+      <button class="btn-app" id="btnBack" onclick="step(-1)" disabled>← Zpět</button>
+      <button class="btn-app primary" id="btnNext" onclick="step(1)" disabled>Pokračovat →</button>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+<style>
+.qs-step {
+  flex: 1;
+  padding: 14px 18px;
+  background: var(--bg-light);
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.qs-step span {
+  background: white;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  border: 1px solid var(--border);
+}
+.qs-step.active { background: linear-gradient(135deg,rgba(99,91,255,0.12),rgba(167,139,250,0.12)); color: var(--primary); }
+.qs-step.active span { background: var(--primary); color: white; border-color: var(--primary); }
+.qs-step.done { background: rgba(0,212,170,0.08); color: #00a884; }
+.qs-step.done span { background: #00d4aa; color: white; border: none; }
+
+.qs-panel { display: none; animation: qsIn 0.3s; }
+.qs-panel.active { display: block; }
+@keyframes qsIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+.qs-card {
+  padding: 20px;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  text-align: center;
+}
+.qs-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+.qs-card.selected { border-color: var(--primary); background: rgba(99,91,255,0.05); box-shadow: 0 0 0 3px rgba(99,91,255,0.15); }
+.qs-card-lg { padding: 26px 16px; font-size: 28px; line-height: 1.3; }
+.qs-card-lg strong { font-size: 15px; display: block; margin: 8px 0 4px; }
+.qs-card-lg small { font-size: 12px; color: var(--text-muted); font-weight: 400; display:block;}
+</style>
+<script>
+let state = { step: 1, lang: null, useCase: null };
+document.querySelectorAll('#qs1 .qs-card').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#qs1 .qs-card').forEach(x => x.classList.remove('selected'));
+  b.classList.add('selected');
+  state.lang = b.dataset.val;
+  document.getElementById('btnNext').disabled = false;
+});
+document.querySelectorAll('#qs2 .qs-card').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#qs2 .qs-card').forEach(x => x.classList.remove('selected'));
+  b.classList.add('selected');
+  state.useCase = b.dataset.val;
+  document.getElementById('btnNext').disabled = false;
+});
+
+function step(delta) {
+  const newStep = state.step + delta;
+  if (newStep < 1 || newStep > 4) return;
+  if (newStep > state.step) {
+    if (state.step === 1 && !state.lang) return;
+    if (state.step === 2 && !state.useCase) return;
+  }
+  state.step = newStep;
+  document.querySelectorAll('.qs-step').forEach((e,i) => {
+    e.classList.remove('active','done');
+    if (i+1 < state.step) e.classList.add('done');
+    if (i+1 === state.step) e.classList.add('active');
+  });
+  document.querySelectorAll('.qs-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('qs'+state.step).classList.add('active');
+  document.getElementById('btnBack').disabled = state.step === 1;
+  document.getElementById('btnNext').disabled = (state.step === 1 && !state.lang) || (state.step === 2 && !state.useCase) || state.step === 4;
+  document.getElementById('btnNext').textContent = state.step === 3 ? 'Vygenerovat kód ⚡' : 'Pokračovat →';
+  if (state.step === 4) generateCode();
+}
+
+function generateCode() {
+  const amount = document.getElementById('qsAmount').value;
+  const currency = document.getElementById('qsCurrency').value;
+  const desc = document.getElementById('qsDesc').value;
+  const cents = Math.round(amount * 100);
+  const ext = { node: 'js', python: 'py', php: 'php', ruby: 'rb', go: 'go', java: 'java', dotnet: 'cs', curl: 'sh' };
+  document.getElementById('qsFilename').textContent = 'zen_' + state.useCase + '.' + ext[state.lang];
+
+  const code = genCode(state.lang, state.useCase, cents, currency, desc);
+  document.getElementById('qsCode').textContent = code;
+}
+
+function genCode(lang, uc, amt, cur, desc) {
+  const ucMap = {
+    payment: 'paymentIntents', subscription: 'subscriptions',
+    marketplace: 'transfers', invoice: 'invoices',
+    terminal: 'terminal.readers', payout: 'payouts'
+  };
+  const obj = ucMap[uc] || 'paymentIntents';
+
+  if (lang === 'node') return `const zen = require('zen')('sk_test_4eC39HqLy...');
+
+const payment = await zen.${obj}.create({
+  amount: ${amt},
+  currency: '${cur}',
+  description: '${desc}',
+  payment_method_types: ['card'],
+  metadata: { order_id: 'ord_' + Date.now() }
+});
+
+console.log('✓ Created:', payment.id);
+// → ${obj === 'paymentIntents' ? 'pi_3N4QLk2eZvKYlo2C' : 'obj_abc123'}`;
+
+  if (lang === 'python') return `import zen
+zen.api_key = "sk_test_4eC39HqLy..."
+
+payment = zen.${obj.charAt(0).toUpperCase()+obj.slice(1)}.create(
+    amount=${amt},
+    currency="${cur}",
+    description="${desc}",
+    payment_method_types=["card"],
+    metadata={"order_id": "ord_12345"}
+)
+
+print(f"✓ Created: {payment.id}")`;
+
+  if (lang === 'php') return `<?php
+require_once 'vendor/autoload.php';
+\\Zen\\Zen::setApiKey("sk_test_4eC39HqLy...");
+
+$payment = \\Zen\\${obj.charAt(0).toUpperCase()+obj.slice(1)}::create([
+    'amount' => ${amt},
+    'currency' => '${cur}',
+    'description' => '${desc}',
+    'payment_method_types' => ['card'],
+    'metadata' => ['order_id' => 'ord_12345']
+]);
+
+echo "✓ Created: " . $payment->id;`;
+
+  if (lang === 'ruby') return `require 'zen'
+Zen.api_key = 'sk_test_4eC39HqLy...'
+
+payment = Zen::${obj.charAt(0).toUpperCase()+obj.slice(1)}.create({
+  amount: ${amt},
+  currency: '${cur}',
+  description: '${desc}',
+  payment_method_types: ['card'],
+  metadata: { order_id: 'ord_12345' }
+})
+
+puts "✓ Created: #{payment.id}"`;
+
+  if (lang === 'go') return `package main
+
+import (
+    "log"
+    "github.com/zen/zen-go"
+    "github.com/zen/zen-go/${obj}"
+)
+
+func main() {
+    zen.Key = "sk_test_4eC39HqLy..."
+
+    params := &zen.${obj.charAt(0).toUpperCase()+obj.slice(1)}Params{
+        Amount:      zen.Int64(${amt}),
+        Currency:    zen.String("${cur}"),
+        Description: zen.String("${desc}"),
+    }
+    result, err := ${obj}.New(params)
+    if err != nil { log.Fatal(err) }
+    log.Printf("✓ Created: %s", result.ID)
+}`;
+
+  if (lang === 'java') return `import com.zen.Zen;
+import com.zen.model.${obj.charAt(0).toUpperCase()+obj.slice(1)};
+import com.zen.param.*;
+
+Zen.apiKey = "sk_test_4eC39HqLy...";
+
+${obj.charAt(0).toUpperCase()+obj.slice(1)}CreateParams params = ${obj.charAt(0).toUpperCase()+obj.slice(1)}CreateParams.builder()
+    .setAmount(${amt}L)
+    .setCurrency("${cur}")
+    .setDescription("${desc}")
+    .build();
+
+${obj.charAt(0).toUpperCase()+obj.slice(1)} payment = ${obj.charAt(0).toUpperCase()+obj.slice(1)}.create(params);
+System.out.println("✓ Created: " + payment.getId());`;
+
+  if (lang === 'dotnet') return `using Zen;
+
+ZenConfiguration.ApiKey = "sk_test_4eC39HqLy...";
+
+var options = new ${obj.charAt(0).toUpperCase()+obj.slice(1)}CreateOptions
+{
+    Amount = ${amt},
+    Currency = "${cur}",
+    Description = "${desc}"
+};
+
+var service = new ${obj.charAt(0).toUpperCase()+obj.slice(1)}Service();
+var payment = await service.CreateAsync(options);
+Console.WriteLine($"✓ Created: {payment.Id}");`;
+
+  return `curl https://api.zen.cz/v1/${obj.toLowerCase()} \\
+  -u sk_test_4eC39HqLy...: \\
+  -d amount=${amt} \\
+  -d currency=${cur} \\
+  -d description="${desc}"`;
+}
+
+function copyCode() {
+  const text = document.getElementById('qsCode').textContent;
+  navigator.clipboard.writeText(text);
+  zenToast('✓ Kód zkopírován do schránky', 'success');
+}
+</script>
+</body>
+</html>

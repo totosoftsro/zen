@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>API klíče — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div class="app-layout" id="appRoot">
+  <div class="app-page-head"><div><h1>API klíče</h1><p>Spravujte klíče pro integraci se Zen API</p></div>
+    <div class="app-page-actions"><button class="btn-app primary" onclick="genKey()">+ Vytvořit klíč</button></div></div>
+
+  <div class="panel">
+    <div class="panel-head"><h3>Publikovatelné klíče</h3></div>
+    <div class="panel-body" style="display:flex; flex-direction:column; gap:14px;">
+      <div class="key-row"><div><strong>Live — Publishable</strong><br><code>pk_live_51NxYz8Kh2eZvKYlo2C0x7V8yH2abc123...</code></div><button class="btn-app" onclick="copyKey(this)">Kopírovat</button></div>
+      <div class="key-row"><div><strong>Test — Publishable</strong><br><code>pk_test_51NxYz8Kh2eZvKYlo2C0xABCDEFabc...</code></div><button class="btn-app" onclick="copyKey(this)">Kopírovat</button></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head"><h3>Tajné klíče</h3></div>
+    <table class="data-table"><thead><tr><th>Název</th><th>Token</th><th>Vytvořeno</th><th>Posledně použito</th><th></th></tr></thead><tbody id="kb"></tbody></table>
+  </div>
+</div>
+<style>
+.key-row { display:flex; justify-content:space-between; align-items:center; padding:14px 16px; background:#f6f9fc; border-radius:8px; border:1px solid #e6ebf1; }
+.key-row code { font-family:monospace; font-size:13px; color:#635bff; background:transparent; padding:0; }
+</style>
+<script src="app-shell.js"></script>
+<script>
+mountApp('api-keys');
+const keys = [
+ ['Produkční klíč', 'sk_live_51NxYz8Kh••••••••••••••••yH2', '12. 1. 2026', 'před 2 minutami'],
+ ['Testovací klíč', 'sk_test_51NxYz8Kh••••••••••••••••ABC', '12. 1. 2026', 'před 1 hodinou'],
+ ['CI/CD', 'sk_live_51NxYz8Kh••••••••••••••••XYZ', '3. 3. 2026', 'před 2 dny'],
+];
+function render(){
+  document.getElementById('kb').innerHTML = keys.map((k,i) => `
+  <tr><td><strong>${k[0]}</strong></td>
+  <td><code style="font-family:monospace;">${k[1]}</code></td>
+  <td class="muted">${k[2]}</td><td class="muted">${k[3]}</td>
+  <td><button class="btn-app" onclick="revoke(${i})">Zrušit</button></td></tr>`).join('');
+}
+function genKey(){ const n = prompt('Název klíče:'); if(!n) return;
+  keys.unshift([n, 'sk_live_'+Math.random().toString(36).substring(2,24).toUpperCase()+'••••', new Date().toLocaleDateString('cs-CZ'), 'nikdy']);
+  render(); appToast('Klíč vytvořen — zkopírujte si ho, později už nebude viditelný'); }
+function revoke(i){ if(confirm('Zrušit tento klíč?')){ keys.splice(i,1); render(); appToast('Klíč zrušen'); } }
+function copyKey(b){ appToast('Zkopírováno do schránky'); }
+render();
+</script></body></html>

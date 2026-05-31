@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Nastavení — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div class="app-layout" id="appRoot">
+  <div class="app-page-head"><div><h1>Nastavení účtu</h1><p>Konfigurace vaší organizace a účtu</p></div></div>
+
+  <div class="grid-2">
+    <div>
+      <div class="panel"><div class="panel-head"><h3>Profil</h3></div>
+      <div class="panel-body">
+        <form onsubmit="event.preventDefault(); appToast('Profil uložen');">
+          <div class="form-row">
+            <div class="form-group"><label>Jméno</label><input type="text" value="Jan"></div>
+            <div class="form-group"><label>Příjmení</label><input type="text" value="Novák"></div>
+          </div>
+          <div class="form-group"><label>E-mail</label><input type="email" value="jan@firma.cz"></div>
+          <div class="form-group"><label>Telefon</label><input type="tel" value="+420 777 123 456"></div>
+          <button type="submit" class="form-submit" style="width:auto; padding:10px 22px;">Uložit změny</button>
+        </form>
+      </div></div>
+
+      <div class="panel"><div class="panel-head"><h3>Firma</h3></div>
+      <div class="panel-body">
+        <form onsubmit="event.preventDefault(); appToast('Firma aktualizována');">
+          <div class="form-group"><label>Název firmy</label><input type="text" value="Moje Firma s.r.o."></div>
+          <div class="form-row">
+            <div class="form-group"><label>IČO</label><input type="text" value="12345678"></div>
+            <div class="form-group"><label>DIČ</label><input type="text" value="CZ12345678"></div>
+          </div>
+          <div class="form-group"><label>Adresa</label><input type="text" value="Václavské náměstí 1, 110 00 Praha 1"></div>
+          <button type="submit" class="form-submit" style="width:auto; padding:10px 22px;">Uložit</button>
+        </form>
+      </div></div>
+
+      <div class="panel"><div class="panel-head"><h3>Bankovní účet</h3></div>
+      <div class="panel-body">
+        <div class="form-group"><label>Číslo účtu</label><input type="text" value="CZ65 0100 0000 xxxx 4242"></div>
+        <div class="form-group"><label>Banka</label><input type="text" value="Komerční banka a.s."></div>
+        <button class="form-submit" onclick="appToast('Údaje aktualizovány')" style="width:auto; padding:10px 22px;">Uložit bankovní údaje</button>
+      </div></div>
+    </div>
+
+    <div>
+      <div class="panel"><div class="panel-head"><h3>Dvoufaktorové ověření</h3></div>
+      <div class="panel-body">
+        <p class="muted" style="margin-bottom:16px;">Dodatečná vrstva zabezpečení pro váš účet</p>
+        <button class="btn-app primary" onclick="appToast('2FA aktivováno')">Aktivovat 2FA</button>
+      </div></div>
+
+      <div class="panel"><div class="panel-head"><h3>Notifikace</h3></div>
+      <div class="panel-body">
+        <label class="form-check" style="margin-bottom:12px;"><input type="checkbox" checked> Nové platby</label>
+        <label class="form-check" style="margin-bottom:12px;"><input type="checkbox" checked> Zamítnuté platby</label>
+        <label class="form-check" style="margin-bottom:12px;"><input type="checkbox"> Týdenní přehled</label>
+        <label class="form-check" style="margin-bottom:12px;"><input type="checkbox" checked> Security alerty</label>
+        <label class="form-check"><input type="checkbox"> Novinky produktu</label>
+      </div></div>
+
+      <div class="panel"><div class="panel-head"><h3>Plán</h3></div>
+      <div class="panel-body">
+        <div style="font-size:24px; font-weight:700; color:#0a2540; font-family:Sora;">Professional</div>
+        <p class="muted" style="margin:4px 0 16px;">Aktuální sazba: 1,4 % + 3 Kč za transakci</p>
+        <a href="pricing.html" class="btn-app primary">Upgrade plánu</a>
+      </div></div>
+
+      <div class="panel" style="border-color:#fee2e2;"><div class="panel-head" style="border-color:#fee2e2;"><h3 style="color:#991b1b;">Nebezpečná zóna</h3></div>
+      <div class="panel-body">
+        <button class="btn-app" style="color:#991b1b; border-color:#fecaca;" onclick="if(confirm('Opravdu smazat účet?')) appToast('Smazání vyžaduje potvrzení emailem')">Smazat účet</button>
+      </div></div>
+    </div>
+  </div>
+</div>
+<script src="app-shell.js"></script>
+<script>mountApp('settings');</script>
+</body></html>

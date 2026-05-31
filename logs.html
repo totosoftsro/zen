@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>API logy — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div class="app-layout" id="appRoot">
+  <div class="app-page-head"><div><h1>API logy</h1><p>Všechny požadavky a odpovědi API v reálném čase</p></div>
+    <div class="app-page-actions"><button class="btn-app" onclick="appToast('Logy staženy')">📤 Export</button></div></div>
+
+  <div class="panel"><table class="data-table"><thead><tr><th>Metoda</th><th>Endpoint</th><th>Stav</th><th>Délka</th><th>IP</th><th>Čas</th></tr></thead><tbody id="lb"></tbody></table></div>
+</div>
+<script src="app-shell.js"></script>
+<script>
+mountApp('logs');
+const methods = ['POST','GET','POST','GET','DELETE','POST','PUT'];
+const endpoints = ['/v1/payment_intents','/v1/customers','/v1/charges','/v1/invoices','/v1/subscriptions','/v1/webhooks','/v1/refunds'];
+const rows = Array.from({length:30}, (_,i) => {
+  const st = Math.random() > 0.12 ? (Math.random() > 0.3 ? 200 : 201) : (Math.random() > 0.5 ? 400 : 500);
+  return {m: methods[Math.floor(Math.random()*methods.length)], e: endpoints[Math.floor(Math.random()*endpoints.length)], s: st,
+    dur: Math.floor(Math.random()*500+50)+'ms', ip: '185.'+Math.floor(Math.random()*255)+'.'+Math.floor(Math.random()*255)+'.'+Math.floor(Math.random()*255),
+    t: new Date(Date.now()-i*60000).toLocaleTimeString('cs-CZ')};
+});
+document.getElementById('lb').innerHTML = rows.map(r => `<tr onclick="appToast('Detail požadavku')">
+<td><span class="pill ${r.m==='GET'?'refund':(r.m==='DELETE'?'failed':(r.m==='PUT'?'pending':'success'))}">${r.m}</span></td>
+<td><code style="color:#635bff; font-family:monospace;">${r.e}</code></td>
+<td><span class="pill ${r.s<300?'success':'failed'}">${r.s}</span></td>
+<td class="muted">${r.dur}</td><td class="muted" style="font-family:monospace;">${r.ip}</td>
+<td class="muted">${r.t}</td></tr>`).join('');
+</script></body></html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Links — plaťte bez kódu | Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="nav-placeholder" data-active="products"></div>
+
+<section class="page-hero dark" style="background:linear-gradient(135deg,#0a2540,#4f46e5);">
+  <div class="container"><div class="page-hero-inner">
+    <div class="breadcrumb" style="color:rgba(255,255,255,0.7);"><a href="index.html" style="color:white;">Domů</a> <span>›</span> Produkty <span>›</span> Payment Links</div>
+    <h1>Prodávejte bez<br>jediného řádku kódu</h1>
+    <p style="color:#cbd5e1;">Vytvořte platební odkaz za 30 sekund a sdílejte ho e-mailem, na sítích nebo v SMS. Žádný web, žádný vývojář — jen odkaz, který přijímá platby.</p>
+    <div class="hero-cta" style="justify-content:center; margin-top:28px;">
+      <a href="#builder" class="btn-primary-light">Vytvořit odkaz →</a>
+      <a href="new-payment.html" class="btn-secondary-light">Otevřít v Dashboardu</a>
+    </div>
+  </div></div>
+</section>
+
+<section class="section" id="builder">
+  <div class="container" style="max-width:960px;">
+    <div class="section-header"><div class="eyebrow">Živý builder</div><h2>Sestavte si platební odkaz</h2></div>
+    <div class="pl-builder">
+      <div class="pl-form">
+        <div class="form-group"><label>Název produktu</label><input id="plName" value="Konzultace 60 min" oninput="plUpdate()"></div>
+        <div class="form-group"><label>Cena</label>
+          <div style="display:flex;gap:8px;">
+            <input type="number" id="plPrice" value="1500" oninput="plUpdate()" style="flex:1;">
+            <select id="plCur" onchange="plUpdate()" style="width:100px;"><option>CZK</option><option>EUR</option><option>USD</option></select>
+          </div>
+        </div>
+        <div class="form-group"><label>Typ platby</label>
+          <div class="seg-control">
+            <button class="seg active" data-pt="one" onclick="plMode('one')">Jednorázová</button>
+            <button class="seg" data-pt="sub" onclick="plMode('sub')">Předplatné</button>
+          </div>
+        </div>
+        <div class="form-group"><label>Po zaplacení</label>
+          <select id="plAfter" onchange="plUpdate()">
+            <option>Zobrazit poděkování</option>
+            <option>Přesměrovat na vlastní URL</option>
+            <option>Stáhnout soubor</option>
+          </select>
+        </div>
+        <div class="pl-checks">
+          <label><input type="checkbox" id="plQty" onchange="plUpdate()"> Zákazník volí množství</label>
+          <label><input type="checkbox" checked onchange="plUpdate()"> Sbírat e-mail</label>
+          <label><input type="checkbox" onchange="plUpdate()"> Sbírat doručovací adresu</label>
+          <label><input type="checkbox" checked onchange="plUpdate()"> Povolit slevové kódy</label>
+        </div>
+        <div class="pl-link-box">
+          <span id="plLink">zen.cz/pay/kn7x2a</span>
+          <button onclick="zenToast('🔗 Odkaz zkopírován')">Kopírovat</button>
+        </div>
+        <div class="pl-share">
+          <button onclick="zenToast('📧 Otevírám e-mail')">📧 E-mail</button>
+          <button onclick="zenToast('💬 Sdílet přes SMS')">💬 SMS</button>
+          <button onclick="zenToast('📱 QR kód vygenerován')">📱 QR kód</button>
+          <button onclick="zenToast('🔗 Vložit na web')">&lt;/&gt; Embed</button>
+        </div>
+      </div>
+
+      <div class="pl-preview">
+        <div class="pl-phone">
+          <div class="pl-pay">
+            <div class="pl-pay-head"><svg width="22" height="22" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#fff"/><path d="M10 16 L14 20 L22 12" stroke="#4f46e5" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Zen</span></div>
+            <div class="pl-pay-body">
+              <div class="pl-pay-name" id="pvName">Konzultace 60 min</div>
+              <div class="pl-pay-amt" id="pvAmt">1 500 Kč</div>
+              <div class="pl-pay-sub" id="pvSub">Jednorázová platba</div>
+              <div class="pl-pay-field">📧 vas@email.cz</div>
+              <div class="pl-pay-field">💳 4242 4242 4242 4242</div>
+              <div class="pl-pay-row"><div class="pl-pay-field" style="flex:1;">05 / 29</div><div class="pl-pay-field" style="flex:1;">CVC</div></div>
+              <div class="pl-pay-btn" id="pvBtn">Zaplatit 1 500 Kč</div>
+              <div class="pl-pay-secure">🔒 Zabezpečeno · Apple Pay · Google Pay</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-light);">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#4f46e5,#818cf8);">🚀</div><h3>Bez kódu</h3><p>Vytvořte a sdílejte odkaz z Dashboardu nebo mobilu. Žádná integrace, žádný web.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#635bff,#a78bfa);">🌍</div><h3>Všechny metody</h3><p>Karty, Apple Pay, Google Pay, bankovní převod i koupit teď zaplatit později — automaticky.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#00d4aa,#00a884);">📱</div><h3>QR kódy</h3><p>Vygenerujte QR pro letáky, výlohu nebo fakturu. Zákazník naskenuje a zaplatí mobilem.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ffa500,#ff7b00);">🔁</div><h3>Opakované platby</h3><p>Stejným odkazem prodáte i předplatné s automatickou obnovou a fakturací.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">🎟️</div><h3>Slevy & množství</h3><p>Slevové kódy, limity skladu, výběr množství i variant — vše bez programování.</p></div>
+      <div class="feature-card"><div class="feature-icon" style="background:linear-gradient(135deg,#ee5a6f,#ff6b6b);">📊</div><h3>Sledování</h3><p>U každého odkazu vidíte počet zobrazení, konverzi a tržby v reálném čase.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-big">30 s</div><div class="stat-desc">Vytvoření odkazu</div></div>
+      <div class="stat-item"><div class="stat-big">0 kódu</div><div class="stat-desc">Žádný vývojář potřeba</div></div>
+      <div class="stat-item"><div class="stat-big">135+</div><div class="stat-desc">Měn a platebních metod</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container"><div class="cta-box">
+    <h2>Začněte přijímat platby dnes</h2>
+    <p>Vytvořte první platební odkaz zdarma. Platíte jen běžný transakční poplatek za úspěšnou platbu.</p>
+    <div class="cta-buttons">
+      <a href="signup.html" class="btn-primary-light">Začít zdarma →</a>
+      <a href="pricing.html" class="btn-secondary-light">Ceník</a>
+    </div>
+  </div></div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+
+<script>
+let plPt = 'one';
+const slugs = ['kn7x2a','9fp3qd','x2m8ke','tq5n1w','bz6r4h'];
+function plMode(m){ plPt=m; document.querySelectorAll('[data-pt]').forEach(b=>b.classList.toggle('active',b.dataset.pt===m)); plUpdate(); }
+function fmt(n,cur){ const v=Math.round(n).toLocaleString('cs-CZ'); return cur==='CZK'?v+' Kč':(cur==='EUR'?'€'+v:'$'+v); }
+function plUpdate(){
+  const name=document.getElementById('plName').value||'Produkt';
+  const price=+document.getElementById('plPrice').value||0;
+  const cur=document.getElementById('plCur').value;
+  document.getElementById('pvName').textContent=name;
+  document.getElementById('pvAmt').textContent=fmt(price,cur);
+  document.getElementById('pvSub').textContent= plPt==='sub'?'Měsíční předplatné':'Jednorázová platba';
+  document.getElementById('pvBtn').textContent='Zaplatit '+fmt(price,cur);
+}
+plUpdate();
+
+// Style the inline seg-control to match
+</script>
+
+<style>
+.pl-builder { display:grid; grid-template-columns:1fr 340px; gap:32px; }
+.pl-form { background:white; border:1px solid var(--border); border-radius:16px; padding:26px; }
+.pl-form .form-group { margin-bottom:16px; }
+.seg-control { display:flex; gap:6px; }
+.seg-control .seg { flex:1; background:var(--bg-light); border:1px solid var(--border); padding:10px; border-radius:9px; font-weight:600; font-size:13px; cursor:pointer; font-family:inherit; color:var(--text); }
+.seg-control .seg.active { background:var(--primary); color:white; border-color:var(--primary); }
+.pl-checks { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:14px 0; }
+.pl-checks label { display:flex; align-items:center; gap:8px; font-size:13px; }
+.pl-link-box { display:flex; align-items:center; gap:8px; background:var(--bg-light); border:1px dashed var(--border); border-radius:10px; padding:6px 6px 6px 14px; margin-bottom:12px; }
+.pl-link-box span { flex:1; font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--primary); }
+.pl-link-box button { background:var(--primary); color:white; border:none; padding:9px 14px; border-radius:8px; font-weight:600; font-size:13px; cursor:pointer; font-family:inherit; }
+.pl-share { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:8px; }
+.pl-share button { background:var(--bg-light); border:1px solid var(--border); padding:9px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; color:var(--text); }
+.pl-share button:hover { border-color:var(--primary); }
+
+.pl-phone { background:#0a0a0a; border-radius:34px; padding:10px; box-shadow:0 26px 50px rgba(0,0,0,.28); }
+.pl-pay { background:#fff; border-radius:26px; overflow:hidden; }
+.pl-pay-head { background:linear-gradient(135deg,#4f46e5,#6366f1); color:white; padding:18px 20px; display:flex; align-items:center; gap:8px; font-family:'Sora'; font-weight:700; font-size:18px; }
+.pl-pay-body { padding:20px; }
+.pl-pay-name { font-family:'Sora'; font-weight:600; font-size:15px; color:#1a1a2e; }
+.pl-pay-amt { font-family:'Sora'; font-weight:800; font-size:30px; color:#1a1a2e; margin:2px 0; }
+.pl-pay-sub { font-size:12px; color:#8792a2; margin-bottom:16px; }
+.pl-pay-field { background:#f6f9fc; border:1px solid #e6e9ef; border-radius:8px; padding:11px 12px; font-size:13px; color:#555; margin-bottom:8px; }
+.pl-pay-row { display:flex; gap:8px; }
+.pl-pay-btn { background:#4f46e5; color:white; text-align:center; padding:13px; border-radius:9px; font-weight:700; font-size:14px; margin-top:6px; }
+.pl-pay-secure { text-align:center; font-size:11px; color:#8792a2; margin-top:12px; }
+
+:root[data-theme="dark"] .pl-form { background:#121c30; border-color:#1e2a42; }
+:root[data-theme="dark"] .seg-control .seg, :root[data-theme="dark"] .pl-share button, :root[data-theme="dark"] .pl-link-box { background:#0b1220; border-color:#1e2a42; }
+
+@media (max-width:860px){ .pl-builder{grid-template-columns:1fr;} .pl-preview{display:flex;justify-content:center;} .pl-phone{width:320px;} }
+</style>
+</body>
+</html>

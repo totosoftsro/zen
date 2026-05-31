@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Stav systému — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div id="nav-placeholder" data-active="developers"></div>
+
+<section class="page-hero">
+  <div class="container"><div class="page-hero-inner">
+    <div class="eyebrow">Status page</div>
+    <h1>Stav všech Zen služeb</h1>
+    <p>Transparentní monitoring uptime a incidentů v reálném čase.</p>
+  </div></div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="container" style="max-width:960px;">
+    <div class="status-banner"><div class="dot"></div><div style="flex:1;">Všechny systémy fungují normálně</div><div class="muted" style="font-weight:400; font-size:13px;">Poslední aktualizace: <span id="upd"></span></div></div>
+
+    <div class="status-list" id="sl"></div>
+
+    <div class="panel" style="margin-top:32px;">
+      <div class="panel-head"><h3>Historie uptime (posledních 90 dní)</h3><div class="muted" style="font-size:13px;">99,998 % průměr</div></div>
+      <div class="panel-body">
+        <div class="uptime-bars" style="justify-content:space-between;">
+          ${Array.from({length:90}).map(() => '<div class="uptime-bar"></div>').join('')}
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-family:Sora; margin:40px 0 16px;">Poslední incidenty</h3>
+    <div class="panel"><div class="panel-body" style="display:flex; flex-direction:column; gap:20px;">
+      <div><div style="font-weight:600; color:var(--primary-dark);">14. 3. 2026 · Krátká degradace webhooků</div>
+        <div class="muted" style="font-size:14px; margin-top:4px;">Webhooky byly doručovány s 2–5 min zpožděním po dobu 18 minut. Všechny události byly nakonec úspěšně doručeny.</div>
+        <div class="muted" style="font-size:13px; margin-top:6px;">Vyřešeno za 18 minut · <a href="#" style="color:var(--primary);">Post-mortem</a></div></div>
+      <div style="border-top:1px solid #e6ebf1; padding-top:20px;"><div style="font-weight:600; color:var(--primary-dark);">2. 2. 2026 · Pomalé API odezvy</div>
+        <div class="muted" style="font-size:14px; margin-top:4px;">P99 latence /v1/payment_intents vzrostla na 3s po dobu 12 minut po deployi. Rollback vyřešil problém.</div>
+        <div class="muted" style="font-size:13px; margin-top:6px;">Vyřešeno za 12 minut · <a href="#" style="color:var(--primary);">Post-mortem</a></div></div>
+    </div></div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="shared.js"></script>
+<script>
+document.getElementById('upd').textContent = new Date().toLocaleString('cs-CZ');
+const services = [
+ ['API — Platby', 'Operational', 'ok'],
+ ['API — Customers', 'Operational', 'ok'],
+ ['API — Subscriptions', 'Operational', 'ok'],
+ ['API — Invoices', 'Operational', 'ok'],
+ ['Dashboard', 'Operational', 'ok'],
+ ['Webhooky', 'Operational', 'ok'],
+ ['Checkout (hosted)', 'Operational', 'ok'],
+ ['Terminal API', 'Operational', 'ok'],
+ ['Radar (fraud)', 'Operational', 'ok'],
+ ['Payouts', 'Operational', 'ok'],
+];
+document.getElementById('sl').innerHTML = services.map(s => `
+<div class="status-row">
+  <div style="display:flex; align-items:center; gap:10px;"><div class="status-dot"></div><strong>${s[0]}</strong></div>
+  <div class="muted" style="font-size:13px;">${s[1]}</div>
+  <div class="uptime-bars">${Array.from({length:45}).map(() => '<div class="uptime-bar"></div>').join('')}</div>
+</div>`).join('');
+</script></body></html>

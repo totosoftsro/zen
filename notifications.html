@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oznámení — Zen Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="zen.css">
+<script src="zen.js" defer></script>
+</head>
+<body>
+<div id="appRoot">
+  <div class="page-header">
+    <div>
+      <h1>🔔 Oznámení</h1>
+      <p class="page-desc">Vše důležité na jednom místě — platby, chargebacky, systémové události i novinky.</p>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn-secondary" onclick="markAllRead()">✓ Označit vše jako přečtené</button>
+      <button class="btn-secondary" onclick="location.href='settings.html'">⚙️ Nastavení</button>
+    </div>
+  </div>
+
+  <div class="notif-stats">
+    <div class="ns-card"><div class="ns-icon" style="background:#ef4444;">🔴</div><div><div class="ns-big" id="cntCrit">3</div><div class="ns-lbl">Kritických</div></div></div>
+    <div class="ns-card"><div class="ns-icon" style="background:#f59e0b;">⚠️</div><div><div class="ns-big" id="cntWarn">7</div><div class="ns-lbl">Varování</div></div></div>
+    <div class="ns-card"><div class="ns-icon" style="background:#3b82f6;">💬</div><div><div class="ns-big" id="cntInfo">12</div><div class="ns-lbl">Informačních</div></div></div>
+    <div class="ns-card"><div class="ns-icon" style="background:#10b981;">✅</div><div><div class="ns-big" id="cntOk">28</div><div class="ns-lbl">Úspěšných dnes</div></div></div>
+  </div>
+
+  <div class="notif-layout">
+    <div class="notif-filters">
+      <h4>Filtry</h4>
+      <div class="nf-tabs">
+        <button class="nf-tab active" data-filter="all" onclick="filt('all')">Vše <span class="nf-count" id="cAll">50</span></button>
+        <button class="nf-tab" data-filter="unread" onclick="filt('unread')">Nepřečtené <span class="nf-count" id="cUn">14</span></button>
+        <button class="nf-tab" data-filter="critical" onclick="filt('critical')">🔴 Kritické</button>
+        <button class="nf-tab" data-filter="warning" onclick="filt('warning')">⚠️ Varování</button>
+        <button class="nf-tab" data-filter="payment" onclick="filt('payment')">💳 Platby</button>
+        <button class="nf-tab" data-filter="dispute" onclick="filt('dispute')">⚖️ Spory</button>
+        <button class="nf-tab" data-filter="payout" onclick="filt('payout')">💰 Výplaty</button>
+        <button class="nf-tab" data-filter="security" onclick="filt('security')">🔐 Bezpečnost</button>
+        <button class="nf-tab" data-filter="system" onclick="filt('system')">⚙️ Systém</button>
+        <button class="nf-tab" data-filter="product" onclick="filt('product')">🚀 Produkt</button>
+      </div>
+
+      <h4 style="margin-top:22px;">Kanály</h4>
+      <div class="nf-channel"><label><input type="checkbox" checked> 📧 E-mail</label></div>
+      <div class="nf-channel"><label><input type="checkbox" checked> 📱 Push</label></div>
+      <div class="nf-channel"><label><input type="checkbox"> 💬 SMS</label></div>
+      <div class="nf-channel"><label><input type="checkbox" checked> 🔔 In-app</label></div>
+      <div class="nf-channel"><label><input type="checkbox"> 🔗 Slack webhook</label></div>
+
+      <a href="settings.html" class="nf-cfg">⚙️ Upravit notifikační preference →</a>
+    </div>
+
+    <div class="notif-list" id="notifList"></div>
+  </div>
+</div>
+
+<script src="app-shell.js"></script>
+<script src="shared.js"></script>
+<script>
+  mountApp('notifications');
+
+  const notifs = [
+    { id:1, type:'critical', cat:'security', read:false, time:'před 4 min', icon:'🔐', title:'Neúspěšné přihlášení z nové IP', body:'5× špatné heslo z IP 185.220.100.x (Německo, TOR exit node). Účet petra@zen.cz byl preventivně uzamčen na 15 min.', action:'Odblokovat', url:'team.html' },
+    { id:2, type:'critical', cat:'dispute', read:false, time:'před 32 min', icon:'⚖️', title:'Nový chargeback — 14 800 Kč', body:'Objednávka #ord_38291 zpochybněna. Důvod: „fraudulent". Máte 7 dní na odpověď s důkazy.', action:'Odpovědět', url:'disputes.html' },
+    { id:3, type:'critical', cat:'system', read:false, time:'před 1 h', icon:'🚨', title:'Webhook endpoint selhává', body:'POST https://api.yourshop.cz/webhooks/zen vrací 504 posledních 20 pokusů. Nedoručené eventy: 7. Retry po 4 h.', action:'Diagnostika', url:'webhooks.html' },
+
+    { id:4, type:'warning', cat:'payment', read:false, time:'před 2 h', icon:'⚠️', title:'Vysoká míra odmítnutí', body:'Za posledních 30 min: 14 % odmítnutých transakcí (baseline 2.1 %). Možná duplicitní 3DS výzva.', action:'Zobrazit logy', url:'logs.html' },
+    { id:5, type:'warning', cat:'payout', read:false, time:'před 3 h', icon:'💰', title:'Výplata pozdržena — KYC', body:'Plánovaná výplata 242 130 Kč na CZ65 0100... pozastavena. Doplňte aktuální výpis z obchodního rejstříku.', action:'Nahrát dokument', url:'settings.html' },
+    { id:6, type:'warning', cat:'security', read:true, time:'před 6 h', icon:'🔑', title:'API klíč expiruje za 7 dní', body:'Restricted key „prod-read-only" vyprší 29. 4. 2026. Vygenerujte nový a nasaďte do CI.', action:'Rotovat klíč', url:'api-keys.html' },
+    { id:7, type:'warning', cat:'system', read:true, time:'včera 18:42', icon:'📉', title:'Near-limit: objemy transakcí', body:'Tento měsíc 87 % z limitu 10 mil. Kč na tarif Pro. Zvažte upgrade na Business.', action:'Upgrade', url:'pricing.html' },
+    { id:8, type:'warning', cat:'dispute', read:true, time:'včera 14:20', icon:'⚖️', title:'3 otevřené spory bez odpovědi', body:'Lhůta k předložení důkazů vyprší do 48 h. Bez reakce prohráváte automaticky.', action:'Zpracovat', url:'disputes.html' },
+
+    { id:9, type:'info', cat:'payment', read:false, time:'před 5 min', icon:'💳', title:'Velká platba přijata', body:'Objednávka #ord_38310 — 124 990 Kč od Zdravotka s.r.o. Metoda: Apple Pay. 3DS: frictionless.', action:'Detail', url:'payments-app.html' },
+    { id:10, type:'info', cat:'payout', read:false, time:'před 45 min', icon:'💰', title:'Výplata odeslána — 487 229 Kč', body:'Instant payout na CZ65 0100 001234 5678 9012 byl úspěšně zpracován. Na účtu do 30 min.', action:'Stvrzenka', url:'balance.html' },
+    { id:11, type:'info', cat:'product', read:false, time:'před 2 h', icon:'🚀', title:'Nová funkce: Revenue Recovery 2.0', body:'Automatické obnovování neúspěšných předplatných s ML retry logikou. V Beta pro všechny Pro zákazníky.', action:'Zjistit více', url:'changelog.html' },
+    { id:12, type:'info', cat:'payment', read:false, time:'před 4 h', icon:'🌍', title:'Nový trh: Finsko (FI)', body:'Od dnes přijímáte platby v eurech od zákazníků z Finska. Podporované metody: karty, MobilePay, trustly.', action:'Nastavit', url:'settings.html' },
+    { id:13, type:'info', cat:'system', read:false, time:'před 8 h', icon:'🔄', title:'API v2026-04 dostupné', body:'Nová verze API přidává `payment_intent.partial_capture` a `subscription.pause`. Dopředně kompatibilní.', action:'Release notes', url:'changelog.html' },
+    { id:14, type:'info', cat:'product', read:true, time:'včera', icon:'📊', title:'Měsíční report hotový', body:'Váš přehled za březen je připraven ke stažení: obrat 3,4 M Kč, 1 284 transakcí, 0,8 % refund rate.', action:'Stáhnout PDF', url:'analytics.html' },
+    { id:15, type:'info', cat:'dispute', read:true, time:'před 2 dny', icon:'🏆', title:'Spor vyhrán', body:'Chargeback #dp_1209 (8 990 Kč) rozhodnut ve váš prospěch. Částka vrácena na zůstatek.', action:'Detail', url:'balance.html' },
+    { id:16, type:'info', cat:'payment', read:true, time:'před 3 dny', icon:'💎', title:'Milník: 10 000 úspěšných plateb', body:'Gratulujeme! Dnes jste překročili 10 000 zpracovaných plateb. Sdílíme koláč grafů 🎂', action:'Oslavit', url:'dashboard.html' },
+
+    { id:17, type:'ok', cat:'system', read:true, time:'včera', icon:'✅', title:'Backup úspěšný', body:'Denní záloha databáze dokončena v 03:12. Velikost: 1.2 GB. RTO 12 min, RPO 6 h.', action:'', url:'' },
+    { id:18, type:'ok', cat:'security', read:true, time:'před 2 dny', icon:'🛡️', title:'Security scan — 0 nálezů', body:'Týdenní pen test od NCC Group neodhalil žádné nové zranitelnosti. Skóre 98/100.', action:'Report', url:'security.html' },
+  ];
+
+  let filter = 'all';
+  function filt(f) {
+    filter = f;
+    document.querySelectorAll('.nf-tab').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+    render();
+  }
+  function markAllRead() {
+    notifs.forEach(n => n.read = true);
+    render();
+    appToast('✓ Všechna oznámení označena jako přečtená');
+  }
+  function readOne(id) {
+    const n = notifs.find(x => x.id === id);
+    if (n) { n.read = true; render(); }
+  }
+
+  function render() {
+    const list = notifs.filter(n => {
+      if (filter === 'all') return true;
+      if (filter === 'unread') return !n.read;
+      if (['critical','warning'].includes(filter)) return n.type === filter;
+      return n.cat === filter;
+    });
+
+    // Group by day
+    const groups = { 'Dnes': [], 'Včera': [], 'Dříve': [] };
+    list.forEach(n => {
+      if (n.time.includes('min') || n.time.includes('h ') || n.time.startsWith('před 1 h') || n.time.startsWith('před 2 h') || n.time.startsWith('před 3 h') || n.time.startsWith('před 4 h') || n.time.startsWith('před 5 h') || n.time.startsWith('před 6 h') || n.time.startsWith('před 7 h') || n.time.startsWith('před 8 h')) groups['Dnes'].push(n);
+      else if (n.time.startsWith('včera')) groups['Včera'].push(n);
+      else groups['Dříve'].push(n);
+    });
+
+    let html = '';
+    Object.keys(groups).forEach(g => {
+      if (!groups[g].length) return;
+      html += `<div class="nf-day">${g}</div>`;
+      groups[g].forEach(n => {
+        const ringCol = { critical:'#ef4444', warning:'#f59e0b', info:'#3b82f6', ok:'#10b981' }[n.type];
+        html += `
+          <div class="nf-item ${!n.read?'unread':''}" onclick="readOne(${n.id})">
+            <div class="nf-ico" style="background:${ringCol}22;color:${ringCol};">${n.icon}</div>
+            <div class="nf-body">
+              <div class="nf-head"><span class="nf-title">${n.title}</span>${!n.read?'<span class="nf-dot" style="background:'+ringCol+';"></span>':''}<span class="nf-time">${n.time}</span></div>
+              <div class="nf-text">${n.body}</div>
+              ${n.action ? `<div class="nf-actions"><a href="${n.url}" class="nf-btn">${n.action} →</a><button class="nf-btn-ghost" onclick="event.stopPropagation();appToast('Archivováno')">Archivovat</button><button class="nf-btn-ghost" onclick="event.stopPropagation();appToast('Ztlumeno pro tento typ')">🔕 Ztlumit</button></div>` : ''}
+            </div>
+          </div>`;
+      });
+    });
+    if (!list.length) html = '<div style="padding:60px;text-align:center;color:var(--text-muted);">Žádná oznámení v této kategorii 🎉</div>';
+    document.getElementById('notifList').innerHTML = html;
+
+    // Update counters
+    document.getElementById('cAll').textContent = notifs.length;
+    document.getElementById('cUn').textContent = notifs.filter(n=>!n.read).length;
+  }
+  render();
+</script>
+
+<style>
+  .page-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px; gap:20px; flex-wrap:wrap; }
+  .page-header h1 { font-family:'Sora'; font-size:28px; margin:0 0 4px; }
+  .page-desc { color:var(--text-light); margin:0; font-size:14px; }
+
+  .notif-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:24px; }
+  .ns-card { background:white; border:1px solid var(--border); border-radius:14px; padding:18px; display:flex; gap:14px; align-items:center; }
+  .ns-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; color:white; }
+  .ns-big { font-family:'Sora'; font-size:26px; font-weight:700; line-height:1; }
+  .ns-lbl { font-size:12px; color:var(--text-light); margin-top:4px; }
+
+  .notif-layout { display:grid; grid-template-columns: 240px 1fr; gap:24px; align-items:flex-start; }
+  .notif-filters { background:white; border:1px solid var(--border); border-radius:14px; padding:18px; position:sticky; top:80px; }
+  .notif-filters h4 { font-family:'Sora'; font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px; }
+  .nf-tabs { display:flex; flex-direction:column; gap:3px; }
+  .nf-tab { display:flex; justify-content:space-between; align-items:center; background:transparent; border:none; padding:8px 12px; border-radius:8px; font-size:13px; color:var(--text); font-weight:500; cursor:pointer; text-align:left; font-family:inherit; transition:background .15s; }
+  .nf-tab:hover { background:var(--bg-light); }
+  .nf-tab.active { background:var(--primary); color:white; }
+  .nf-tab.active .nf-count { background:rgba(255,255,255,.25); color:white; }
+  .nf-count { background:var(--bg-light); color:var(--text-light); font-size:11px; font-weight:700; padding:2px 7px; border-radius:999px; }
+  .nf-channel label { display:flex; align-items:center; gap:8px; font-size:13px; padding:6px 0; cursor:pointer; }
+  .nf-cfg { display:block; margin-top:14px; padding:10px; background:var(--bg-light); border-radius:8px; text-align:center; font-size:12px; color:var(--primary); text-decoration:none; font-weight:600; }
+
+  .notif-list { display:flex; flex-direction:column; gap:8px; }
+  .nf-day { font-family:'Sora'; font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.05em; padding:12px 0 6px; }
+  .nf-item { background:white; border:1px solid var(--border); border-radius:12px; padding:16px; display:flex; gap:14px; cursor:pointer; transition:all .2s; position:relative; }
+  .nf-item:hover { box-shadow:0 4px 14px rgba(50,50,93,.08); }
+  .nf-item.unread { background:linear-gradient(to right, rgba(99,91,255,.04), white); border-color:rgba(99,91,255,.2); }
+  .nf-ico { width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+  .nf-body { flex:1; min-width:0; }
+  .nf-head { display:flex; align-items:center; gap:8px; margin-bottom:4px; }
+  .nf-title { font-family:'Sora'; font-weight:600; font-size:14px; }
+  .nf-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+  .nf-time { color:var(--text-muted); font-size:12px; margin-left:auto; }
+  .nf-text { color:var(--text-light); font-size:13px; line-height:1.55; margin-bottom:10px; }
+  .nf-actions { display:flex; gap:8px; flex-wrap:wrap; }
+  .nf-btn { background:var(--primary); color:white; font-size:12px; font-weight:600; padding:6px 12px; border-radius:7px; text-decoration:none; }
+  .nf-btn-ghost { background:var(--bg-light); border:none; font-size:12px; font-weight:500; padding:6px 10px; border-radius:7px; cursor:pointer; color:var(--text-light); font-family:inherit; }
+  .nf-btn-ghost:hover { background:var(--border); }
+
+  :root[data-theme="dark"] .ns-card,
+  :root[data-theme="dark"] .notif-filters,
+  :root[data-theme="dark"] .nf-item { background:#121c30; border-color:#1e2a42; }
+  :root[data-theme="dark"] .nf-item.unread { background:linear-gradient(to right, rgba(167,139,250,.1), #121c30); }
+  :root[data-theme="dark"] .nf-count, :root[data-theme="dark"] .nf-btn-ghost, :root[data-theme="dark"] .nf-cfg { background:#0b1220; }
+
+  @media (max-width: 960px) {
+    .notif-layout { grid-template-columns:1fr; }
+    .notif-filters { position:static; }
+    .notif-stats { grid-template-columns:repeat(2,1fr); }
+  }
+</style>
+</body>
+</html>

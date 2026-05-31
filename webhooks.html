@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Webhooky — Zen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="app.css"></head><body>
+<div class="app-layout" id="appRoot">
+  <div class="app-page-head"><div><h1>Webhooky</h1><p>HTTP endpoint pro přijímání událostí Zen</p></div>
+    <div class="app-page-actions"><button class="btn-app primary" onclick="addWh()">+ Přidat endpoint</button></div></div>
+
+  <div class="panel"><div class="panel-head"><h3>Registrované endpointy</h3></div>
+  <table class="data-table"><thead><tr><th>URL</th><th>Události</th><th>Stav</th><th>Poslední doručení</th></tr></thead><tbody id="wb"></tbody></table></div>
+
+  <div class="panel"><div class="panel-head"><h3>Nedávné události</h3></div>
+  <table class="data-table"><thead><tr><th>Událost</th><th>ID</th><th>Stav</th><th>Čas</th></tr></thead><tbody id="eb"></tbody></table></div>
+</div>
+<script src="app-shell.js"></script>
+<script>
+mountApp('webhooks');
+const whs = [
+ ['https://api.alza.cz/zen/webhook', '12 typů', 'success', 'Aktivní', 'před 3 minutami'],
+ ['https://erp.firma.cz/hooks/zen', '5 typů', 'success', 'Aktivní', 'před 14 minutami'],
+ ['https://dev.firma.cz/test', '20 typů', 'failed', 'Chyba 500', 'před 2 hodinami'],
+];
+document.getElementById('wb').innerHTML = whs.map(w => `<tr onclick="appToast('Detail webhooku')">
+<td><strong style="font-family:monospace;font-size:13px;">${w[0]}</strong></td><td class="muted">${w[1]}</td>
+<td><span class="pill ${w[2]}">${w[3]}</span></td><td class="muted">${w[4]}</td></tr>`).join('');
+
+const events = ['payment_intent.succeeded','payment_intent.created','customer.created','invoice.paid','charge.refunded','subscription.updated'];
+document.getElementById('eb').innerHTML = Array.from({length:12}, (_,i) => {
+  const ok = Math.random() > 0.15;
+  return `<tr><td><code style="color:#635bff; font-family:monospace;">${events[Math.floor(Math.random()*events.length)]}</code></td>
+  <td class="muted" style="font-family:monospace; font-size:12px;">evt_${Math.random().toString(36).substring(2,14).toUpperCase()}</td>
+  <td><span class="pill ${ok?'success':'failed'}">${ok?'200 OK':'500 Err'}</span></td>
+  <td class="muted">před ${i+1} min</td></tr>`;
+}).join('');
+
+function addWh(){ const u = prompt('URL endpointu:'); if(!u) return;
+  whs.unshift([u, 'Všechny události', 'success', 'Aktivní', 'nikdy']);
+  document.getElementById('wb').innerHTML = whs.map(w => `<tr><td><strong style="font-family:monospace;font-size:13px;">${w[0]}</strong></td><td class="muted">${w[1]}</td><td><span class="pill ${w[2]}">${w[3]}</span></td><td class="muted">${w[4]}</td></tr>`).join('');
+  appToast('Webhook přidán'); }
+</script></body></html>
